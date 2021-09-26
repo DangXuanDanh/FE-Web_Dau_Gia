@@ -1,4 +1,7 @@
 import React from 'react';
+
+import Pricing from "../components/detail"
+
 // import { useForm } from 'react-hook-form';
 // import { useHistory } from 'react-router-dom';
 
@@ -12,6 +15,9 @@ export default function Product(props) {
             product
         </p>
         </form>
+
+        <Pricing />
+
       </div>
     )
   }

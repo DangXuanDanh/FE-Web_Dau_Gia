@@ -10,31 +10,29 @@ import {
 import Product from './views/product';
 import Login from './views/login';
 import Home from './views/home';
+import Error from './views/error';
+
+import Header from './components/header';
+import Footer from './components/footer';
 
 function App() {
   return (
-
-
     <Router>
-      <div>
+      <div className="">
         <Switch>
-        <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/product">
-            <Product />
-          </Route>
+          <NavRoute exact path="/" component={Home} />
+          <NavRoute path="/product" component={Product} />
           <Route path="/login" render={function () { return <Login /> }} />
-        
-          <PrivateRoute path="/404">
-            <Home />
-          </PrivateRoute>
+          <Route path="*">
+            <Error />
+          </Route>
 
+          {/* <PrivateRoute path="/private">
+            <Error />
+          </PrivateRoute> */}
         </Switch>
       </div>
     </Router>
-
-
   );
 }
 
@@ -47,5 +45,15 @@ function PrivateRoute({ children, ...rest }) {
     }} />
   );
 }
+
+const NavRoute = ({ exact, path, component: Component }) => (
+  <Route exact={exact} path={path} render={(props) => (
+    <div>
+      <Header />
+      <Component {...props} />
+      <Footer />
+    </div>
+  )} />
+)
 
 export default App;
