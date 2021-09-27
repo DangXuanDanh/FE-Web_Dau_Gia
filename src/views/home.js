@@ -36,12 +36,12 @@ export default function Home(props) {
       </header> */}
 
 
-      <Link to="product">
+      <Link to="detail">
         <Button variant="contained">
           product 1
         </Button>
       </Link>
-      <Link to="product">
+      <Link to="detail">
         <Button>
           product 2
         </Button>

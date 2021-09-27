@@ -7,7 +7,7 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import Product from './views/product';
+import Detail from './views/detail';
 import Login from './views/login';
 import Home from './views/home';
 import Error from './views/error';
@@ -21,7 +21,7 @@ function App() {
       <div className="">
         <Switch>
           <NavRoute exact path="/" component={Home} />
-          <NavRoute path="/product" component={Product} />
+          <NavRoute path="/detail" component={Detail} />
           <Route path="/login" render={function () { return <Login /> }} />
           <Route path="*">
             <Error />

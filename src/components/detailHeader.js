@@ -56,7 +56,7 @@ const tiers = [
 ];
 
 
-export default function Product() {
+export default function DetailHeader() {
   return (
     <React.Fragment>
       <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />

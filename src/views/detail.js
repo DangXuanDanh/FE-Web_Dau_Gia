@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Detail from "../components/detail"
+import DetailHeader from "../components/detailHeader"
 import BreadCrumb from "../components/breadcrumbs"
 
 // import { useForm } from 'react-hook-form';
@@ -8,13 +8,13 @@ import BreadCrumb from "../components/breadcrumbs"
 
 import { axiosInstance, parseJwt } from '../utils/axios';
 
-export default function Product(props) {
+export default function Detail(props) {
   return (
-    <div className="product">
+    <div className="detail">
 
       <BreadCrumb />
 
-      <Detail />
+      <DetailHeader />
 
     </div>
   )
