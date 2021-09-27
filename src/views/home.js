@@ -34,7 +34,7 @@ export default function Home(props) {
           Learn React
         </a>
       </header> */}
-
+     
 
       <Link to="detail">
         <Button variant="contained">
