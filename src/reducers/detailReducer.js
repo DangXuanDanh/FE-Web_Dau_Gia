@@ -2,14 +2,16 @@ export default function DetailReducer(state, action) {
     switch (action.type) {
       case 'init':
         return {
-          items: action.payload.items,
-          query: action.payload.query
+          data: action.payload.data,
         }
   
-      case 'add_item':
+      case 'change_id':
         return {
           ...state,
-          items: [...state.items, action.payload]
+          data: {
+            ...state.data,
+            masanpham: action.payload.id
+          }
         }
   
       case 'update_filter':

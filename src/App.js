@@ -7,13 +7,13 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import Detail from './views/detail';
-import Login from './views/login';
-import Home from './views/home';
-import Error from './views/error';
+import Detail from './views/Detail';
+import Login from './views/Login';
+import Home from './views/Home';
+import Error from './views/Error';
 
-import Header from './components/header';
-import Footer from './components/footer';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
   return (
