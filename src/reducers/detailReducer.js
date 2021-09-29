@@ -2,6 +2,7 @@ export default function DetailReducer(state, action) {
     switch (action.type) {
       case 'init':
         return {
+          ...state,
           data: action.payload.data,
         }
   
@@ -14,10 +15,10 @@ export default function DetailReducer(state, action) {
           }
         }
   
-      case 'update_filter':
+      case 'init_history':
         return {
           ...state,
-          query: action.payload
+          history: action.payload.history
         }
   
       case 'complete_task':
