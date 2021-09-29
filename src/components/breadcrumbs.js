@@ -6,7 +6,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 export default function BreadCrumb() {
     return (
 
-<Breadcrumbs aria-label="breadcrumb">
+<Breadcrumbs my={2} aria-label="breadcrumb">
   <Link underline="hover" color="inherit" href="/">
     Home
   </Link>
