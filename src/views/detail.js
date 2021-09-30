@@ -23,10 +23,10 @@ import Paper from '@mui/material/Paper';
 
 
 
-import reducer from '../reducers/DetailReducer';
+import reducer from '../reducers/detailReducer';
 import reactDom from 'react-dom';
 
-import BreadCrumb from "../components/Breadcrumbs"
+import BreadCrumb from "../components/breadcrumbs"
 
 // import { useForm } from 'react-hook-form';
 // import { useHistory } from 'react-router-dom';

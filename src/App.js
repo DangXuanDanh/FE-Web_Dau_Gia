@@ -7,18 +7,19 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import Detail from './views/Detail';
-import Login from './views/Login';
-import Home from './views/Home';
-import Error from './views/Error';
+import Detail from './views/detail';
+import Login from './views/login';
+import Home from './views/home';
+import Error from './views/error';
 
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Header from './components/header';
+import Footer from './components/footer';
 
 function App() {
   return (
     <Router>
       <div className="">
+        <Header/>
         <Switch>
           <NavRoute exact path="/" component={Home} />
           <NavRoute path="/detail" component={Detail} />
@@ -31,6 +32,7 @@ function App() {
             <Error />
           </PrivateRoute> */}
         </Switch>
+        <Footer/>
       </div>
     </Router>
   );
@@ -49,9 +51,7 @@ function PrivateRoute({ children, ...rest }) {
 const NavRoute = ({ exact, path, component: Component }) => (
   <Route exact={exact} path={path} render={(props) => (
     <div>
-      <Header />
       <Component {...props} />
-      <Footer />
     </div>
   )} />
 )
