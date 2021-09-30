@@ -7,10 +7,9 @@ import { Form, Button } from 'react-bootstrap';
 
 export default function Login(props) {
     return (
-      <div className="container">
-        <form >
+      
         <div className="Login">
-            <Form className="mt-5">
+            <Form className="mt-1">
                 <div className="form-title">
                     <h2>Đăng Nhập</h2>
                 </div>
@@ -39,8 +38,6 @@ export default function Login(props) {
                 </Button>
             </Form>
         </div>
-        </form>
-      </div>
     )
   }
   

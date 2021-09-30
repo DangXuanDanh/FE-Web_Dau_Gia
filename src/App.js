@@ -9,6 +9,7 @@ import {
 
 import Detail from './views/detail';
 import Login from './views/login';
+import Register from './views/register';
 import Home from './views/home';
 import Error from './views/error';
 
@@ -24,6 +25,7 @@ function App() {
           <NavRoute exact path="/" component={Home} />
           <NavRoute path="/detail" component={Detail} />
           <Route path="/login" render={function () { return <Login /> }} />
+          <Route path="/register" render={function () { return <Register /> }} />
           <Route path="*">
             <Error />
           </Route>

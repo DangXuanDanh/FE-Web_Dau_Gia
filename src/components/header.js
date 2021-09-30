@@ -63,6 +63,9 @@ export default function Header() {
                 <Button href="login" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
                     Login
                 </Button>
+                <Button href="register" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
+                    Register
+                </Button>
             </Toolbar>
         </AppBar>
     )
