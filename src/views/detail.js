@@ -23,7 +23,7 @@ import Paper from '@mui/material/Paper';
 
 
 
-import reducer from '../reducers/detailReducer';
+import reducer from '../reducers/DetailReducer';
 import reactDom from 'react-dom';
 
 import BreadCrumb from "../components/breadcrumbs"

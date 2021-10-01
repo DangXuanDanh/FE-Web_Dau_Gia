@@ -12,6 +12,7 @@ import Login from './views/login';
 import Register from './views/register';
 import Home from './views/home';
 import Error from './views/error';
+import Post from './views/post';
 
 import Header from './components/header';
 import Footer from './components/footer';
@@ -24,6 +25,7 @@ function App() {
         <Switch>
           <NavRoute exact path="/" component={Home} />
           <NavRoute path="/detail" component={Detail} />
+          <NavRoute path="/post" component={Post} />
           <Route path="/login" render={function () { return <Login /> }} />
           <Route path="/register" render={function () { return <Register /> }} />
           <Route path="*">

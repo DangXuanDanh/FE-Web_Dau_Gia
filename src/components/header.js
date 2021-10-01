@@ -31,33 +31,33 @@ export default function Header() {
                         href="/"
                         sx={{ my: 1, mx: 1.5 }}
                         >
-                        Company name
+                        QDL Auction
                     </Link>
                 </Typography>
                 <nav>
                     <Link
                         variant="button"
                         color="text.primary"
-                        href="#"
+                        href="post"
                         sx={{ my: 1, mx: 1.5 }}
                     >
-                        Features
+                        Post a bid
                     </Link>
                     <Link
                         variant="button"
                         color="text.primary"
-                        href="/"
+                        href="faqs"
                         sx={{ my: 1, mx: 1.5 }}
                     >
-                        Enterprise
+                        FAQs
                     </Link>
                     <Link
                         variant="button"
                         color="text.primary"
-                        href="#"
+                        href="about"
                         sx={{ my: 1, mx: 1.5 }}
                     >
-                        Support
+                        About us
                     </Link>
                 </nav>
                 <Button href="login" variant="outlined" sx={{ my: 1, mx: 1.5 }}>

@@ -45,8 +45,8 @@ function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
+            <Link color="inherit" href="/">
+                QDL Auction - HCMUS Students
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -65,7 +65,7 @@ export default function Footer() {
                 py: [3, 6],
             }}
         >
-            <Grid container spacing={4} justifyContent="space-evenly">
+            {/* <Grid container spacing={4} justifyContent="space-evenly">
                 {footers.map((footer) => (
                     <Grid item xs={6} sm={3} key={footer.title}>
                         <Typography variant="h6" color="text.primary" gutterBottom>
@@ -82,7 +82,7 @@ export default function Footer() {
                         </ul>
                     </Grid>
                 ))}
-            </Grid>
+            </Grid> */}
             <Copyright sx={{ mt: 5 }} />
         </Container>
     )
