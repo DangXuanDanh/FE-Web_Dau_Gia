@@ -1,28 +1,17 @@
-import StarIcon from '@mui/icons-material/StarBorder';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
 import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import GlobalStyles from '@mui/material/GlobalStyles';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import Toolbar from '@mui/material/Toolbar';
 import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
-import Input from '@mui/material/Input';
-import InputAdornment from '@mui/material/InputAdornment';
 import * as React from 'react';
-import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -34,7 +23,6 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 
 import reducer from '../reducers/PostReducer';
-import reactDom from 'react-dom';
 
 import BreadCrumb from "../components/breadcrumbs"
 
@@ -45,8 +33,50 @@ import { axiosInstance, parseJwt } from '../utils/axios';
 
 export default function Post(props) {
 
+  const [state, dispatch] = React.useReducer(reducer, { data: {}, danhmuc: [] });
+
+  async function LoadDanhMuc() {
+    const res = await axiosInstance.get(`danhmuc`);
+    dispatch({
+      type: 'init',
+      payload: {
+        danhmuc: res.data,
+      }
+    });
+  }
+
+  function Input(e) {
+
+    dispatch({
+      type: e.target.name,
+      payload: {
+        data: e.target.value,
+      }
+    });
+  }
+
+  function Validate() {
+      // show err that those fields
+  }
+
+  function Submit() {
+    if (Validate() == false)
+      return;
+
+    //submit data from state.data
+  }
+
+  function SelectDanhMuc(e) {
+
+  }
+
+  React.useEffect(() => {
+    LoadDanhMuc()
+  }, [])
+
+
   return (
-    <div className="detail">
+    <div>
       <Container>
 
         <BreadCrumb />
@@ -55,9 +85,9 @@ export default function Post(props) {
           Post new Auction
         </Typography>
 
-        <Divider/>
+        <Divider />
         <br />
-        
+
         <Box
           component="form"
           sx={{
@@ -67,59 +97,71 @@ export default function Post(props) {
           autoComplete="off"
         >
           <div>
-          <TextField error={true} helperText="" required id="outlined-basic" label="Tiêu đề" variant="outlined" />
-          <br />
-          <TextField error={true} helperText="" required id="outlined-basic" label="Tên sản phẩm" variant="outlined" />
-          <br />
-          <FormControl sx={{ m: 1, minWidth: 150 }}>
-  <InputLabel id="demo-simple-select-label">Danh mục</InputLabel>
-  <Select
-    labelId="demo-simple-select-label"
-    id="demo-simple-select"
-    // value={age}
-    label="Danh mục"
-    // onChange={handleChange}
-  >
-    <MenuItem value={10}>Ten</MenuItem>
-    <MenuItem value={20}>Twenty</MenuItem>
-    <MenuItem value={30}>Thirty</MenuItem>
-  </Select>
-</FormControl>
-<br />
+            {/* <TextField name='1c2c1' onChange={(e)=>console.log(e.target.name)} error={true} helperText="" required id="outlined-basic" label="Tiêu đề" variant="outlined" />
+            <br /> */}
+            <TextField name="tensanpham" onChange={e => Input(e)} error={true} helperText="" required id="outlined-basic" label="Tên sản phẩm" variant="outlined" />
+            <br />
+            <FormControl sx={{ m: 1, minWidth: 150 }}>
+              <InputLabel id="demo-simple-select-label">Danh mục</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                // value={state.danhmuc[0]}
+                label="Danh mục"
+                onChange={SelectDanhMuc}
+              >
+                {
+                  state.danhmuc.map((element, i) =>
+                    <MenuItem key={i} value={element.madanhmuc}>
+                      {
+                        element.tendanhmuc
+                      }
+                    </MenuItem>
+                  )
+                }
+              </Select>
+            </FormControl>
+            <br />
 
-          <TextField required
-            id="outlined-number"
-            label="Giá khởi điểm"
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <br />
-          <TextField 
-            id="outlined-number"
-            label="Giá mua ngay"
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+            <TextField required
+              id="outlined-number"
+              label="Giá khởi điểm"
+              type="number"
+              name="giakhoidiem" onChange={e => Input(e)}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <br />
+            <TextField
+              id="outlined-number"
+              name="giamuangay" onChange={e => Input(e)}
+              label="Giá mua ngay"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
           </div>
         </Box>
         <br />
         <DateTimePicker
-    renderInput={(props) => <TextField {...props} />}
-    label="Thời gian kết thúc"
-    // value={value}
-    // onChange={(newValue) => {
-    //   setValue(newValue);
-    // }}
-  />
-<br />
-Ảnh đại diện
-<br />
-Ảnh mô tả
-<br />
+          renderInput={(props) => <TextField {...props} />}
+          label="Thời gian kết thúc"
+        // value={value}
+        // onChange={(newValue) => {
+        //   setValue(newValue);
+        // }}
+        />
+        <br />
+        <FormGroup>
+          <FormControlLabel control={<Checkbox defaultChecked />} label="Tự động gia hạn" />
+        </FormGroup>
+        <br />
+        Ảnh đại diện
+        <br />
+        Ảnh mô tả
+        <br />
         <Typography>
           Mô tả
         </Typography>
@@ -131,7 +173,7 @@ export default function Post(props) {
         // onEditorStateChange={this.onEditorStateChange}
         />
 
-        <Button>
+        <Button onClick={e => console.log(state.data)}>
           Đăng
         </Button>
 
