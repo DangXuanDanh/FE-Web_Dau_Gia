@@ -13,6 +13,7 @@ import Register from './views/register';
 import Home from './views/home';
 import Error from './views/error';
 import Post from './views/post';
+import Profile from './views/profile/profile';
 
 import Header from './components/header';
 import Footer from './components/footer';
@@ -28,6 +29,7 @@ function App() {
           <NavRoute path="/post" component={Post} />
           <Route path="/login" render={function () { return <Login /> }} />
           <Route path="/register" render={function () { return <Register /> }} />
+          <Route path="/profile" render={function () { return <Profile /> }} />
           <Route path="*">
             <Error />
           </Route>
