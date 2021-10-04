@@ -72,9 +72,9 @@ export default function Post(props) {
       SetError("tensanpham",state.data.tensanpham )
       flag = false
     }
-    if (!state.data.danhmuc || state.data.danhmuc == '')
+    if (!state.data.madanhmuc || state.data.madanhmuc == '')
     {
-      SetError("danhmuc",state.data.danhmuc)
+      SetError("madanhmuc",state.data.madanhmuc)
       flag = false
     }
     if (!state.data.giakhoidiem|| state.data.giakhoidiem % 50 > 0 || state.data.giakhoidiem < 50)
@@ -96,12 +96,13 @@ export default function Post(props) {
     return flag
   }
 
-  function Submit() {
+  async function Submit() {
     if (Validate() == false)
       return;
 
     console.log(state.data)
     //submit data from state.data
+    // const res = await axiosInstance.post(`/sanpham`,state.data);
   }
 
   React.useEffect(() => {
@@ -140,11 +141,11 @@ export default function Post(props) {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="danhmuc"
+                name="madanhmuc"
                 // value={state.danhmuc[0]}
                 label="Danh mục"
                 onChange={e=>Input(e)}
-                error={!!state.error.danhmuc} helperText={state.error.danhmuc} required
+                error={!!state.error.madanhmuc} helperText={state.error.madanhmuc} required
               >
                 {
                   state.danhmuc.map((element, i) =>
@@ -211,8 +212,8 @@ export default function Post(props) {
         />
         <br />
         <FormGroup>
-          <FormControlLabel control={<Checkbox name="tudonggiahan" onChange={e=>{e.target.value=e.target.checked
-             Input(e)}} defaultChecked />} label="Tự động gia hạn" />
+          <FormControlLabel control={<Checkbox name="tudonggiahan" onChange={e=>{ const a = {target:{value: e.target.checked, name: e.target.name}}
+             Input(a)}} defaultChecked />} label="Tự động gia hạn" />
         </FormGroup>
         <br />
         Ảnh đại diện
@@ -223,11 +224,12 @@ export default function Post(props) {
           Mô tả
         </Typography>
         <Editor
-          // editorState={editorState}
+           editorState={state.data.mota}
+           name="mota"
           toolbarClassName="toolbarClassName"
           wrapperClassName="wrapperClassName"
           editorClassName="editorClassName"
-        // onEditorStateChange={this.onEditorStateChange}
+         onEditorStateChange={e=>console.log(e)}
         />
 
         <Button onClick={e=>Submit()}>

@@ -9,12 +9,13 @@ export default function DetailReducer(state, action) {
                 ...state,
                 data: {
                     ...state.data,
-                    ngayketthuc : tomorrow
+                    ngayketthuc: tomorrow,
+                    tudonggiahan: true
                 },
                 danhmuc: action.payload.danhmuc,
                 error: {
                     ...state.error,
-                    minDate : tomorrow
+                    minDate: tomorrow
                 }
             }
         case 'tensanpham':
@@ -32,7 +33,7 @@ export default function DetailReducer(state, action) {
                     tensanpham: err
                 }
             }
-        case 'danhmuc':
+        case 'madanhmuc':
             if (action.payload.data == undefined || action.payload.data == '') {
                 err = 'Không được bỏ trống'
             }
@@ -40,15 +41,15 @@ export default function DetailReducer(state, action) {
                 ...state,
                 data: {
                     ...state.data,
-                    danhmuc: action.payload.data
+                    madanhmuc: action.payload.data
                 },
                 error: {
                     ...state.error,
-                    danhmuc: err
+                    madanhmuc: err
                 }
             }
         case 'giakhoidiem':
-            if (action.payload.data == undefined || parseInt(action.payload.data) % 50 > 0  || parseInt(action.payload.data) < 50) {
+            if (action.payload.data == undefined || parseInt(action.payload.data) % 50 > 0 || parseInt(action.payload.data) < 50) {
                 err = 'Phải là bội của 50'
             }
             return {
@@ -113,6 +114,14 @@ export default function DetailReducer(state, action) {
                 data: {
                     ...state.data,
                     tudonggiahan: action.payload.data
+                }
+            }
+        case 'mota':
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    mota: action.payload.data
                 }
             }
         default:
