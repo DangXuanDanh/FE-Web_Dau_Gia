@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Modal, Card, Table, Form } from 'react-bootstrap';
+import { Button, Modal, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from "../../common/alert"
 import './profile.css';
@@ -13,13 +13,12 @@ function Profile() {
 
     const [profile, setprofile] = useState([]);
     const [showProfile, setShowProfile] = useState(false);
-    const [id, setId] = useState([]);
-    const [name, setName] = useState([]);
+    const [mataikhoan, setId] = useState([]);
+    const [hoten, setName] = useState([]);
     const [email, setEmail] = useState([]);
-    const [date, setDate] = useState([]);
+    const [ngaysinh, setNgaySinh] = useState([]);
     const [diachi, setDiaChi] = useState([]);
-    const [transactions, setTransactions] = useState([]);
-    const [transactionsProgram, setTransactionsProgram] = useState([]);
+
 
     const [errorMessage, setErrorMessage] = useState('');
     const [alertStatus, setAlertStatus] = useState(false);
@@ -44,7 +43,7 @@ function Profile() {
                 setprofile(result);
                 setName(result.hoten);
                 setEmail(result.email);
-                setDate(result.ngaysinh);
+                setNgaySinh(result.ngaysinh);
                 setDiaChi(result.diachi);
 
             }).catch((error) => {
@@ -54,6 +53,82 @@ function Profile() {
         }
     }, []);
 
+    const onShowProfile = (e) => {
+        showProfileModal();
+    };
+
+    const showProfileModal = () => {
+        setShowProfile(true);
+    };
+
+    const hideDeleteProfileModal = () => {
+        setShowProfile(false);
+        setName(profile.hoten);
+        setEmail(profile.email);
+        setNgaySinh(profile.ngaysinh);
+        setDiaChi(profile.diachi);
+    };
+
+    const hideProfileModal = () => {
+        setShowProfile(false);
+
+    };
+
+    const ChangetxtName = (e) => {
+        setName(e.target.value);
+    };
+    const ChangetxtEmail = (e) => {
+        setEmail(e.target.value);
+    };
+    const ChangetxtNgaySinh = (e) => {
+        setNgaySinh(e.target.value);
+    };
+    const ChangetxtDiaChi = (e) => {
+        setDiaChi(e.target.value);
+    };
+
+    async function saveProfile () {
+        const  initial = JSON.parse(saved);
+        console.warn(mataikhoan, hoten, email, ngaysinh, diachi);
+        
+        let item = {mataikhoan, hoten, email, ngaysinh, diachi};
+        await fetch('http://localhost:3000/API/user/update', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(item)
+        }).then(function (response) {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response;
+        }).then(async function (response) {
+            setErrorMessage("Cập nhật thành công")
+            setAlertStatus(true)
+            setAlertType("success")
+            hideProfileModal();
+        }).catch(function (error) {
+            setErrorMessage("Cập nhật thất bại")
+            setAlertStatus(true)
+            setAlertType("error")
+        });
+
+        await fetch('http://localhost:3000/API/user/profile/' + initial.mataikhoan, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        }).then(async function (response) {
+            const result = await response.json();
+            setprofile(result);
+            setNgaySinh(result.ngaysinh);
+        }).catch((error) => {
+            return error;
+        });
+    }
 
     return (
         <div className="mt-3">
@@ -67,7 +142,7 @@ function Profile() {
                             <h6 className="mb-0 float-left">Họ Tên</h6>
                         </div>
                         <div className="col-sm-9 text-secondary">
-                            {name}
+                            {hoten}
                         </div>
                     </div>
 
@@ -85,7 +160,7 @@ function Profile() {
                             <h6 className="mb-0 float-left">Ngày Sinh</h6>
                         </div>
                         <div className="col-sm-9 text-secondary">
-                            {date}
+                            {ngaysinh}
                         </div>
                     </div>
 
@@ -100,10 +175,61 @@ function Profile() {
                 </div>
 
                 <div>
-                    <Button className="mt-3 btn btn-default text-white btn-lg">Thay
+                    <Button className="mt-3 btn btn-default text-white btn-lg" onClick={onShowProfile}>Thay
                         Đổi</Button>
                 </div>
             </div>
+
+            <Modal
+                className="details_modal"
+                show={showProfile}
+                onHide={hideProfileModal}
+                keyboard={false}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title><div className="float-left">Thay Đổi Thông Tin</div></Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form className="mt-1">
+                        <Form.Group className="mb-3" controlId="formBasicName">
+                            <Form.Label className="float-left">Họ Tên</Form.Label>
+                            <Form.Control type="text" value={hoten} onChange={ChangetxtName}/>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label className="float-left">Email</Form.Label>
+                            <Form.Control type="email" value={email} onChange={ChangetxtEmail}/>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicNgaySinh">
+                            <Form.Label className="float-left">Ngày Sinh</Form.Label>
+                            <Form.Control type="date" value={ngaysinh} onChange={ChangetxtNgaySinh}/>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicDiaChi">
+                            <Form.Label className="float-left">Chứng Minh Nhân Dân</Form.Label>
+                            <Form.Control type="text" value={diachi} onChange={ChangetxtDiaChi}/>
+                        </Form.Group>
+                    </Form>
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button className="btn btn-primary" variant="primary" onClick={saveProfile}>
+                        Lưu
+                    </Button>
+
+                    <Button variant="danger" onClick={hideDeleteProfileModal}>
+                        Hủy
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Alert
+                status={alertStatus}   // true or false
+                type={alertType}   // success, warning, error, info
+                title={errorMessage}   // title you want to display
+                setIsAlert = {setAlertStatus}
+            />
         </div>
     );
 }
