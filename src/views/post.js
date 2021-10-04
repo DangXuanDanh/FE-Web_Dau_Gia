@@ -33,7 +33,7 @@ import { axiosInstance, parseJwt } from '../utils/axios';
 
 export default function Post(props) {
 
-  const [state, dispatch] = React.useReducer(reducer, { data: {}, danhmuc: [] });
+  const [state, dispatch] = React.useReducer(reducer, { data: {}, error: {}, danhmuc: [] });
 
   async function LoadDanhMuc() {
     const res = await axiosInstance.get(`danhmuc`);
@@ -46,7 +46,6 @@ export default function Post(props) {
   }
 
   function Input(e) {
-
     dispatch({
       type: e.target.name,
       payload: {
@@ -54,20 +53,55 @@ export default function Post(props) {
       }
     });
   }
+  
+  function SetError(name,value)
+  {
+    dispatch({
+      type: name,
+      payload: {
+        data: value,
+      }
+    });
+  }
 
   function Validate() {
-      // show err that those fields
+    // show err that those fields
+    let flag = true
+    if (!state.data.tensanpham || state.data.tensanpham  == '')
+    {
+      SetError("tensanpham",state.data.tensanpham )
+      flag = false
+    }
+    if (!state.data.danhmuc || state.data.danhmuc == '')
+    {
+      SetError("danhmuc",state.data.danhmuc)
+      flag = false
+    }
+    if (!state.data.giakhoidiem|| state.data.giakhoidiem % 50 > 0 || state.data.giakhoidiem < 50)
+    {
+      SetError("giakhoidiem",state.data.giakhoidiem )
+      flag = false
+    }
+    if (!!state.data.giamuangay && (state.data.giamuangay % 50 > 0 || state.data.giamuangay < 50))
+    {
+      SetError("giamuangay",state.data.giamuangay)
+      flag = false
+    }
+    if (!state.data.buocgia || state.data.buocgia % 50 > 0 || state.data.buocgia < 50)
+    {
+      SetError("buocgia",state.data.buocgia)
+      flag = false
+    }
+
+    return flag
   }
 
   function Submit() {
     if (Validate() == false)
       return;
 
+    console.log(state.data)
     //submit data from state.data
-  }
-
-  function SelectDanhMuc(e) {
-
   }
 
   React.useEffect(() => {
@@ -99,16 +133,18 @@ export default function Post(props) {
           <div>
             {/* <TextField name='1c2c1' onChange={(e)=>console.log(e.target.name)} error={true} helperText="" required id="outlined-basic" label="Tiêu đề" variant="outlined" />
             <br /> */}
-            <TextField name="tensanpham" onChange={e => Input(e)} error={true} helperText="" required id="outlined-basic" label="Tên sản phẩm" variant="outlined" />
+            <TextField name="tensanpham" onChange={e => Input(e)} error={!!state.error.tensanpham} helperText={state.error.tensanpham} required id="outlined-basic" label="Tên sản phẩm" variant="outlined" />
             <br />
             <FormControl sx={{ m: 1, minWidth: 150 }}>
               <InputLabel id="demo-simple-select-label">Danh mục</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
+                name="danhmuc"
                 // value={state.danhmuc[0]}
                 label="Danh mục"
-                onChange={SelectDanhMuc}
+                onChange={e=>Input(e)}
+                error={!!state.error.danhmuc} helperText={state.error.danhmuc} required
               >
                 {
                   state.danhmuc.map((element, i) =>
@@ -128,6 +164,7 @@ export default function Post(props) {
               label="Giá khởi điểm"
               type="number"
               name="giakhoidiem" onChange={e => Input(e)}
+              error={!!state.error.giakhoidiem} helperText={state.error.giakhoidiem} required
               InputLabelProps={{
                 shrink: true,
               }}
@@ -137,7 +174,19 @@ export default function Post(props) {
               id="outlined-number"
               name="giamuangay" onChange={e => Input(e)}
               label="Giá mua ngay"
+              error={!!state.error.giamuangay} helperText={state.error.giamuangay}
               type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <br />
+            <TextField required
+              id="outlined-number"
+              label="Bước giá"
+              type="number"
+              name="buocgia" onChange={e => Input(e)}
+              error={!!state.error.buocgia} helperText={state.error.buocgia} required
               InputLabelProps={{
                 shrink: true,
               }}
@@ -146,16 +195,24 @@ export default function Post(props) {
         </Box>
         <br />
         <DateTimePicker
+          name="ngayketthuc"
           renderInput={(props) => <TextField {...props} />}
           label="Thời gian kết thúc"
-        // value={value}
-        // onChange={(newValue) => {
-        //   setValue(newValue);
-        // }}
+          value={state.data.ngayketthuc}
+          minDate={state.error.minDate}
+          onChange={(datetime) => {const a = {
+            target:{
+              name: "ngayketthuc",
+              value: datetime
+            }
+          }
+          Input(a)
+        }}
         />
         <br />
         <FormGroup>
-          <FormControlLabel control={<Checkbox defaultChecked />} label="Tự động gia hạn" />
+          <FormControlLabel control={<Checkbox name="tudonggiahan" onChange={e=>{e.target.value=e.target.checked
+             Input(e)}} defaultChecked />} label="Tự động gia hạn" />
         </FormGroup>
         <br />
         Ảnh đại diện
@@ -173,7 +230,7 @@ export default function Post(props) {
         // onEditorStateChange={this.onEditorStateChange}
         />
 
-        <Button onClick={e => console.log(state.data)}>
+        <Button onClick={e=>Submit()}>
           Đăng
         </Button>
 
