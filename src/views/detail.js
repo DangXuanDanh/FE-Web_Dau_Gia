@@ -21,6 +21,11 @@ import * as React from 'react';
 import Paper from '@mui/material/Paper';
 
 
+import ReactQuill from "react-quill";
+
+import "react-quill/dist/quill.core.css";
+import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.bubble.css";
 
 
 import reducer from '../reducers/DetailReducer';
@@ -34,11 +39,32 @@ import BreadCrumb from "../components/breadcrumbs"
 import { axiosInstance, parseJwt } from '../utils/axios';
 
 export default function Detail({ id }) {
-  id = 11
+  id = 1
 
-  const [state, dispatch] = React.useReducer(reducer, { data: {}, history: [] });
+  const [state, dispatch] = React.useReducer(reducer, { data: {anhsanphams:[]}, history: [] });
 
   const [price, SetPrice] = React.useState('')
+
+  const modules = {
+    toolbar: false
+  };
+
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "video"
+  ];
 
   async function TryToBid() {
     const data = {
@@ -102,7 +128,15 @@ export default function Detail({ id }) {
 
           <Grid container spacing={1}>
             <Grid item xs={4}>
-              Imageeeee
+              {
+                // console.log(state.data.anhsanphams)
+                state.data.anhsanphams.map((element, i) =>
+                  <div key={i}>
+                    <img src={element.url} alt="Stickman" width="222" height="222"></img>
+                  </div>
+                )
+              }
+
             </Grid>
             <Grid item xs={6}>
 
@@ -158,12 +192,17 @@ export default function Detail({ id }) {
             </Grid>
           </Grid>
 
-          day la phan mo ta
+          
           <Typography variant="subtitle1" gutterBottom component="div">
-            {
-              state.data.mota
-            }
+            Mô tả
           </Typography>
+          <ReactQuill
+            value={state.data.mota}
+            readOnly={true}
+            modules={modules}
+            formats={formats}
+            // onChange={null}
+          />
           {/* <Grid container>
 
 </Grid> */}

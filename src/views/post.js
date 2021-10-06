@@ -22,7 +22,6 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToHTML } from 'draft-convert';
 
-
 import reducer from '../reducers/PostReducer';
 
 import BreadCrumb from "../components/breadcrumbs"
@@ -218,6 +217,7 @@ export default function Post(props) {
         </FormGroup>
         <br />
         Ảnh đại diện
+        <input type="file"></input>
         <br />
         Ảnh mô tả
         <br />
