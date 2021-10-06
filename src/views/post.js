@@ -20,6 +20,7 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { convertToHTML } from 'draft-convert';
 
 
 import reducer from '../reducers/PostReducer';
@@ -102,7 +103,7 @@ export default function Post(props) {
 
     console.log(state.data)
     //submit data from state.data
-    // const res = await axiosInstance.post(`/sanpham`,state.data);
+    const res = await axiosInstance.post(`/sanpham`,state.data);
   }
 
   React.useEffect(() => {
@@ -224,12 +225,24 @@ export default function Post(props) {
           Mô tả
         </Typography>
         <Editor
-           editorState={state.data.mota}
+          //  editorState={state.data.mota}
            name="mota"
           toolbarClassName="toolbarClassName"
           wrapperClassName="wrapperClassName"
           editorClassName="editorClassName"
-         onEditorStateChange={e=>console.log(e)}
+         onEditorStateChange={e=>{
+           const a = {
+              target:{
+                value : convertToHTML(e.getCurrentContent()),
+                name : "mota"
+              }
+           }
+
+           Input(a)
+          // console.log(convertToHTML(e.getCurrentContent()))
+          // console.log(state.data.mota)
+        
+         }}
         />
 
         <Button onClick={e=>Submit()}>
