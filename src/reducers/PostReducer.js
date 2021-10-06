@@ -124,6 +124,14 @@ export default function DetailReducer(state, action) {
                     mota: action.payload.data
                 }
             }
+        case 'anhdaidien':
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    anhdaidien: action.payload.data
+                }
+            }
         default:
             console.log("action type: " + action.type)
             return state;

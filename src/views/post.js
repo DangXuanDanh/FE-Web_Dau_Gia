@@ -22,6 +22,8 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToHTML } from 'draft-convert';
 
+import axios from 'axios';
+
 import reducer from '../reducers/PostReducer';
 
 import BreadCrumb from "../components/breadcrumbs"
@@ -53,9 +55,8 @@ export default function Post(props) {
       }
     });
   }
-  
-  function SetError(name,value)
-  {
+
+  function SetError(name, value) {
     dispatch({
       type: name,
       payload: {
@@ -67,29 +68,24 @@ export default function Post(props) {
   function Validate() {
     // show err that those fields
     let flag = true
-    if (!state.data.tensanpham || state.data.tensanpham  == '')
-    {
-      SetError("tensanpham",state.data.tensanpham )
+    if (!state.data.tensanpham || state.data.tensanpham == '') {
+      SetError("tensanpham", state.data.tensanpham)
       flag = false
     }
-    if (!state.data.madanhmuc || state.data.madanhmuc == '')
-    {
-      SetError("madanhmuc",state.data.madanhmuc)
+    if (!state.data.madanhmuc || state.data.madanhmuc == '') {
+      SetError("madanhmuc", state.data.madanhmuc)
       flag = false
     }
-    if (!state.data.giakhoidiem|| state.data.giakhoidiem % 50 > 0 || state.data.giakhoidiem < 50)
-    {
-      SetError("giakhoidiem",state.data.giakhoidiem )
+    if (!state.data.giakhoidiem || state.data.giakhoidiem % 50 > 0 || state.data.giakhoidiem < 50) {
+      SetError("giakhoidiem", state.data.giakhoidiem)
       flag = false
     }
-    if (!!state.data.giamuangay && (state.data.giamuangay % 50 > 0 || state.data.giamuangay < 50))
-    {
-      SetError("giamuangay",state.data.giamuangay)
+    if (!!state.data.giamuangay && (state.data.giamuangay % 50 > 0 || state.data.giamuangay < 50)) {
+      SetError("giamuangay", state.data.giamuangay)
       flag = false
     }
-    if (!state.data.buocgia || state.data.buocgia % 50 > 0 || state.data.buocgia < 50)
-    {
-      SetError("buocgia",state.data.buocgia)
+    if (!state.data.buocgia || state.data.buocgia % 50 > 0 || state.data.buocgia < 50) {
+      SetError("buocgia", state.data.buocgia)
       flag = false
     }
 
@@ -102,7 +98,7 @@ export default function Post(props) {
 
     console.log(state.data)
     //submit data from state.data
-    const res = await axiosInstance.post(`/sanpham`,state.data);
+    const res = await axiosInstance.post(`/sanpham`, state.data);
   }
 
   React.useEffect(() => {
@@ -144,7 +140,7 @@ export default function Post(props) {
                 name="madanhmuc"
                 // value={state.danhmuc[0]}
                 label="Danh mục"
-                onChange={e=>Input(e)}
+                onChange={e => Input(e)}
                 error={!!state.error.madanhmuc} helperText={state.error.madanhmuc} required
               >
                 {
@@ -201,23 +197,34 @@ export default function Post(props) {
           label="Thời gian kết thúc"
           value={state.data.ngayketthuc}
           minDate={state.error.minDate}
-          onChange={(datetime) => {const a = {
-            target:{
-              name: "ngayketthuc",
-              value: datetime
+          onChange={(datetime) => {
+            const a = {
+              target: {
+                name: "ngayketthuc",
+                value: datetime
+              }
             }
-          }
-          Input(a)
-        }}
+            Input(a)
+          }}
         />
         <br />
         <FormGroup>
-          <FormControlLabel control={<Checkbox name="tudonggiahan" onChange={e=>{ const a = {target:{value: e.target.checked, name: e.target.name}}
-             Input(a)}} defaultChecked />} label="Tự động gia hạn" />
+          <FormControlLabel control={<Checkbox name="tudonggiahan" onChange={e => {
+            const a = { target: { value: e.target.checked, name: e.target.name } }
+            Input(a)
+          }} defaultChecked />} label="Tự động gia hạn" />
         </FormGroup>
         <br />
         Ảnh đại diện
-        <input type="file"></input>
+        <input type="file" name="anhdaidien" onChange={e => {
+          const a = {
+            target: {
+              value: e.target.files[0],
+              name: e.target.name
+            }
+          }
+          Input(a)
+        }} />
         <br />
         Ảnh mô tả
         <br />
@@ -226,27 +233,37 @@ export default function Post(props) {
         </Typography>
         <Editor
           //  editorState={state.data.mota}
-           name="mota"
+          name="mota"
           toolbarClassName="toolbarClassName"
           wrapperClassName="wrapperClassName"
           editorClassName="editorClassName"
-         onEditorStateChange={e=>{
-           const a = {
-              target:{
-                value : convertToHTML(e.getCurrentContent()),
-                name : "mota"
+          onEditorStateChange={e => {
+            const a = {
+              target: {
+                value: convertToHTML(e.getCurrentContent()),
+                name: "mota"
               }
-           }
+            }
 
-           Input(a)
-          // console.log(convertToHTML(e.getCurrentContent()))
-          // console.log(state.data.mota)
-        
-         }}
+            Input(a)
+            // console.log(convertToHTML(e.getCurrentContent()))
+            // console.log(state.data.mota)
+
+          }}
         />
 
-        <Button onClick={e=>Submit()}>
+        <Button onClick={e => Submit()}>
           Đăng
+        </Button>
+
+        <Button onClick={ ()=>{
+          const fd = new FormData()
+          fd.append('image',state.data.anhdaidien)
+axios.post('https://api.imgur.com/3/',fd,{headers:{'Authorization':'bc3ace94b4e2001 6353e36aa9582eff17c7863d7893a003de7ef9ffy'}  }).then(res=>console.log(res.data)).catch(e=>console.log(e))
+        
+}
+        }>
+          asdascascascsa
         </Button>
 
       </Container>
