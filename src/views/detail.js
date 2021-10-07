@@ -28,7 +28,7 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 
 
-import reducer from '../reducers/DetailReducer';
+import reducer from '../reducers/detailReducer';
 import reactDom from 'react-dom';
 
 import BreadCrumb from "../components/breadcrumbs"
