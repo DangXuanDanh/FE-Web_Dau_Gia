@@ -35,14 +35,24 @@ import { axiosInstance, parseJwt } from '../utils/axios';
 
 export default function Post(props) {
 
-  const [state, dispatch] = React.useReducer(reducer, { data: {}, error: {}, danhmuc: [] });
+  const [state, dispatch] = React.useReducer(reducer, { data: {}, error: {}, danhmuc: [], danhmuccon: []  });
 
   async function LoadDanhMuc() {
-    const res = await axiosInstance.get(`danhmuc`);
+    const res = await axiosInstance.get(`danhmuc/danhmuccha/get`);
     dispatch({
       type: 'init',
       payload: {
         danhmuc: res.data,
+      }
+    });
+  }
+
+  async function LoadDanhMucCon(id){
+    const res = await axiosInstance.get(`danhmuc/danhmuccon/${id}`);
+    dispatch({
+      type: 'danhmuccon',
+      payload: {
+        data: res.data,
       }
     });
   }
@@ -131,6 +141,33 @@ export default function Post(props) {
             {/* <TextField name='1c2c1' onChange={(e)=>console.log(e.target.name)} error={true} helperText="" required id="outlined-basic" label="Tiêu đề" variant="outlined" />
             <br /> */}
             <TextField name="tensanpham" onChange={e => Input(e)} error={!!state.error.tensanpham} helperText={state.error.tensanpham} required id="outlined-basic" label="Tên sản phẩm" variant="outlined" />
+            
+            <br />
+            <FormControl sx={{ m: 1, minWidth: 150 }}>
+              <InputLabel id="demo-simple-select-label">Danh mục cha</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="madanhmuccha"
+                label="Danh mục cha"
+                onChange={e =>{ 
+                  Input(e)
+                  LoadDanhMucCon(e.target.value)
+                }}
+                error={!!state.error.madanhmuc} helperText={state.error.madanhmuc} required
+              >
+                {
+                  state.danhmuc.map((element, i) =>
+                    <MenuItem key={i} value={element.madanhmuc}>
+                      {
+                        element.tendanhmuc
+                      }
+                    </MenuItem>
+                  )
+                }
+              </Select>
+            </FormControl>
+            
             <br />
             <FormControl sx={{ m: 1, minWidth: 150 }}>
               <InputLabel id="demo-simple-select-label">Danh mục</InputLabel>
@@ -141,10 +178,10 @@ export default function Post(props) {
                 // value={state.danhmuc[0]}
                 label="Danh mục"
                 onChange={e => Input(e)}
-                error={!!state.error.madanhmuc} helperText={state.error.madanhmuc} required
+                // error={!!state.error.madanhmuc} helperText={state.error.madanhmuc} required
               >
                 {
-                  state.danhmuc.map((element, i) =>
+                  state.danhmuccon.map((element, i) =>
                     <MenuItem key={i} value={element.madanhmuc}>
                       {
                         element.tendanhmuc

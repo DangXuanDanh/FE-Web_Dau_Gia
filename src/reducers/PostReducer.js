@@ -18,6 +18,11 @@ export default function DetailReducer(state, action) {
                     minDate: tomorrow
                 }
             }
+        case 'danhmuccon':
+            return {
+                ...state,
+                danhmuccon: action.payload.data,
+            }
         case 'tensanpham':
             if (action.payload.data == undefined || action.payload.data == '') {
                 err = 'Không được bỏ trống'
