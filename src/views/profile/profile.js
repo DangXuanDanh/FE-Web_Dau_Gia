@@ -28,7 +28,7 @@ function Profile() {
         if (!localStorage.getItem('user')) {
             history.push('/');
         }
-        
+
         else {
             const initial = JSON.parse(saved);
             setId(initial.mataikhoan);
@@ -52,6 +52,10 @@ function Profile() {
 
         }
     }, []);
+
+    const gochangepass = (e) => {
+        history.push('/changepassword');
+    };
 
     const onShowProfile = (e) => {
         showProfileModal();
@@ -87,11 +91,11 @@ function Profile() {
         setDiaChi(e.target.value);
     };
 
-    async function saveProfile () {
-        const  initial = JSON.parse(saved);
+    async function saveProfile() {
+        const initial = JSON.parse(saved);
         console.warn(mataikhoan, hoten, email, ngaysinh, diachi);
-        
-        let item = {mataikhoan, hoten, email, ngaysinh, diachi};
+
+        let item = { mataikhoan, hoten, email, ngaysinh, diachi };
         await fetch('http://localhost:3000/API/user/update', {
             method: 'PATCH',
             headers: {
@@ -175,8 +179,13 @@ function Profile() {
                 </div>
 
                 <div>
-                    <Button className="mt-3 btn btn-default text-white btn-lg" onClick={onShowProfile}>Thay
-                        Đổi</Button>
+                    <Button className="mt-3 btn btn-info text-white btn-lg" onClick={onShowProfile}>
+                        Thay đổi thông tin
+                    </Button>
+                    <div className="divider" />
+                    <Button className="mt-3 btn btn-primary text-white btn-lg" onClick={gochangepass}>
+                        Đổi mật khẩu
+                    </Button>
                 </div>
             </div>
 
@@ -193,22 +202,22 @@ function Profile() {
                     <Form className="mt-1">
                         <Form.Group className="mb-3" controlId="formBasicName">
                             <Form.Label className="float-left">Họ Tên</Form.Label>
-                            <Form.Control type="text" value={hoten} onChange={ChangetxtName}/>
+                            <Form.Control type="text" value={hoten} onChange={ChangetxtName} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label className="float-left">Email</Form.Label>
-                            <Form.Control type="email" value={email} onChange={ChangetxtEmail}/>
+                            <Form.Control type="email" value={email} onChange={ChangetxtEmail} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicNgaySinh">
                             <Form.Label className="float-left">Ngày Sinh</Form.Label>
-                            <Form.Control type="date" value={ngaysinh} onChange={ChangetxtNgaySinh}/>
+                            <Form.Control type="date" value={ngaysinh} onChange={ChangetxtNgaySinh} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicDiaChi">
                             <Form.Label className="float-left">Chứng Minh Nhân Dân</Form.Label>
-                            <Form.Control type="text" value={diachi} onChange={ChangetxtDiaChi}/>
+                            <Form.Control type="text" value={diachi} onChange={ChangetxtDiaChi} />
                         </Form.Group>
                     </Form>
 
@@ -228,7 +237,7 @@ function Profile() {
                 status={alertStatus}   // true or false
                 type={alertType}   // success, warning, error, info
                 title={errorMessage}   // title you want to display
-                setIsAlert = {setAlertStatus}
+                setIsAlert={setAlertStatus}
             />
         </div>
     );

@@ -6,6 +6,11 @@
 .float-left{
     text-align: left;
 }
+.divider{
+  width:50px;
+  height:auto;
+  display:inline-block;
+}
 @media all and (min-width: 480px) {
 .profile{
     font-size: 150%;
