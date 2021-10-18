@@ -19,6 +19,11 @@ import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import MuiAlert from '@mui/material/Alert';
 
 
 import ReactQuill from "react-quill";
@@ -28,7 +33,7 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 
 
-import reducer from '../reducers/detailReducer';
+import reducer from '../reducers/DetailReducer';
 import reactDom from 'react-dom';
 
 import BreadCrumb from "../components/breadcrumbs"
@@ -37,17 +42,21 @@ import BreadCrumb from "../components/breadcrumbs"
 // import { useHistory } from 'react-router-dom';
 
 import { axiosInstance, parseJwt } from '../utils/axios';
+import { StaticTimePicker } from '@mui/lab';
 
-export default function Detail({ id }) {
-  id = 1
+export default function Detail({ id: idProduct }) {
+  idProduct = 1
+  const idUser = 1
 
-  const [state, dispatch] = React.useReducer(reducer, { data: {anhsanphams:[]}, history: [] });
-
-  const [price, SetPrice] = React.useState('')
+  const [state, dispatch] = React.useReducer(reducer, { data: {mota:'',anhsanphams:[], giacuoc:0}, history: [], error:{},popup:{open:false,type:'success',mess:'auct successfully'} });
 
   const modules = {
-    toolbar: false
+    toolbar: false,
   };
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   const formats = [
     "header",
@@ -68,23 +77,60 @@ export default function Detail({ id }) {
 
   async function TryToBid() {
     const data = {
-      masanpham: id,
-      mataikhoan: 1,
-      gia: price
+      masanpham: idProduct,
+      mataikhoan: idUser,
+      gia: state.data.giacuoc,
     }
 
-    SetPrice('')
+    // SetPrice(0)
 
     // validate then post
 
-    await axiosInstance.post(`lichsudaugia/`, data);
+    let val = {     
+      open: false,
+      type: 'error',
+      mess: 'something went wrong'}
+
+    if (!!state.error.giacuoc || state.error.giacuoc != '' || parseInt(state.data.giacuoc) == 0)
+    {
+      val.open = true
+      val.mess = 'validation error'
+      SetPrice(state.data.giacuoc)
+      handleClick(val)
+      return;
+    } 
+
+    await axiosInstance.post(`lichsudaugia/`, data).then(res => {
+      // console.log(res.data)
+      val = {
+        open: true,
+        type: res.data.status == true ? 'success' : 'error',
+        mess: res.data.messenger
+      }
+    });
 
 
-    LoadHistory()
+    await LoadHistory()
+    SetPrice(0)
+    dispatch({
+      type: 'reset'
+    });
+
+    handleClick(val)
+  }
+
+  function SetPrice(value){
+    dispatch({
+      type: 'giacuoc',
+      payload: {
+        data: value,
+      }
+    });
   }
 
   async function LoadDetail() {
-    const res = await axiosInstance.get(`sanpham/${id}`);
+    const res = await axiosInstance.get(`sanpham/${idProduct}`);
+    res.data.giacuoc = 0
 
     dispatch({
       type: 'init',
@@ -96,7 +142,7 @@ export default function Detail({ id }) {
   }
 
   async function LoadHistory() {
-    const history = await axiosInstance.get(`lichsudaugia/sanpham/${id}`);
+    const history = await axiosInstance.get(`lichsudaugia/sanpham/${idProduct}`);
 
     dispatch({
       type: 'init_history',
@@ -110,6 +156,44 @@ export default function Detail({ id }) {
     LoadDetail()
     LoadHistory()
   }, [])
+
+  const handleClick = (val) => {
+    dispatch({
+      type: 'popup',
+      payload: {
+        data: val,
+      }
+    });
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    dispatch({
+      type: 'popup',
+      payload: {
+        data: false,
+      }
+    });
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <div className="detail">
@@ -147,6 +231,12 @@ export default function Detail({ id }) {
                 }
               </Typography>
               <Typography variant="subtitle1" gutterBottom component="div">
+                Giá hiện tại:
+                {
+                  state.history.length > 0  ? state.history[0].gia : state.data.giamuangay
+                }
+              </Typography>
+              <Typography variant="subtitle1" gutterBottom component="div">
                 Bước giá:
                 {
                   state.data.buocgia
@@ -156,11 +246,16 @@ export default function Detail({ id }) {
 
 
               <FormControl sx={{ m: 1 }} variant="standard">
-                <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
-                <Input onChange={e => SetPrice(e.target.value)}
+                {/* <InputLabel htmlFor="standard-adornment-amount">Giá cược</InputLabel> */}
+                <TextField error={!!state.error.giacuoc} helperText={state.error.giacuoc} 
+                value={state.data.giacuoc} 
+                label="Giá cược"
+                onChange={e => SetPrice(e.target.value)}
                   type="number"
                   id="standard-adornment-amount"
-                  startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                  }}
                 />
                 <Button onClick={TryToBid}>
                   Đấu giá
@@ -196,12 +291,12 @@ export default function Detail({ id }) {
           <Typography variant="subtitle1" gutterBottom component="div">
             Mô tả
           </Typography>
-          <ReactQuill
+          <ReactQuill 
             value={state.data.mota}
             readOnly={true}
             modules={modules}
             formats={formats}
-            // onChange={null}
+            // onChange={undefined}
           />
           {/* <Grid container>
 
@@ -218,7 +313,17 @@ export default function Detail({ id }) {
 
         </div>
 
-
+        <Snackbar
+        open={state.popup.open}
+        autoHideDuration={2500}
+        onClose={handleClose}
+        message="Note archived"
+        action={action}
+      >
+         <Alert onClose={handleClose} severity={state.popup.type} sx={{ width: '100%' }}>
+         {state.popup.mess}
+        </Alert>
+      </Snackbar>
 
       </Container>
 
