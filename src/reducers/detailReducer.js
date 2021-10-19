@@ -1,3 +1,20 @@
+function GetTimeSpan ( time) {
+  var sec_num = parseInt(time, 10); // don't forget the second param
+  var days = Math.floor(sec_num / (3600 * 24));
+  var abc = (sec_num % (3600 * 24))
+  var hours   = Math.floor(abc / 3600);
+  abc = abc % 3600
+  var minutes = Math.floor(abc / 60);
+  abc = abc % 60
+  var seconds = abc;
+
+  if (days   < 1) {days   = "0"+days;}
+  if (hours   < 10) {hours   = "0"+hours;}
+  if (minutes < 10) {minutes = "0"+minutes;}
+  if (seconds < 10) {seconds = "0"+seconds;}
+  return days+'d '+hours+':'+minutes+':'+seconds;
+}
+
 export default function DetailReducer(state, action) {
   let err = ''
   switch (action.type) {
@@ -45,6 +62,15 @@ export default function DetailReducer(state, action) {
       return {
         ...state,
         popup: action.payload.data
+      }
+    case 'tick':
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          thoigian: state.data.thoigian - 1,
+          thoigianconlai : GetTimeSpan(state.data.thoigian)
+      }
       }
     default:
       return state;

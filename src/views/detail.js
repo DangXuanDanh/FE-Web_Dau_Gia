@@ -33,6 +33,8 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 
 
+import { formatDuration, intervalToDuration } from 'date-fns';
+
 import reducer from '../reducers/DetailReducer';
 import reactDom from 'react-dom';
 
@@ -131,6 +133,7 @@ export default function Detail({ id: idProduct }) {
   async function LoadDetail() {
     const res = await axiosInstance.get(`sanpham/${idProduct}`);
     res.data.giacuoc = 0
+    res.data.thoigian /= 1000
 
     dispatch({
       type: 'init',
@@ -139,6 +142,12 @@ export default function Detail({ id: idProduct }) {
       }
     });
 
+  }
+
+  function tiktok() {
+    dispatch({
+      type: 'tick',
+    });
   }
 
   async function LoadHistory() {
@@ -155,6 +164,7 @@ export default function Detail({ id: idProduct }) {
   React.useEffect(() => {
     LoadDetail()
     LoadHistory()
+    setInterval(tiktok, 1000);
   }, [])
 
   const handleClick = (val) => {
@@ -265,7 +275,10 @@ export default function Detail({ id: idProduct }) {
             <Grid item xs={2}>
 
               ----<br />
-              Thoi gian<br />
+              {
+                state.data.thoigianconlai || ''
+              }
+              <br />
               -----
 
               <Typography variant="subtitle1" gutterBottom component="div">
