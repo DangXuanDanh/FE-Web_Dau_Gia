@@ -15,6 +15,8 @@ import Error from './views/error';
 import Post from './views/post';
 import Profile from './views/profile/profile';
 import ChangePassword from './views/profile/changepassword';
+import AdminDB from './views/admin/admin';
+import Users from './views/admin/user/Users';
 
 
 import Header from './components/header';
@@ -33,6 +35,8 @@ function App() {
           <Route path="/register" render={function () { return <Register /> }} />
           <Route path="/profile" render={function () { return <Profile /> }} />
           <Route path="/changepassword" render={function () { return <ChangePassword /> }} />
+          <Route path="/admin" render={function () { return <AdminDB /> }} />
+          <Route path="/admin/users" render={function () { return <Users /> }} />
           <Route path="*">
             <Error />
           </Route>
