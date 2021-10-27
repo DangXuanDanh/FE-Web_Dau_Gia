@@ -33,8 +33,8 @@ export default function DetailReducer(state, action) {
         err = 'Phải là bội của ' + state.data.buocgia
       }
       const gia = state.history.length > 0 ? state.history[0].gia : state.data.giakhoidiem
-      if (parseInt(action.payload.data) <= parseInt(gia)) {
-        err = 'Giá đặt cược phải lớn hơn giá hiện tại'
+      if (parseInt(action.payload.data) <= parseInt(gia) || parseInt(action.payload.data) <= parseInt(state.data.giamuangay)) {
+        err = 'Giá đặt cược phải lớn hơn giá hiện tại và giá khởi điểm'
       }
       return {
         ...state,
