@@ -57,7 +57,7 @@ export default function Post(props) {
     });
   }
 
-  function Input(e) {
+  async function Input(e) {
     dispatch({
       type: e.target.name,
       payload: {
@@ -106,22 +106,75 @@ export default function Post(props) {
     if (Validate() == false)
       return;
 
-    console.log(state.data)
+    // console.log(state.data)
     //submit data from state.data
-    const res = await axiosInstance.post(`/sanpham`, state.data);
+    const res = await axiosInstance.post(`/sanpham`, state.data).then(res => {
+      const a = {
+        target: {
+          value: res.data.masanpham,
+          name: "masanpham"
+        }
+      }
+      Input(a)
+
+      UploadImages(res.data.masanpham)
+    });
+
+    // const rex = await UploadImages(masanpham)
   }
 
- async function UploadImages() {
+  async function UploadImages(msp) {
     const fd = new FormData()
     fd.append('file', state.data.anhdaidien)
     fd.append("upload_preset", "auction");
-    axios.post('https://api.cloudinary.com/v1_1/auction1190/image/upload', fd).then(res => console.log(res.data)).catch(e => console.log(e))
+    await axios.post('https://api.cloudinary.com/v1_1/auction1190/image/upload', fd).then(async (res) => {
+      const post = {
+        url: res.data.url,
+        // masanpham: msp
+      }
 
+      await axiosInstance.post(`/anhsanpham`, post).then(result => {
+        const a = {
+          target: {
+            value: res.data.url,
+            name: "anhdaidien"
+          }
+        }
+        Input(a)
+      });
+
+
+      const b = {
+        masanpham: msp,
+        anhdaidien: res.data.url
+      }
+      await axiosInstance.put(`/sanpham`, b)
+
+    }).catch(e => console.log(e))
+
+    // console.log(state.data.anhdaidien)
+    // console.log(state.data.anhmota)
     //dùng for gửi nhiều lần
 
+    if (state.data.anhmota.length > 0) {
+      for (let index = 0; index < state.data.anhmota.length; index++) {
+        const element = state.data.anhmota[index];
+
+        const fd = new FormData()
+        fd.append('file', element)
+        fd.append("upload_preset", "auction");
+
+        await axios.post('https://api.cloudinary.com/v1_1/auction1190/image/upload', fd).then(async (res) => {
+          const post = {
+            url: res.data.url,
+            masanpham: msp
+          }
+          axiosInstance.post(`/anhsanpham`, post)
+        })
+      }
+    }
     //res.data.public_id
     //res.data.url
-
   }
 
   React.useEffect(() => {
@@ -277,6 +330,15 @@ export default function Post(props) {
         }} />
         <br />
         Ảnh mô tả
+        <input type="file" name="anhmota" multiple onChange={e => {
+          const b = {
+            target: {
+              value: e.target.files,
+              name: e.target.name
+            }
+          }
+          Input(b)
+        }} />
         <br />
         <Typography>
           Mô tả

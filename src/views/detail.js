@@ -47,7 +47,7 @@ import { axiosInstance, parseJwt } from '../utils/axios';
 import { StaticTimePicker } from '@mui/lab';
 
 export default function Detail({ id: idProduct }) {
-  idProduct = 1
+  idProduct = 48
   const idUser = 1
 
   const [state, dispatch] = React.useReducer(reducer, { data: {mota:'',anhsanphams:[], giacuoc:0}, history: [], error:{},popup:{open:false,type:'success',mess:'auct successfully'} });
@@ -222,6 +222,8 @@ export default function Detail({ id: idProduct }) {
 
           <Grid container spacing={1}>
             <Grid item xs={4}>
+            <img src={state.data.anhdaidien} alt="Stickman" width="222" height="222"></img>
+
               {
                 // console.log(state.data.anhsanphams)
                 state.data.anhsanphams.map((element, i) =>

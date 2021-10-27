@@ -137,6 +137,30 @@ export default function DetailReducer(state, action) {
                     anhdaidien: action.payload.data
                 }
             }
+        case 'anhmota':
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    anhmota: action.payload.data
+                }
+            }
+        case 'anh':
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    anh: action.payload.data
+                }
+            }
+            case 'masanpham':
+                return {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        masanpham: action.payload.data
+                    }
+                }
         default:
             console.log("action type: " + action.type)
             return state;
