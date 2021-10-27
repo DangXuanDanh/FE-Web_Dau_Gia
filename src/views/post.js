@@ -35,7 +35,7 @@ import { axiosInstance, parseJwt } from '../utils/axios';
 
 export default function Post(props) {
 
-  const [state, dispatch] = React.useReducer(reducer, { data: {}, error: {}, danhmuc: [], danhmuccon: []  });
+  const [state, dispatch] = React.useReducer(reducer, { data: {}, error: {}, danhmuc: [], danhmuccon: [] });
 
   async function LoadDanhMuc() {
     const res = await axiosInstance.get(`danhmuc/danhmuccha/get`);
@@ -47,7 +47,7 @@ export default function Post(props) {
     });
   }
 
-  async function LoadDanhMucCon(id){
+  async function LoadDanhMucCon(id) {
     const res = await axiosInstance.get(`danhmuc/danhmuccon/${id}`);
     dispatch({
       type: 'danhmuccon',
@@ -111,6 +111,19 @@ export default function Post(props) {
     const res = await axiosInstance.post(`/sanpham`, state.data);
   }
 
+ async function UploadImages() {
+    const fd = new FormData()
+    fd.append('file', state.data.anhdaidien)
+    fd.append("upload_preset", "auction");
+    axios.post('https://api.cloudinary.com/v1_1/auction1190/image/upload', fd).then(res => console.log(res.data)).catch(e => console.log(e))
+
+    //dùng for gửi nhiều lần
+
+    //res.data.public_id
+    //res.data.url
+
+  }
+
   React.useEffect(() => {
     LoadDanhMuc()
   }, [])
@@ -141,7 +154,7 @@ export default function Post(props) {
             {/* <TextField name='1c2c1' onChange={(e)=>console.log(e.target.name)} error={true} helperText="" required id="outlined-basic" label="Tiêu đề" variant="outlined" />
             <br /> */}
             <TextField name="tensanpham" onChange={e => Input(e)} error={!!state.error.tensanpham} helperText={state.error.tensanpham} required id="outlined-basic" label="Tên sản phẩm" variant="outlined" />
-            
+
             <br />
             <FormControl sx={{ m: 1, minWidth: 150 }}>
               <InputLabel id="demo-simple-select-label">Danh mục cha</InputLabel>
@@ -150,7 +163,7 @@ export default function Post(props) {
                 id="demo-simple-select"
                 name="madanhmuccha"
                 label="Danh mục cha"
-                onChange={e =>{ 
+                onChange={e => {
                   Input(e)
                   LoadDanhMucCon(e.target.value)
                 }}
@@ -167,7 +180,7 @@ export default function Post(props) {
                 }
               </Select>
             </FormControl>
-            
+
             <br />
             <FormControl sx={{ m: 1, minWidth: 150 }}>
               <InputLabel id="demo-simple-select-label">Danh mục</InputLabel>
@@ -178,7 +191,7 @@ export default function Post(props) {
                 // value={state.danhmuc[0]}
                 label="Danh mục"
                 onChange={e => Input(e)}
-                // error={!!state.error.madanhmuc} helperText={state.error.madanhmuc} required
+              // error={!!state.error.madanhmuc} helperText={state.error.madanhmuc} required
               >
                 {
                   state.danhmuccon.map((element, i) =>
@@ -293,13 +306,7 @@ export default function Post(props) {
           Đăng
         </Button>
 
-        <Button onClick={ ()=>{
-          const fd = new FormData()
-          fd.append('image',state.data.anhdaidien)
-axios.post('https://api.imgur.com/3/',fd,{headers:{'Authorization':'bc3ace94b4e2001 6353e36aa9582eff17c7863d7893a003de7ef9ffy'}  }).then(res=>console.log(res.data)).catch(e=>console.log(e))
-        
-}
-        }>
+        <Button onClick={e => UploadImages()}>
           asdascascascsa
         </Button>
 
