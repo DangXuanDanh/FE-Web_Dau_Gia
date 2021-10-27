@@ -62,6 +62,7 @@ function Table({columns, data}) {
         },
         usePagination
     )
+    
 
     // Render the UI for your table
     return (
@@ -158,6 +159,10 @@ function UserTable({userData}) {
             {
                 Header: 'Thao tác',
                 accessor: 'actions',
+            },
+            {
+                Header: 'Thao tác',
+                accessor: 'actions1',
             },
         ],
         []
