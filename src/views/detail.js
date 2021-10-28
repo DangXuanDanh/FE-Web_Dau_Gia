@@ -35,7 +35,7 @@ import "react-quill/dist/quill.bubble.css";
 
 import { formatDuration, intervalToDuration } from 'date-fns';
 
-import reducer from '../reducers/detailReducer';
+import reducer from '../reducers/DetailReducer';
 import reactDom from 'react-dom';
 
 import BreadCrumb from "../components/breadcrumbs"
@@ -46,8 +46,9 @@ import BreadCrumb from "../components/breadcrumbs"
 import { axiosInstance, parseJwt } from '../utils/axios';
 import { StaticTimePicker } from '@mui/lab';
 
-export default function Detail({ id: idProduct }) {
-  idProduct = 48
+export default function Detail(props) {
+  const queryParams = new URLSearchParams(window.location.search);
+  const idProduct = queryParams.get('id') || 1
   const idUser = 1
 
   const [state, dispatch] = React.useReducer(reducer, { data: {mota:'',anhsanphams:[], giacuoc:0}, history: [], error:{},popup:{open:false,type:'success',mess:'auct successfully'} });

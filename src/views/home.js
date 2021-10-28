@@ -26,36 +26,59 @@ import Paper from '@mui/material/Paper';
 
 // import { axiosInstance, parseJwt } from '../utils/axios';
 
+import Item from '../components/item';
 
+import { axiosInstance, parseJwt } from '../utils/axios';
+import reducer from '../reducers/HomeReducer';
 
 
 export default function Home(props) {
+
+  const [state, dispatch] = React.useReducer(reducer, {data:[]});
+
+  React.useEffect(() => {
+    LoadInfo()
+  }, [])
+
+  async function LoadInfo() {
+    const res = await axiosInstance.get(`sanpham/get/New`).then((a) => {
+      dispatch({
+        type: 'init',
+        payload: {
+          data: a.data,
+        }
+      });
+    });
+  }
+
   return (
     <div>
-
-
-
-
-
       <Container>
+        <Grid container spacing={4}>
+          <Grid item xs={4}>
+            Danh muc
+          </Grid>
+          <Grid item xs={8}>
+            <Typography variant="subtitle1" gutterBottom component="div">
+              Search Bar
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom component="div">
+              Sort bar
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom component="div">
+              Product List::::::
+            </Typography>
+            {/* <Item id="48" />
+            <Item id="51" />
+            <Item id="3" /> */}
+            {
+                state.data.map((element, i) =>
+                <Item key={i} idi={element.masanpham} />
+                )
+              }
+            
 
-
-      <Grid container spacing={4}>
-  <Grid item xs={4}>
-    Danh muc
-  </Grid>
-  <Grid item xs={8}>
-  <Typography variant="subtitle1" gutterBottom component="div">
-    Search Bar
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom component="div">
-    Sort bar
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom component="div">
-    Product List
-          </Typography>
-
-    <Link href="detail">
+            {/* <Link href="detail">
           <Button variant="contained">
             product 1
           </Button>
@@ -64,16 +87,13 @@ export default function Home(props) {
           <Button>
             product 2
           </Button>
-        </Link>
+        </Link> */}
 
-        <Typography variant="subtitle1" gutterBottom component="div">
-    Pagination
-          </Typography>
-  </Grid>
-</Grid>
-
-
-
+            <Typography variant="subtitle1" gutterBottom component="div">
+              Pagination
+            </Typography>
+          </Grid>
+        </Grid>
       </Container>
     </div>
   )

@@ -368,9 +368,9 @@ export default function Post(props) {
           Đăng
         </Button>
 
-        <Button onClick={e => UploadImages()}>
+        {/* <Button onClick={e => UploadImages()}>
           asdascascascsa
-        </Button>
+        </Button> */}
 
       </Container>
 

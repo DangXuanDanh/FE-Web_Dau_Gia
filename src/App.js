@@ -29,7 +29,7 @@ function App() {
         <Header/>
         <Switch>
           <NavRoute exact path="/" component={Home} />
-          <NavRoute path="/detail" component={Detail} />
+          <Route path="/detail" render={function () { return <Detail /> }} />
           <NavRoute path="/post" component={Post} />
           <Route path="/login" render={function () { return <Login /> }} />
           <Route path="/register" render={function () { return <Register /> }} />
