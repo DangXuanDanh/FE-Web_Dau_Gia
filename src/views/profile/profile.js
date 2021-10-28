@@ -4,6 +4,8 @@ import { Button, Modal, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from "../../common/alert"
 import './profile.css';
+const moment = require('moment');
+require('moment/locale/vi');
 
 
 function Profile() {
@@ -17,6 +19,7 @@ function Profile() {
     const [hoten, setName] = useState([]);
     const [email, setEmail] = useState([]);
     const [ngaysinh, setNgaySinh] = useState([]);
+    const [ngaysinhgoc, setNgaySinhGoc] = useState([]);
     const [diachi, setDiaChi] = useState([]);
 
 
@@ -40,11 +43,18 @@ function Profile() {
                 },
             }).then(async function (response) {
                 const result = await response.json();
+                var formatted_date1 = null;
+                var formatted_date2 = null;
+                if (result.ngaysinh != null) {
+                    formatted_date1 = moment(result.ngaysinh).format('DD-MM-YYYY');
+                    formatted_date2 = moment(result.ngaysinh).format('YYYY-MM-DD');
+                }
                 setprofile(result);
                 setName(result.hoten);
                 setEmail(result.email);
-                setNgaySinh(result.ngaysinh);
+                setNgaySinh(formatted_date1);
                 setDiaChi(result.diachi);
+                setNgaySinhGoc(formatted_date2);
 
             }).catch((error) => {
                 return error;
@@ -64,12 +74,17 @@ function Profile() {
     const showProfileModal = () => {
         setShowProfile(true);
     };
-
+    
     const hideDeleteProfileModal = () => {
         setShowProfile(false);
         setName(profile.hoten);
         setEmail(profile.email);
-        setNgaySinh(profile.ngaysinh);
+        var formatted_date = null;
+                if (profile.ngaysinh != null) {
+                    formatted_date = moment(profile.ngaysinh).format('DD-MM-YYYY');
+                }
+        console.log("asdzxcasdasfsdf:   " + formatted_date)
+        setNgaySinh(formatted_date);
         setDiaChi(profile.diachi);
     };
 
@@ -127,8 +142,18 @@ function Profile() {
             },
         }).then(async function (response) {
             const result = await response.json();
-            setprofile(result);
-            setNgaySinh(result.ngaysinh);
+                var formatted_date1 = null;
+                var formatted_date2 = null;
+                if (result.ngaysinh != null) {
+                    formatted_date1 = moment(result.ngaysinh).format('DD-MM-YYYY');
+                    formatted_date2 = moment(result.ngaysinh).format('YYYY-MM-DD');
+                }
+                setprofile(result);
+                setName(result.hoten);
+                setEmail(result.email);
+                setNgaySinh(formatted_date1);
+                setDiaChi(result.diachi);
+                setNgaySinhGoc(formatted_date2);
         }).catch((error) => {
             return error;
         });
@@ -192,7 +217,7 @@ function Profile() {
             <Modal
                 className="details_modal"
                 show={showProfile}
-                onHide={hideProfileModal}
+                onHide={hideDeleteProfileModal}
                 keyboard={false}
             >
                 <Modal.Header closeButton>
@@ -212,11 +237,11 @@ function Profile() {
 
                         <Form.Group className="mb-3" controlId="formBasicNgaySinh">
                             <Form.Label className="float-left">Ngày Sinh</Form.Label>
-                            <Form.Control type="date" value={ngaysinh} onChange={ChangetxtNgaySinh} />
+                            <Form.Control type="date" value={ngaysinhgoc} onChange={ChangetxtNgaySinh} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicDiaChi">
-                            <Form.Label className="float-left">Chứng Minh Nhân Dân</Form.Label>
+                            <Form.Label className="float-left">Đia Chỉ</Form.Label>
                             <Form.Control type="text" value={diachi} onChange={ChangetxtDiaChi} />
                         </Form.Group>
                     </Form>
