@@ -21,6 +21,8 @@ function Profile() {
     const [ngaysinh, setNgaySinh] = useState([]);
     const [ngaysinhgoc, setNgaySinhGoc] = useState([]);
     const [diachi, setDiaChi] = useState([]);
+    const [danhgiatot, setdanhgiatot] = useState([]);
+    const [danhgiaxau, setdanhgiaxau] = useState([]);
 
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -55,6 +57,8 @@ function Profile() {
                 setNgaySinh(formatted_date1);
                 setDiaChi(result.diachi);
                 setNgaySinhGoc(formatted_date2);
+                setdanhgiatot(result.danhgiatot);
+                setdanhgiaxau(result.danhgiaxau);
 
             }).catch((error) => {
                 return error;
@@ -74,15 +78,15 @@ function Profile() {
     const showProfileModal = () => {
         setShowProfile(true);
     };
-    
+
     const hideDeleteProfileModal = () => {
         setShowProfile(false);
         setName(profile.hoten);
         setEmail(profile.email);
         var formatted_date = null;
-                if (profile.ngaysinh != null) {
-                    formatted_date = moment(profile.ngaysinh).format('DD-MM-YYYY');
-                }
+        if (profile.ngaysinh != null) {
+            formatted_date = moment(profile.ngaysinh).format('DD-MM-YYYY');
+        }
         console.log("asdzxcasdasfsdf:   " + formatted_date)
         setNgaySinh(formatted_date);
         setDiaChi(profile.diachi);
@@ -142,18 +146,18 @@ function Profile() {
             },
         }).then(async function (response) {
             const result = await response.json();
-                var formatted_date1 = null;
-                var formatted_date2 = null;
-                if (result.ngaysinh != null) {
-                    formatted_date1 = moment(result.ngaysinh).format('DD-MM-YYYY');
-                    formatted_date2 = moment(result.ngaysinh).format('YYYY-MM-DD');
-                }
-                setprofile(result);
-                setName(result.hoten);
-                setEmail(result.email);
-                setNgaySinh(formatted_date1);
-                setDiaChi(result.diachi);
-                setNgaySinhGoc(formatted_date2);
+            var formatted_date1 = null;
+            var formatted_date2 = null;
+            if (result.ngaysinh != null) {
+                formatted_date1 = moment(result.ngaysinh).format('DD-MM-YYYY');
+                formatted_date2 = moment(result.ngaysinh).format('YYYY-MM-DD');
+            }
+            setprofile(result);
+            setName(result.hoten);
+            setEmail(result.email);
+            setNgaySinh(formatted_date1);
+            setDiaChi(result.diachi);
+            setNgaySinhGoc(formatted_date2);
         }).catch((error) => {
             return error;
         });
@@ -199,6 +203,24 @@ function Profile() {
                         </div>
                         <div className="col-sm-9 text-secondary">
                             {diachi}
+                        </div>
+                    </div>
+
+                    <div className="row mb-3">
+                        <div className="col-sm-3 vertical-base">
+                            <h6 className="mb-0 float-left">Đánh giá tốt</h6>
+                        </div>
+                        <div className="col-sm-9 text-secondary">
+                            {danhgiatot} Lượt
+                        </div>
+                    </div>
+
+                    <div className="row mb-3">
+                        <div className="col-sm-3 vertical-base">
+                            <h6 className="mb-0 float-left">Đánh giá xấu</h6>
+                        </div>
+                        <div className="col-sm-9 text-secondary">
+                            {danhgiaxau} Lượt
                         </div>
                     </div>
                 </div>
