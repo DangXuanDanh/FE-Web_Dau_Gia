@@ -174,10 +174,6 @@ function UserTable({ userData }) {
                 Header: 'Thao tác',
                 accessor: 'actions',
             },
-            {
-                Header: 'Thao tác',
-                accessor: 'actions1',
-            },
         ],
         []
     )

@@ -132,8 +132,7 @@ function Users() {
                         "email": val.email,
                         "status": val.activate_status ? <Badge bg="success">Active</Badge> : <Badge bg="secondary">Inactive</Badge>,
                         "role": (val.role == 1) ? <Badge bg="info">bidder</Badge> : (val.role == 2) ? <Badge bg="info">seller</Badge> :<Badge bg="info">admin</Badge> ,
-                        "actions": <button onClick={() => getthongtin(val.mataikhoan)} className="btn btn-sm btn-dark">Chi tiết</button>,
-                        "actions1": <button onClick={() => DeleteUser(val.mataikhoan)} className="btn btn-sm btn-danger">Xóa</button>
+                        "actions":<td><button onClick={() => getthongtin(val.mataikhoan)} className="btn btn-sm btn-dark">Chi tiết</button> <button onClick={() => DeleteUser(val.mataikhoan)} className="btn btn-sm btn-danger">Xóa</button></td> ,
                     }
                 });
                 setData(listUsers);
