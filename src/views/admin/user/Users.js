@@ -19,6 +19,7 @@ function Users() {
     const [email, setEmail] = useState([]);
     const [ngaysinh, setNgaySinh] = useState([]);
     const [diachi, setDiaChi] = useState([]);
+    const [role, setRole] = useState([]);
     const [activate_status, setactivate_status] = useState([]);
     const [danhgiatot, setdanhgiatot] = useState([]);
     const [danhgiaxau, setdanhgiaxau] = useState([]);
@@ -55,15 +56,13 @@ function Users() {
             },
         }).then(async function (response) {
             const result = await response.json();
-            var formatted_date1 = null;
-            if (result.ngaysinh != null) {
-                formatted_date1 = moment(result.ngaysinh).format('DD-MM-YYYY');
-            }
+            
             setprofile(result);
             setName(result.hoten);
             setEmail(result.email);
-            setNgaySinh(formatted_date1);
+            setNgaySinh(result.ngaysinh);
             setDiaChi(result.diachi);
+            setRole(result.role);
             setactivate_status(result.activate_status);
             setdanhgiatot(result.danhgiatot);
             setdanhgiaxau(result.danhgiaxau);
@@ -111,6 +110,7 @@ function Users() {
                         "hoten": val.hoten,
                         "email": val.email,
                         "status": val.activate_status ? <Badge bg="success">Active</Badge> : <Badge bg="secondary">Inactive</Badge>,
+                        "role": (val.role == 1) ? <Badge bg="info">bidder</Badge> : (val.role == 2) ? <Badge bg="info">seller</Badge> :<Badge bg="info">admin</Badge> ,
                         "actions": <button onClick={() => getthongtin(val.mataikhoan)} className="btn btn-sm btn-dark">Chi tiết</button>,
                         "actions1": <button onClick={() => DeleteUser(val.mataikhoan)} className="btn btn-sm btn-danger">Xóa</button>
                     }
@@ -198,7 +198,16 @@ function Users() {
 
                     <div className="row mb-3">
                         <div className="col-sm-3 vertical-base">
-                            <h6 className="mb-0 float-left">status</h6>
+                            <h6 className="mb-0 float-left">Role</h6>
+                        </div>
+                        <div className="col-sm-9 text-secondary">
+                            {(role == 1) ? <Badge bg="info">bidder</Badge> : (role == 2) ? <Badge bg="info">seller</Badge> :<Badge bg="info">admin</Badge>}
+                        </div>
+                    </div>
+
+                    <div className="row mb-3">
+                        <div className="col-sm-3 vertical-base">
+                            <h6 className="mb-0 float-left">Status</h6>
                         </div>
                         <div className="col-sm-9 text-secondary">
                             {activate_status ? <Badge bg="success">Active</Badge> : <Badge bg="secondary">Inactive</Badge>}

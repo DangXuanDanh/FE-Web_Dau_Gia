@@ -61,8 +61,7 @@ function Table({ columns, data }) {
             data,
         },
         useSortBy,
-        usePagination,
-
+        usePagination
     )
 
 
@@ -167,16 +166,8 @@ function UserTable({ userData }) {
                 accessor: 'role',
             },
             {
-                Header: 'Trạng thái',
-                accessor: 'status',
-            },
-            {
                 Header: 'Thao tác',
                 accessor: 'actions',
-            },
-            {
-                Header: 'Thao tác',
-                accessor: 'actions1',
             },
         ],
         []

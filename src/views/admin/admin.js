@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import Login from '../login';
 import Users from '../admin/user/Users';
+import UsersUpgrade from '../admin/user/usersUpgrade';
 import './admin.css';
 import { positions, Provider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
@@ -71,17 +72,17 @@ export default function SimpleTabs() {
             <div className={[classes.root, "host-container"].join(" ")}>
                 <AppBar position="static">
                     <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-                        <Tab label="Login" {...a11yProps(0)} />
-                        <Tab label="Quản lý người dùng" {...a11yProps(1)} />
+                        <Tab label="Quản lý người dùng" {...a11yProps(0)} />
+                        <Tab label="Quản lý người dùng xin nâng cấp" {...a11yProps(1)} />
                         <Tab label="Login" {...a11yProps(2)} />
                         <Tab label="Thay đổi mật khẩu" {...a11yProps(3)} />
                     </Tabs>
                 </AppBar>
                 <TabPanel value={value} index={0}>
-                    <Login />
+                    <Users />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <Users />
+                    <UsersUpgrade />
                 </TabPanel>
                 
             </div>
