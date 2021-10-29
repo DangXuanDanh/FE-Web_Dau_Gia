@@ -14,7 +14,7 @@ function Users() {
 
     const [profile, setprofile] = useState([]);
     const [showProfile, setShowProfile] = useState(false);
-    const [mataikhoan, setId] = useState([]);
+    const [mataikhoan, setMaTaiKhoan] = useState([]);
     const [hoten, setName] = useState([]);
     const [email, setEmail] = useState([]);
     const [ngaysinh, setNgaySinh] = useState([]);
@@ -56,8 +56,9 @@ function Users() {
             },
         }).then(async function (response) {
             const result = await response.json();
-            
+
             setprofile(result);
+            setMaTaiKhoan(id)
             setName(result.hoten);
             setEmail(result.email);
             setNgaySinh(result.ngaysinh);
@@ -86,6 +87,26 @@ function Users() {
                 throw Error(response.statusText);
             }
             setErrorMessage("Tài khoản đã được xóa")
+            setAlertStatus(true)
+            setAlertType("success")
+            return response;
+        }).catch((error) => {
+            return error;
+        });
+    }
+
+    async function DegradeRole(id) {
+        await fetch('http://localhost:3000/API/user/degrade/' + id, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        }).then(function (response) {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            setErrorMessage("Tài khoản đã hạ cấp thành bidder")
             setAlertStatus(true)
             setAlertType("success")
             return response;
@@ -156,7 +177,7 @@ function Users() {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title><div className="float-left">Thông Tin Chi Tiết</div></Modal.Title>
+                    <Modal.Title><div className="float-left">Thông Tin Chi Tiết (ID: #{mataikhoan})</div></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
 
@@ -235,7 +256,10 @@ function Users() {
 
 
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer>{(role == 2 ) ?
+                    <Button variant="primary" onClick={() => DegradeRole(mataikhoan)}>
+                        Hạ cấp    
+                    </Button>: null}
                     <Button variant="danger" onClick={hideDeleteProfileModal}>
                         Đóng
                     </Button>
