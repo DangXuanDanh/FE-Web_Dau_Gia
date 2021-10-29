@@ -49,8 +49,8 @@ import { StaticTimePicker } from '@mui/lab';
 export default function Detail(props) {
   const queryParams = new URLSearchParams(window.location.search);
   const idProduct = queryParams.get('id') || 1
-  const idUser = 1
-
+  const idUser = 13
+  
   const [state, dispatch] = React.useReducer(reducer, { data: {mota:'',anhsanphams:[], giacuoc:0}, history: [], error:{},popup:{open:false,type:'success',mess:'auct successfully'} });
 
   const modules = {
