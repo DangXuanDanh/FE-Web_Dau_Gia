@@ -153,14 +153,21 @@ export default function DetailReducer(state, action) {
                     anh: action.payload.data
                 }
             }
-            case 'masanpham':
-                return {
-                    ...state,
-                    data: {
-                        ...state.data,
-                        masanpham: action.payload.data
-                    }
+        case 'masanpham':
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    masanpham: action.payload.data
                 }
+            }
+        case 'popup':
+            // delete state.data.giacuoc
+            // console.log(action.payload.data)
+            return {
+                ...state,
+                popup: action.payload.data
+            }
         default:
             console.log("action type: " + action.type)
             return state;

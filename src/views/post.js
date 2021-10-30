@@ -12,10 +12,16 @@ import Select from '@mui/material/Select';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import MuiAlert from '@mui/material/Alert';
 
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
+
+import { useHistory } from 'react-router-dom';
 
 
 import { Editor } from "react-draft-wysiwyg";
@@ -34,8 +40,9 @@ import BreadCrumb from "../components/breadcrumbs"
 import { axiosInstance, parseJwt } from '../utils/axios';
 
 export default function Post(props) {
+  const history = useHistory()
 
-  const [state, dispatch] = React.useReducer(reducer, { data: {}, error: {}, danhmuc: [], danhmuccon: [] });
+  const [state, dispatch] = React.useReducer(reducer, { data: {}, error: {}, danhmuc: [], danhmuccon: [], popup:{} });
 
   async function LoadDanhMuc() {
     const res = await axiosInstance.get(`danhmuc/danhmuccha/get`);
@@ -75,6 +82,10 @@ export default function Post(props) {
     });
   }
 
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
   function Validate() {
     // show err that those fields
     let flag = true
@@ -98,7 +109,15 @@ export default function Post(props) {
       SetError("buocgia", state.data.buocgia)
       flag = false
     }
-
+    if (!state.data.anhdaidien || !state.data.anhmota || state.data.anhmota.length < 3) {
+      flag = false
+      let val = {
+        open: true,
+        type: 'error',
+        mess: 'too few images'
+      }
+      handleClick(val)
+    }
     return flag
   }
 
@@ -108,7 +127,9 @@ export default function Post(props) {
 
     // console.log(state.data)
     //submit data from state.data
-    const res = await axiosInstance.post(`/sanpham`, state.data).then(res => {
+    const sanpham = state.data
+    sanpham.manguoidang = localStorage.getItem('user').mataikhoan || 0
+    const res = await axiosInstance.post(`/sanpham`, sanpham).then(res => {
       const a = {
         target: {
           value: res.data.masanpham,
@@ -118,6 +139,19 @@ export default function Post(props) {
       Input(a)
 
       UploadImages(res.data.masanpham)
+
+      let val = {
+        open: true,
+        type: 'success',
+        mess: 'post successfully'
+      }
+      handleClick(val)
+
+
+      setTimeout(()=>{
+        history.push('/detail?id='+res.data.masanpham)
+      },5000)
+
     });
 
     // const rex = await UploadImages(masanpham)
@@ -176,6 +210,44 @@ export default function Post(props) {
     //res.data.public_id
     //res.data.url
   }
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    dispatch({
+      type: 'popup',
+      payload: {
+        data: false,
+      }
+    });
+  };
+
+  const handleClick = (val) => {
+    dispatch({
+      type: 'popup',
+      payload: {
+        data: val,
+      }
+    });
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
 
   React.useEffect(() => {
     LoadDanhMuc()
@@ -367,7 +439,17 @@ export default function Post(props) {
         <Button onClick={e => Submit()}>
           Đăng
         </Button>
-
+        <Snackbar
+          open={state.popup.open}
+          autoHideDuration={2500}
+          onClose={handleClose}
+          message="Note archived"
+          action={action}
+        >
+          <Alert onClose={handleClose} severity={state.popup.type} sx={{ width: '100%' }}>
+            {state.popup.mess}
+          </Alert>
+        </Snackbar>
         {/* <Button onClick={e => UploadImages()}>
           asdascascascsa
         </Button> */}
