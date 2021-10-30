@@ -21,6 +21,8 @@ function Profile() {
     const [ngaysinh, setNgaySinh] = useState([]);
     const [ngaysinhgoc, setNgaySinhGoc] = useState([]);
     const [diachi, setDiaChi] = useState([]);
+    const [role, setRole] = useState([]);
+    const [activate_upgrade, setActivate_upgrade] = useState([]);
     const [danhgiatot, setdanhgiatot] = useState([]);
     const [danhgiaxau, setdanhgiaxau] = useState([]);
 
@@ -57,6 +59,8 @@ function Profile() {
                 setNgaySinh(formatted_date1);
                 setDiaChi(result.diachi);
                 setNgaySinhGoc(formatted_date2);
+                setRole(result.role);
+                setActivate_upgrade(result.activate_upgrade)
                 setdanhgiatot(result.danhgiatot);
                 setdanhgiaxau(result.danhgiaxau);
 
@@ -87,7 +91,6 @@ function Profile() {
         if (profile.ngaysinh != null) {
             formatted_date = moment(profile.ngaysinh).format('DD-MM-YYYY');
         }
-        console.log("asdzxcasdasfsdf:   " + formatted_date)
         setNgaySinh(formatted_date);
         setDiaChi(profile.diachi);
     };
@@ -163,6 +166,29 @@ function Profile() {
         });
     }
 
+    async function upgradeReq() {
+        const initial = JSON.parse(saved);
+        const activate_upgrade = 1;
+        let item = { mataikhoan, activate_upgrade};
+        await fetch('http://localhost:3000/API/user/update', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(item)
+        }).then(function (response) {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response;
+        }).then(async function (response) {
+            setErrorMessage("Đã xin nâng cấp thành seller! Vui lòng chờ admin kích hoạt")
+            setAlertStatus(true)
+            setAlertType("success")
+        })
+    }
+
     return (
         <div className="mt-3">
             <div className="profile">
@@ -208,6 +234,15 @@ function Profile() {
 
                     <div className="row mb-3">
                         <div className="col-sm-3 vertical-base">
+                            <h6 className="mb-0 float-left">Role</h6>
+                        </div>
+                        <div className="col-sm-9 text-secondary">
+                            {role}
+                        </div>
+                    </div>
+
+                    <div className="row mb-3">
+                        <div className="col-sm-3 vertical-base">
                             <h6 className="mb-0 float-left">Đánh giá tốt</h6>
                         </div>
                         <div className="col-sm-9 text-secondary">
@@ -226,13 +261,18 @@ function Profile() {
                 </div>
 
                 <div>
-                    <Button className="mt-3 btn btn-info text-white btn-lg" onClick={onShowProfile}>
+                    <Button className="mt-3 btn btn-primary text-white btn-lg" onClick={onShowProfile}>
                         Thay đổi thông tin
                     </Button>
                     <div className="divider" />
                     <Button className="mt-3 btn btn-primary text-white btn-lg" onClick={gochangepass}>
                         Đổi mật khẩu
                     </Button>
+                    <div className="divider" />
+                    {(role == 1 && activate_upgrade == 0) ?
+                    <Button className="mt-3 btn btn-dark text-white btn-lg" onClick={() => upgradeReq()}>
+                        Nâng cấp
+                    </Button>: null}
                 </div>
             </div>
 

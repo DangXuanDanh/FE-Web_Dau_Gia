@@ -30,14 +30,20 @@ function Users() {
                 throw response;
             }).then(data => {
                 let listProducts = data.map((val) => {
+                    var formatted_date1 = null;
+                    var formatted_date2 = null;
+                    if (val.ngaydang != null || val.ngayketthuc != null) {
+                        formatted_date1 = moment(val.ngaydang).format('DD-MM-YYYY h:mm:ss a');
+                        formatted_date2 = moment(val.ngayketthuc).format('DD-MM-YYYY h:mm:ss a');
+                    }
                     return {
                         "Id": val.masanpham,
                         "tensanpham": val.tensanpham,
                         "madanhmuc": val.madanhmuc,
                         "giakhoidiem": val.giakhoidiem,
                         "giamuangay": val.giamuangay,
-                        "ngaydang": val.ngaydang,
-                        "ngayketthuc": val.ngayketthuc,
+                        "ngaydang": formatted_date1,
+                        "ngayketthuc": formatted_date2,
                         "actions":<button onClick={() => DeleteProduct(val.masanpham)} className="btn btn-sm btn-danger">Xóa</button> ,
                     }
                 });
