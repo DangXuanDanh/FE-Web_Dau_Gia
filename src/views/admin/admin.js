@@ -5,9 +5,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import Login from '../login';
 import Users from '../admin/user/Users';
 import UsersUpgrade from '../admin/user/usersUpgrade';
+import Products from '../admin/product/products';
 import './admin.css';
 import { positions, Provider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
@@ -74,7 +74,7 @@ export default function SimpleTabs() {
                     <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
                         <Tab label="Quản lý người dùng" {...a11yProps(0)} />
                         <Tab label="Quản lý người dùng xin nâng cấp" {...a11yProps(1)} />
-                        <Tab label="Login" {...a11yProps(2)} />
+                        <Tab label="Quản lý sản phẩm" {...a11yProps(2)} />
                         <Tab label="Thay đổi mật khẩu" {...a11yProps(3)} />
                     </Tabs>
                 </AppBar>
@@ -84,7 +84,9 @@ export default function SimpleTabs() {
                 <TabPanel value={value} index={1}>
                     <UsersUpgrade />
                 </TabPanel>
-                
+                <TabPanel value={value} index={2}>
+                    <Products />
+                </TabPanel>
             </div>
         </Provider>
     );
