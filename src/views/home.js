@@ -19,6 +19,7 @@ import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
+import { Chip } from '@mui/material';
 
 
 // import { useForm } from 'react-hook-form';
@@ -35,7 +36,9 @@ import reducer from '../reducers/HomeReducer';
 export default function Home(props) {
 
   const [state, dispatch] = React.useReducer(reducer, {data:[]});
-
+  const handleClick = (event) => {
+    
+  };
   React.useEffect(() => {
     LoadInfo()
   }, [])
@@ -51,17 +54,36 @@ export default function Home(props) {
     });
   }
 
+  const [data, setData] = React.useState([]);
+  React.useEffect(() => {
+    loadCategory()
+  }, [])
+  async function loadCategory() {
+    const res = await axiosInstance.get(`danhmuc`).then((a) => {
+      setData(a.data)
+    });
+  }
   return (
     <div>
       <Container>
-        <Grid container spacing={4}>
-          <Grid item xs={4}>
-            Danh muc
+        <Grid container spacing={1}>
+          <Grid item xs={1} sx={{ my: 1 }}>
+            <Chip label="Home" onClick={handleClick} />
           </Grid>
+          {
+            data.map((item, index) => {
+              return <Grid item xs={1} sx={{ my: 1 }}><Chip
+              value={item.madanhmuc}
+              label={item.tendanhmuc}
+              onClick={handleClick} /></Grid>
+            })
+          }
+        </Grid>
+        <Grid container spacing={1}>
+        </Grid>
+        <Grid container spacing={4}>
+
           <Grid item xs={8}>
-            <Typography variant="subtitle1" gutterBottom component="div">
-              Search Bar
-            </Typography>
             <Typography variant="subtitle1" gutterBottom component="div">
               Sort bar
             </Typography>

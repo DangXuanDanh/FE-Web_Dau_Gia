@@ -31,7 +31,6 @@ export default function Header() {
       async function loadCategory() {
         const res = await axiosInstance.get(`danhmuc`).then((a) => {
           setData(a.data)
-          console.log(a.data);
         });
       }
     return (
