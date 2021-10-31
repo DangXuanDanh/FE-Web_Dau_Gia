@@ -20,6 +20,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import { Chip } from '@mui/material';
+import CardMedia from '@mui/material/CardMedia';
+import { CardActionArea } from '@mui/material';
 
 
 // import { useForm } from 'react-hook-form';
@@ -53,7 +55,7 @@ export default function Home(props) {
       });
     });
   }
-
+//Lay danh muc
   const [data, setData] = React.useState([]);
   React.useEffect(() => {
     loadCategory()
@@ -63,24 +65,114 @@ export default function Home(props) {
       setData(a.data)
     });
   }
+// Lay 5 san pham cao gia nhat
+const [productMaxPrice, setproductMaxPrice] = React.useState([]);
+React.useEffect(() => {
+  loadproductMaxPrice()
+}, [])
+async function loadproductMaxPrice() {
+  const res = await axiosInstance.get(`sanpham/get/MaxPrice`).then((a) => {
+    setproductMaxPrice(a.data)
+  });
+}
   return (
     <div>
       <Container>
         <Grid container spacing={1}>
-          <Grid item xs={1} sx={{ my: 1 }}>
+          <Grid item sx={{ py: 4, mx:[0,3] }}>
             <Chip label="Home" onClick={handleClick} />
           </Grid>
           {
             data.map((item, index) => {
-              return <Grid item xs={1} sx={{ my: 1 }}><Chip
-              value={item.madanhmuc}
-              label={item.tendanhmuc}
-              onClick={handleClick} /></Grid>
+              return <Grid sx={{ py: 4, mx:[0,3] }}>
+                <Chip
+                value={item.madanhmuc}
+                label={item.tendanhmuc}
+                onClick={handleClick} />
+              </Grid>
             })
           }
         </Grid>
-        <Grid container spacing={1}>
-        </Grid>
+        <Typography variant="subtitle1" gutterBottom component="h4">
+            Top 5 Products With The Highest Prices 
+          </Typography>
+        <div style={{display:"flex"}}>
+          <Card sx={{ maxWidth: 345 }} style={{margin:30}}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="140"
+                image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Lizard
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+          <Card sx={{ maxWidth: 345 }} style={{margin:30}}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="140"
+                image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Lizard
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+          <Card sx={{ maxWidth: 345 }} style={{margin:30}}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="140"
+                image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Lizard
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+          <Card sx={{ maxWidth: 345 }} style={{margin:30}}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="140"
+                image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Lizard
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+          <Card sx={{ maxWidth: 345 }} style={{margin:30}}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="140"
+                image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Lizard
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+          </div>
         <Grid container spacing={4}>
 
           <Grid item xs={8}>
