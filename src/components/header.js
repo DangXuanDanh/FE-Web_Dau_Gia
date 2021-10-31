@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ReactDOM from 'react-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -12,10 +13,27 @@ import StarIcon from '@mui/icons-material/StarBorder';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import {TextField, Select, MenuItem, FormControl, InputLabel} from '@mui/material';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
+import { axiosInstance, parseJwt } from '../utils/axios';
+
 
 export default function Header() {
+    const [age, setAge] = React.useState('');
+    const [data, setData] = React.useState([]);
+    const handleChange = (event) => {
+      setAge(event.target.value);
+    };
+    React.useEffect(() => {
+        loadCategory()
+      }, [])
+      async function loadCategory() {
+        const res = await axiosInstance.get(`danhmuc`).then((a) => {
+          setData(a.data)
+          console.log(a.data);
+        });
+      }
     return (
         <AppBar
             position="static"
@@ -35,7 +53,33 @@ export default function Header() {
                     </Link>
                 </Typography>
                 <nav>
-                    <Link
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                        <InputLabel id="demo-simple-select-autowidth-label">Danh mục</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-autowidth-label"
+                        id="category"
+                        value={age}
+                        onChange={handleChange}
+                        autoWidth
+                        label="Danh mục"
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {
+                                data.map((item, index) => {
+                                return <MenuItem
+                                    value={item.madanhmuc}>
+                                        {item.tendanhmuc}
+                                    </MenuItem>
+                                })
+                            }
+                        </Select>
+                    </FormControl>
+                    <TextField sx={{ my: 1, mx: 1.5 , verticalAlign: 'baseline'}} id="standard-basic" label="Search" variant="standard" />
+                </nav>
+                <nav>
+                    {/* <Link
                         variant="button"
                         color="text.primary"
                         href="post"
@@ -58,7 +102,7 @@ export default function Header() {
                         sx={{ my: 1, mx: 1.5 }}
                     >
                         About us
-                    </Link>
+                    </Link> */}
 
                     <Link
                         variant="button"
@@ -86,7 +130,6 @@ export default function Header() {
                     >
                         Cá Nhân
                     </Link>
-
                 </nav>
             </Toolbar>
         </AppBar>
