@@ -8,6 +8,7 @@ import Box from '@material-ui/core/Box';
 import Users from '../admin/user/Users';
 import UsersUpgrade from '../admin/user/usersUpgrade';
 import Products from '../admin/product/products';
+import Category from '../admin/category/categorys';
 import './admin.css';
 import { positions, Provider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
@@ -75,7 +76,7 @@ export default function SimpleTabs() {
                         <Tab label="Quản lý người dùng" {...a11yProps(0)} />
                         <Tab label="Quản lý người dùng xin nâng cấp" {...a11yProps(1)} />
                         <Tab label="Quản lý sản phẩm" {...a11yProps(2)} />
-                        <Tab label="Thay đổi mật khẩu" {...a11yProps(3)} />
+                        <Tab label="Quản lý danh mục" {...a11yProps(3)} />
                     </Tabs>
                 </AppBar>
                 <TabPanel value={value} index={0}>
@@ -87,6 +88,10 @@ export default function SimpleTabs() {
                 <TabPanel value={value} index={2}>
                     <Products />
                 </TabPanel>
+                <TabPanel value={value} index={3}>
+                    <Category />
+                </TabPanel>
+                
             </div>
         </Provider>
     );
