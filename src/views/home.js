@@ -72,6 +72,7 @@ React.useEffect(() => {
 }, [])
 async function loadproductMaxPrice() {
   const res = await axiosInstance.get(`sanpham/get/MaxPrice`).then((a) => {
+    console.log(a.data)
     setproductMaxPrice(a.data)
   });
 }
@@ -93,86 +94,36 @@ async function loadproductMaxPrice() {
             })
           }
         </Grid>
-        <Typography variant="subtitle1" gutterBottom component="h4">
+        <Grid>
+          <Typography variant="subtitle1" gutterBottom component="h4">
             Top 5 Products With The Highest Prices 
           </Typography>
-        <div style={{display:"flex"}}>
-          <Card sx={{ maxWidth: 345 }} style={{margin:30}}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="140"
-                image="http://res.cloudinary.com/auction1190/image/upload/v1635599430/irejfiyccaadgaklalcw.png"
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Lizard
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-          <Card sx={{ maxWidth: 345 }} style={{margin:30}}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="140"
-                image="http://res.cloudinary.com/auction1190/image/upload/v1635599430/irejfiyccaadgaklalcw.png"
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Lizard
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-          <Card sx={{ maxWidth: 345 }} style={{margin:30}}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="140"
-                image="http://res.cloudinary.com/auction1190/image/upload/v1635599430/irejfiyccaadgaklalcw.png"
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Lizard
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-          <Card sx={{ maxWidth: 345 }} style={{margin:30}}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="140"
-                image="http://res.cloudinary.com/auction1190/image/upload/v1635599430/irejfiyccaadgaklalcw.png"
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Lizard
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-          <Card sx={{ maxWidth: 345 }} style={{margin:30}}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="140"
-                image="http://res.cloudinary.com/auction1190/image/upload/v1635599430/irejfiyccaadgaklalcw.png"
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Lizard
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-          </div>
+        </Grid>
+        <Grid container spacing={1}>
+        {
+            productMaxPrice.map((item, index) => {
+              return <Grid sx={{xs:2}} style={{margin:10}}>
+              <Card sx={{ width:210 }}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={item.anhdaidien}
+                  />
+                  <CardContent>
+                    <Link href="#" underline="none">
+                      {item.tensanpham}
+                    </Link>
+                    <Typography gutterBottom variant="h6" component="div">
+                      {item.giamuangay}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+            })
+          }
+        </Grid>
         <Grid container spacing={4}>
 
           <Grid item xs={8}>
