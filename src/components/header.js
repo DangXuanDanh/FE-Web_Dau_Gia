@@ -67,7 +67,7 @@ export default function Header() {
                             </MenuItem>
                             {
                                 data.map((item, index) => {
-                                return <MenuItem
+                                return <MenuItem key={index}
                                     value={item.madanhmuc}>
                                         {item.tendanhmuc}
                                     </MenuItem>

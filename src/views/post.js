@@ -16,6 +16,7 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert from '@mui/material/Alert';
+import InputAdornment from '@mui/material/InputAdornment';
 
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -340,6 +341,9 @@ export default function Post(props) {
               InputLabelProps={{
                 shrink: true,
               }}
+              InputProps={{
+                startAdornment: <InputAdornment position="start">vnđ</InputAdornment>,
+              }}
             />
             <br />
             <TextField
@@ -351,6 +355,9 @@ export default function Post(props) {
               InputLabelProps={{
                 shrink: true,
               }}
+              InputProps={{
+                startAdornment: <InputAdornment position="start">vnđ</InputAdornment>,
+              }}
             />
             <br />
             <TextField required
@@ -361,6 +368,9 @@ export default function Post(props) {
               error={!!state.error.buocgia} helperText={state.error.buocgia} required
               InputLabelProps={{
                 shrink: true,
+              }}
+              InputProps={{
+                startAdornment: <InputAdornment position="start">vnđ</InputAdornment>,
               }}
             />
           </div>
