@@ -7,8 +7,13 @@ import './profile.css';
 const moment = require('moment');
 require('moment/locale/vi');
 
+import reducer from '../../reducers/HomeReducer';
 
 function Profile() {
+
+const [state, dispatch] = React.useReducer(reducer,{data:{},login:{}});
+
+
     const saved = localStorage.getItem('user');;
 
     const history = useHistory();
@@ -70,6 +75,18 @@ function Profile() {
 
         }
     }, []);
+
+    function logout() {
+        dispatch({
+            type: 'login',
+            payload: {
+              data: undefined,
+            }
+          });
+        localStorage.removeItem('user')
+        history.push('/');
+        window.location.reload()
+    }
 
     const gochangepass = (e) => {
         history.push('/changepassword');
@@ -169,7 +186,7 @@ function Profile() {
     async function upgradeReq() {
         const initial = JSON.parse(saved);
         const activate_upgrade = 1;
-        let item = { mataikhoan, activate_upgrade};
+        let item = { mataikhoan, activate_upgrade };
         await fetch('http://localhost:3000/API/user/update', {
             method: 'PATCH',
             headers: {
@@ -268,11 +285,14 @@ function Profile() {
                     <Button className="mt-3 btn btn-primary text-white btn-lg" onClick={gochangepass}>
                         Đổi mật khẩu
                     </Button>
+                    <Button className="mt-3 btn btn-primary text-white btn-lg" onClick={logout}>
+                        Đăng xuất
+                    </Button>
                     <div className="divider" />
                     {(role == 1 && activate_upgrade == 0) ?
-                    <Button className="mt-3 btn btn-dark text-white btn-lg" onClick={() => upgradeReq()}>
-                        Nâng cấp
-                    </Button>: null}
+                        <Button className="mt-3 btn btn-dark text-white btn-lg" onClick={() => upgradeReq()}>
+                            Nâng cấp
+                        </Button> : null}
                 </div>
             </div>
 

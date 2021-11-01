@@ -85,7 +85,7 @@ async function loadproductMaxPrice() {
           </Grid>
           {
             data.map((item, index) => {
-              return <Grid sx={{ py: 4, mx:[0,3] }}>
+              return <Grid key={index} sx={{ py: 4, mx:[0,3] }}>
                 <Chip
                 value={item.madanhmuc}
                 label={item.tendanhmuc}

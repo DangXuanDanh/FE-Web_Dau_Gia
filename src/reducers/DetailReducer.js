@@ -1,18 +1,18 @@
-function GetTimeSpan ( time) {
+function GetTimeSpan(time) {
   var sec_num = parseInt(time, 10); // don't forget the second param
   var days = Math.floor(sec_num / (3600 * 24));
   var abc = (sec_num % (3600 * 24))
-  var hours   = Math.floor(abc / 3600);
+  var hours = Math.floor(abc / 3600);
   abc = abc % 3600
   var minutes = Math.floor(abc / 60);
   abc = abc % 60
   var seconds = abc;
 
-  if (days   < 1) {days   = "0"+days;}
-  if (hours   < 10) {hours   = "0"+hours;}
-  if (minutes < 10) {minutes = "0"+minutes;}
-  if (seconds < 10) {seconds = "0"+seconds;}
-  return days+'d '+hours+':'+minutes+':'+seconds;
+  if (days < 1) { days = "0" + days; }
+  if (hours < 10) { hours = "0" + hours; }
+  if (minutes < 10) { minutes = "0" + minutes; }
+  if (seconds < 10) { seconds = "0" + seconds; }
+  return days + 'd ' + hours + ':' + minutes + ':' + seconds;
 }
 
 export default function DetailReducer(state, action) {
@@ -33,7 +33,7 @@ export default function DetailReducer(state, action) {
         err = 'Phải là bội của ' + state.data.buocgia
       }
       const gia = state.history.length > 0 ? state.history[0].gia : state.data.giakhoidiem
-      if (parseInt(action.payload.data) <= parseInt(gia) || parseInt(action.payload.data) <= parseInt(state.data.giamuangay)) {
+      if (parseInt(action.payload.data) <= parseInt(gia) || parseInt(action.payload.data) <= parseInt(state.data.giakhoidiem)) {
         err = 'Giá đặt cược phải lớn hơn giá hiện tại và giá khởi điểm'
       }
       return {
@@ -69,9 +69,14 @@ export default function DetailReducer(state, action) {
         data: {
           ...state.data,
           thoigian: state.data.thoigian - 1,
-          thoigianconlai : GetTimeSpan(state.data.thoigian)
+          thoigianconlai: GetTimeSpan(state.data.thoigian)
+        }
       }
-      }
+      case 'sanphamtuongtu':
+        return {
+          ...state,
+          relatedProduct: action.payload.data
+        }
     default:
       return state;
   }

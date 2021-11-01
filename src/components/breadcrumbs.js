@@ -3,7 +3,9 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 
-export default function BreadCrumb() {
+export default function BreadCrumb(props) {
+
+
     return (
 
 <Breadcrumbs my={2} aria-label="breadcrumb">
@@ -13,11 +15,13 @@ export default function BreadCrumb() {
   <Link
     underline="hover"
     color="inherit"
-    href="/getting-started/installation/"
+    href={"/danhmuc?id="+props.madanhmuc}
   >
-    Car
+    {
+      props.tendanhmuc
+    }
   </Link>
-  <Typography color="text.primary">Breadcrumbs</Typography>
+  <Typography color="text.primary">{props.tensanpham}</Typography>
 </Breadcrumbs>
 
 

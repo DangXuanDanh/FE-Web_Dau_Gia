@@ -24,9 +24,12 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert from '@mui/material/Alert';
+import Divider from '@mui/material/Divider';
 
 
 import ReactQuill from "react-quill";
+
+import Item from '../components/item';
 
 import "react-quill/dist/quill.core.css";
 import "react-quill/dist/quill.snow.css";
@@ -49,9 +52,9 @@ import { StaticTimePicker } from '@mui/lab';
 export default function Detail(props) {
   const queryParams = new URLSearchParams(window.location.search);
   const idProduct = queryParams.get('id') || 1
-  const idUser = 13
-  
-  const [state, dispatch] = React.useReducer(reducer, { data: {mota:'',anhsanphams:[], giacuoc:0}, history: [], error:{},popup:{open:false,type:'success',mess:'auct successfully'} });
+  const idUser = JSON.parse(localStorage.getItem('user')).mataikhoan || 13
+
+  const [state, dispatch] = React.useReducer(reducer, { relatedProduct: [], data: { mota: '', taikhoan: {}, anhsanphams: [], giacuoc: 0, danhmuc: {} }, history: [], error: {}, popup: { open: false, type: 'success', mess: 'auct successfully' } });
 
   const modules = {
     toolbar: false,
@@ -89,19 +92,19 @@ export default function Detail(props) {
 
     // validate then post
 
-    let val = {     
+    let val = {
       open: false,
       type: 'error',
-      mess: 'something went wrong'}
+      mess: 'something went wrong'
+    }
 
-    if (!!state.error.giacuoc || state.error.giacuoc != '' || parseInt(state.data.giacuoc) == 0)
-    {
+    if (!!state.error.giacuoc || state.error.giacuoc != '' || parseInt(state.data.giacuoc) == 0) {
       val.open = true
       val.mess = 'validation error'
       SetPrice(state.data.giacuoc)
       handleClick(val)
       return;
-    } 
+    }
 
     await axiosInstance.post(`lichsudaugia/`, data).then(res => {
       // console.log(res.data)
@@ -122,7 +125,7 @@ export default function Detail(props) {
     handleClick(val)
   }
 
-  function SetPrice(value){
+  function SetPrice(value) {
     dispatch({
       type: 'giacuoc',
       payload: {
@@ -132,18 +135,27 @@ export default function Detail(props) {
   }
 
   async function LoadDetail() {
-    const res = await axiosInstance.get(`sanpham/${idProduct}`);
-    res.data.giacuoc = 0
-    res.data.thoigian /= 1000
+    const res = await axiosInstance.get(`sanpham/${idProduct}`).then(async e => {
+      e.data.giacuoc = 0
+      e.data.thoigian /= 1000
+      dispatch({
+        type: 'init',
+        payload: {
+          data: e.data,
+        }
+      });
 
-    dispatch({
-      type: 'init',
-      payload: {
-        data: res.data,
-      }
+      await axiosInstance.get(`sanpham/get/New/${e.data.masanpham}/${e.data.madanhmuc}`).then(r => {
+        dispatch({
+          type: 'sanphamtuongtu',
+          payload: {
+            data: r.data,
+          }
+        });
+      })
     });
-
   }
+
 
   function tiktok() {
     dispatch({
@@ -167,6 +179,12 @@ export default function Detail(props) {
     LoadHistory()
     setInterval(tiktok, 1000);
   }, [])
+
+  function HideName(name) {
+    let a = name.split(' ')
+    let index = a.length - 1 >= 0 ? a.length - 1 : 0
+    return "****" + a[index]
+  }
 
   const handleClick = (val) => {
     dispatch({
@@ -210,7 +228,7 @@ export default function Detail(props) {
     <div className="detail">
       <Container>
 
-        <BreadCrumb />
+        <BreadCrumb tensanpham={state.data.tensanpham} madanhmuc={state.data.madanhmuc} tendanhmuc={state.data.danhmuc.tendanhmuc} />
 
 
         <div>
@@ -221,9 +239,26 @@ export default function Detail(props) {
             }
           </Typography>
 
+          <Typography variant="caption" gutterBottom component="div">
+            {
+              state.data.taikhoan.hoten
+            }
+          </Typography>
+
+          <Typography variant="caption" gutterBottom component="div">
+            Điểm đánh giá:
+            {
+              " " + (state.data.taikhoan.danhgiatot || 0)
+            }
+            |
+            {
+              state.data.taikhoan.danhgiaxau || 0
+            }
+          </Typography>
+
           <Grid container spacing={1}>
             <Grid item xs={4}>
-            <img src={state.data.anhdaidien} alt="Stickman" width="222" height="222"></img>
+              <img src={state.data.anhdaidien} alt="Stickman" width="222" height="222"></img>
 
               {
                 // console.log(state.data.anhsanphams)
@@ -237,37 +272,60 @@ export default function Detail(props) {
             </Grid>
             <Grid item xs={6}>
 
-              <Typography variant="subtitle1" gutterBottom component="div">
-                Giá:
+              <Typography variant="caption" gutterBottom component="div">
+                Ngày đăng sản phẩm:
                 {
-                  state.data.giamuangay
+                  " " + state.data.ngaydang
                 }
               </Typography>
+              <Typography variant="caption" gutterBottom component="div">
+                Người giữ giá hiện tại:
+                {
+                  state.history.length > 0 ? (" " + state.history[0].taikhoan.hoten + " " + (state.history[0].taikhoan.danhgiatot || 0) + "|" + (state.history[0].taikhoan.danhgiaxau)) || 0 : undefined
+                }
+              </Typography>
+
+              <Typography variant="subtitle1" gutterBottom component="div">
+                Giá khởi điểm:
+                {
+                  " "+new Intl.NumberFormat().format(state.data.giakhoidiem)
+                } vnđ
+              </Typography>
+              {
+
+                state.data.giamuangay ? <Typography variant="subtitle1" gutterBottom component="div">
+                  Giá mua ngay:
+                  {
+                    " "+new Intl.NumberFormat().format(state.data.giamuangay)
+                  } vnđ
+                </Typography> : undefined
+
+              }
               <Typography variant="subtitle1" gutterBottom component="div">
                 Giá hiện tại:
                 {
-                  state.history.length > 0  ? state.history[0].gia : state.data.giamuangay
-                }
+                  " "+ (state.history.length > 0 ? new Intl.NumberFormat().format(state.history[0].gia) : new Intl.NumberFormat().format(state.data.giakhoidiem))
+                } vnđ
               </Typography>
               <Typography variant="subtitle1" gutterBottom component="div">
                 Bước giá:
                 {
-                  state.data.buocgia
-                }
+                  " "+ new Intl.NumberFormat().format(state.data.buocgia)
+                } vnđ
               </Typography>
 
 
 
               <FormControl sx={{ m: 1 }} variant="standard">
                 {/* <InputLabel htmlFor="standard-adornment-amount">Giá cược</InputLabel> */}
-                <TextField error={!!state.error.giacuoc} helperText={state.error.giacuoc} 
-                value={state.data.giacuoc} 
-                label="Giá cược"
-                onChange={e => SetPrice(e.target.value)}
+                <TextField error={!!state.error.giacuoc} helperText={state.error.giacuoc}
+                  value={state.data.giacuoc}
+                  label="Giá cược"
+                  onChange={e => SetPrice(e.target.value)}
                   type="number"
                   id="standard-adornment-amount"
                   InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    startAdornment: <InputAdornment position="start">vnđ</InputAdornment>,
                   }}
                 />
                 <Button onClick={TryToBid}>
@@ -285,17 +343,21 @@ export default function Detail(props) {
               -----
 
               <Typography variant="subtitle1" gutterBottom component="div">
-                Lịch sử đấu giá gần đây
+                Lịch sử đấu giá gần đây:
               </Typography>
 
               {
                 state.history.map((element, i) =>
                   <div key={i}>
-                    <Typography variant="subtitle1" gutterBottom component="div">
-                      Mã tài khoản: {element.mataikhoan}
+                    <Divider/>
+                    <Typography variant="caption" gutterBottom component="div">
+                      Thời điểm: {element.ngaydaugia}
                     </Typography>
-                    <Typography variant="subtitle1" gutterBottom component="div">
-                      Giá: {element.gia}
+                    <Typography variant="caption" gutterBottom component="div">
+                      Người mua: {HideName(element.taikhoan.hoten)}
+                    </Typography>
+                    <Typography variant="caption" gutterBottom component="div">
+                      {new Intl.NumberFormat().format(element.gia)} vnđ
                     </Typography>
                   </div>
                 )
@@ -303,21 +365,30 @@ export default function Detail(props) {
             </Grid>
           </Grid>
 
-          
+
           <Typography variant="subtitle1" gutterBottom component="div">
             Mô tả
           </Typography>
-          <ReactQuill 
+          <ReactQuill
             value={state.data.mota}
             readOnly={true}
             modules={modules}
             formats={formats}
-            // onChange={undefined}
+          // onChange={undefined}
           />
           {/* <Grid container>
 
 </Grid> */}
 
+          <br />
+          <br />
+          <br />
+          Sản phẩm tương tự:
+          {
+            state.relatedProduct.map((element, i) =>
+              <Item key={i} idi={element.masanpham} />
+            )
+          }
           {/* <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/HTML5_logo_resized.svg/300px-HTML5_logo_resized.svg.png"/> */}
 
 
@@ -330,19 +401,19 @@ export default function Detail(props) {
         </div>
 
         <Snackbar
-        open={state.popup.open}
-        autoHideDuration={2500}
-        onClose={handleClose}
-        message="Note archived"
-        action={action}
-      >
-         <Alert onClose={handleClose} severity={state.popup.type} sx={{ width: '100%' }}>
-         {state.popup.mess}
-        </Alert>
-      </Snackbar>
+          open={state.popup.open}
+          autoHideDuration={2500}
+          onClose={handleClose}
+          message="Note archived"
+          action={action}
+        >
+          <Alert onClose={handleClose} severity={state.popup.type} sx={{ width: '100%' }}>
+            {state.popup.mess}
+          </Alert>
+        </Snackbar>
 
-      </Container>
+      </Container >
 
-    </div>
+    </div >
   )
 }

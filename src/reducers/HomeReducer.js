@@ -6,6 +6,11 @@ export default function DetailReducer(state, action) {
         ...state,
         data: action.payload.data
       }
+    case 'login':
+    return {
+      ...state,
+      login: action.payload.data
+    }
     default:
       return state;
   }

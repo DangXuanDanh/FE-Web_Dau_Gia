@@ -13,26 +13,39 @@ import StarIcon from '@mui/icons-material/StarBorder';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import {TextField, Select, MenuItem, FormControl, InputLabel} from '@mui/material';
+import { TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import { axiosInstance, parseJwt } from '../utils/axios';
 
+import reducer from '../reducers/HomeReducer';
 
 export default function Header() {
     const [age, setAge] = React.useState('');
     const [data, setData] = React.useState([]);
+
+    const [state, dispatch] = React.useReducer(reducer, { data: {}, login: {} });
+
+
     const handleChange = (event) => {
-      setAge(event.target.value);
+        setAge(event.target.value);
     };
     React.useEffect(() => {
-        loadCategory()
-      }, [])
-      async function loadCategory() {
-        const res = await axiosInstance.get(`danhmuc`).then((a) => {
-          setData(a.data)
+
+        dispatch({
+            type: 'login',
+            payload: {
+                data: localStorage.getItem('user'),
+            }
         });
-      }
+
+        loadCategory(localStorage.getItem('user'))
+    }, [])
+    async function loadCategory() {
+        const res = await axiosInstance.get(`danhmuc`).then((a) => {
+            setData(a.data)
+        });
+    }
     return (
         <AppBar
             position="static"
@@ -47,7 +60,7 @@ export default function Header() {
                         color="text.primary"
                         href="/"
                         sx={{ my: 1, mx: 1.5 }}
-                        >
+                    >
                         QDL Auction
                     </Link>
                 </Typography>
@@ -55,27 +68,27 @@ export default function Header() {
                     <FormControl sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel id="demo-simple-select-autowidth-label">Danh mục</InputLabel>
                         <Select
-                        labelId="demo-simple-select-autowidth-label"
-                        id="category"
-                        value={age}
-                        onChange={handleChange}
-                        autoWidth
-                        label="Danh mục"
+                            labelId="demo-simple-select-autowidth-label"
+                            id="category"
+                            value={age}
+                            onChange={handleChange}
+                            autoWidth
+                            label="Danh mục"
                         >
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
                             {
                                 data.map((item, index) => {
-                                return <MenuItem
-                                    value={item.madanhmuc}>
+                                    return <MenuItem key={index}
+                                        value={item.madanhmuc}>
                                         {item.tendanhmuc}
                                     </MenuItem>
                                 })
                             }
                         </Select>
                     </FormControl>
-                    <TextField sx={{ my: 1, mx: 1.5 , verticalAlign: 'baseline'}} id="standard-basic" label="Search" variant="standard" />
+                    <TextField sx={{ my: 1, mx: 1.5, verticalAlign: 'baseline' }} id="standard-basic" label="Search" variant="standard" />
                 </nav>
                 <nav>
                     {/* <Link
@@ -103,32 +116,19 @@ export default function Header() {
                         About us
                     </Link> */}
 
-                    <Link
-                        variant="button"
-                        color="#00F"
-                        href="login"
-                        sx={{ my: 1, mx: 1.5 }}
-                    >
-                         Đăng Nhập
-                    </Link>
+                    {
+                        state.login ? undefined : <Link variant="button" color="#00F" href="login" sx={{ my: 1, mx: 1.5 }} > Đăng Nhập </Link>
+                    }
 
-                    <Link
-                        variant="button"
-                        color="#00F"
-                        href="register"
-                        sx={{ my: 1, mx: 1.5 }}
-                    >
-                        Đăng Kí
-                    </Link>
+                    {
+                        state.login ? undefined : <Link variant="button" color="#00F" href="register" sx={{ my: 1, mx: 1.5 }}                    >                      Đăng Kí                    </Link>
+                    }
 
-                    <Link
-                        variant="button"
-                        color="#00F"
-                        href="profile"
-                        sx={{ my: 1, mx: 1.5 }}
-                    >
-                        Cá Nhân
-                    </Link>
+                    {
+                        state.login ? <Link variant="button" color="#00F" href="profile" sx={{ my: 1, mx: 1.5 }}                    >                        Cá Nhân                    </Link> : undefined
+                    }
+
+
                 </nav>
             </Toolbar>
         </AppBar>
