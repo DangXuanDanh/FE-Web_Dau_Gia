@@ -79,7 +79,7 @@ async function loadproductMaxPrice() {
     <div>
       <Container>
         <Grid container spacing={1}>
-          <Grid item sx={{ py: 4, mx:[0,3] }}>
+          <Grid sx={{ py: [4,4], mx:[0,3] }}>
             <Chip label="Home" onClick={handleClick} />
           </Grid>
           {
@@ -102,7 +102,7 @@ async function loadproductMaxPrice() {
               <CardMedia
                 component="img"
                 height="140"
-                image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+                image="http://res.cloudinary.com/auction1190/image/upload/v1635599430/irejfiyccaadgaklalcw.png"
                 alt="green iguana"
               />
               <CardContent>
@@ -117,7 +117,7 @@ async function loadproductMaxPrice() {
               <CardMedia
                 component="img"
                 height="140"
-                image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+                image="http://res.cloudinary.com/auction1190/image/upload/v1635599430/irejfiyccaadgaklalcw.png"
                 alt="green iguana"
               />
               <CardContent>
@@ -132,7 +132,7 @@ async function loadproductMaxPrice() {
               <CardMedia
                 component="img"
                 height="140"
-                image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+                image="http://res.cloudinary.com/auction1190/image/upload/v1635599430/irejfiyccaadgaklalcw.png"
                 alt="green iguana"
               />
               <CardContent>
@@ -147,7 +147,7 @@ async function loadproductMaxPrice() {
               <CardMedia
                 component="img"
                 height="140"
-                image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+                image="http://res.cloudinary.com/auction1190/image/upload/v1635599430/irejfiyccaadgaklalcw.png"
                 alt="green iguana"
               />
               <CardContent>
@@ -162,7 +162,7 @@ async function loadproductMaxPrice() {
               <CardMedia
                 component="img"
                 height="140"
-                image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+                image="http://res.cloudinary.com/auction1190/image/upload/v1635599430/irejfiyccaadgaklalcw.png"
                 alt="green iguana"
               />
               <CardContent>
