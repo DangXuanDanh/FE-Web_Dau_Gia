@@ -17,7 +17,7 @@ import Profile from './views/profile/profile';
 import ChangePassword from './views/profile/changepassword';
 import AdminDB from './views/admin/admin';
 import Users from './views/admin/user/Users';
-import Category from './views/category';
+// import Category from './views/category';
 
 
 import Header from './components/header';
@@ -31,7 +31,7 @@ function App() {
         <Switch>
           <NavRoute exact path="/" component={Home} />
           <Route path="/detail" render={function () { return <Detail /> }} />
-          <Route path="/category" render={function () { return <Category /> }} />
+          {/* <Route path="/category" render={function () { return <Category /> }} /> */}
           <NavRoute path="/post" component={Post} />
           <Route path="/login" render={function () { return <Login /> }} />
           <Route path="/register" render={function () { return <Register /> }} />
