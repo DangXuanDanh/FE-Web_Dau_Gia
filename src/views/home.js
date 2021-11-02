@@ -72,8 +72,17 @@ React.useEffect(() => {
 }, [])
 async function loadproductMaxPrice() {
   const res = await axiosInstance.get(`sanpham/get/MaxPrice`).then((a) => {
-    console.log(a.data)
     setproductMaxPrice(a.data)
+  });
+}
+// 5 san pham gan ket thuc
+const [nearEnd, setnearEnd] = React.useState([]);
+React.useEffect(() => {
+  loadnearEnd()
+}, [])
+async function loadnearEnd() {
+  const res = await axiosInstance.get(`sanpham/get/NearEnd`).then((a) => {
+    setnearEnd(a.data)
   });
 }
   return (
@@ -96,12 +105,42 @@ async function loadproductMaxPrice() {
         </Grid>
         <Grid>
           <Typography variant="subtitle1" gutterBottom component="h4">
-            Top 5 Products With The Highest Prices 
+            San phẩm giá cao nhất
           </Typography>
         </Grid>
         <Grid container spacing={1}>
         {
             productMaxPrice.map((item, index) => {
+              return <Grid sx={{xs:2}} style={{margin:10}}>
+              <Card sx={{ width:210 }}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={item.anhdaidien}
+                  />
+                  <CardContent>
+                    <Link href="#" underline="none">
+                      {item.tensanpham}
+                    </Link>
+                    <Typography gutterBottom variant="h6" component="div">
+                      {item.giamuangay}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+            })
+          }
+        </Grid>
+        <Grid>
+          <Typography variant="subtitle1" gutterBottom component="h4">
+            Sản phẩm gần kết thúc
+          </Typography>
+        </Grid>
+        <Grid container spacing={1}>
+        {
+            nearEnd.map((item, index) => {
               return <Grid sx={{xs:2}} style={{margin:10}}>
               <Card sx={{ width:210 }}>
                 <CardActionArea>
