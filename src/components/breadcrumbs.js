@@ -15,7 +15,7 @@ export default function BreadCrumb(props) {
   <Link
     underline="hover"
     color="inherit"
-    href={"/danhmuc?id="+props.madanhmuc}
+    href={"/category?id="+props.madanhmuc}
   >
     {
       props.tendanhmuc

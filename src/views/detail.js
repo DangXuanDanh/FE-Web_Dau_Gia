@@ -25,6 +25,11 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert from '@mui/material/Alert';
 import Divider from '@mui/material/Divider';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 import ReactQuill from "react-quill";
@@ -36,7 +41,7 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 
 
-import { formatDuration, intervalToDuration } from 'date-fns';
+import { formatDuration, intervalToDuration, startOfYesterday } from 'date-fns';
 
 import reducer from '../reducers/DetailReducer';
 import reactDom from 'react-dom';
@@ -52,9 +57,19 @@ import { StaticTimePicker } from '@mui/lab';
 export default function Detail(props) {
   const queryParams = new URLSearchParams(window.location.search);
   const idProduct = queryParams.get('id') || 1
-  const idUser = JSON.parse(localStorage.getItem('user')).mataikhoan || 13
+  const idUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).mataikhoan : 13
 
   const [state, dispatch] = React.useReducer(reducer, { relatedProduct: [], data: { mota: '', taikhoan: {}, anhsanphams: [], giacuoc: 0, danhmuc: {} }, history: [], error: {}, popup: { open: false, type: 'success', mess: 'auct successfully' } });
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleDialogOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpen(false);
+  };
 
   const modules = {
     toolbar: false,
@@ -82,6 +97,8 @@ export default function Detail(props) {
   ];
 
   async function TryToBid() {
+    setOpen(false);
+
     const data = {
       masanpham: idProduct,
       mataikhoan: idUser,
@@ -328,7 +345,7 @@ export default function Detail(props) {
                     startAdornment: <InputAdornment position="start">vnđ</InputAdornment>,
                   }}
                 />
-                <Button onClick={TryToBid}>
+                <Button variant="contained" onClick={handleDialogOpen}>
                   Đấu giá
                 </Button>
               </FormControl>
@@ -365,9 +382,16 @@ export default function Detail(props) {
             </Grid>
           </Grid>
 
+          <br />
 
           <Typography variant="subtitle1" gutterBottom component="div">
-            Mô tả
+            {"Mô tả "}
+            {
+              idUser == state.data.manguoidang ?             <Button variant="outlined" onClick={undefined}>
+              Sửa mô tả
+            </Button> : undefined
+            }
+
           </Typography>
           <ReactQuill
             value={state.data.mota}
@@ -411,6 +435,30 @@ export default function Detail(props) {
             {state.popup.mess}
           </Alert>
         </Snackbar>
+
+        <div>
+      <Dialog
+        open={open}
+        onClose={handleDialogClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Xác nhận đấu giá?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Bạn đồng ý đấu giá sản phẩm <b>{state.data.tensanpham}</b> với mức giá <b>{new Intl.NumberFormat().format(state.data.giacuoc)} vnđ</b>?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose}>Khoan đã!</Button>
+          <Button onClick={TryToBid} autoFocus>
+            Đồng ý
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
 
       </Container >
 

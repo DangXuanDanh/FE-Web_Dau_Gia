@@ -20,12 +20,20 @@ import { axiosInstance, parseJwt } from '../utils/axios';
 
 import reducer from '../reducers/HomeReducer';
 
+import { useHistory } from 'react-router-dom';
+
 export default function Header() {
     const [age, setAge] = React.useState('');
     const [data, setData] = React.useState([]);
 
     const [state, dispatch] = React.useReducer(reducer, { data: {}, login: {} });
+    const history = useHistory()
 
+
+    function SelectCategory(id){
+        history.push('/category?id='+id)
+        window.location.reload()
+    }
 
     const handleChange = (event) => {
         setAge(event.target.value);
@@ -74,6 +82,7 @@ export default function Header() {
                             onChange={handleChange}
                             autoWidth
                             label="Danh mục"
+                            onChange={(e)=>SelectCategory(e.target.value)}
                         >
                             <MenuItem value="">
                                 <em>None</em>
