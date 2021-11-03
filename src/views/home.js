@@ -85,6 +85,16 @@ async function loadnearEnd() {
     setnearEnd(a.data)
   });
 }
+// 5 san pham luot ra gia cao nhat
+const [count, setcount] = React.useState([]);
+React.useEffect(() => {
+  loadcount()
+}, [])
+async function loadcount() {
+  const res = await axiosInstance.get(`sanpham/get/Count`).then((a) => {
+    setcount(a.data)
+  });
+}
   return (
     <div>
       <Container>
@@ -112,7 +122,7 @@ async function loadnearEnd() {
         {
             productMaxPrice.map((item, index) => {
               return <Grid sx={{xs:2}} style={{margin:10}}>
-              <Card sx={{ width:210 }}>
+              <Card sx={{ width:210, height:280 }}>
                 <CardActionArea>
                   <CardMedia
                     component="img"
@@ -142,7 +152,7 @@ async function loadnearEnd() {
         {
             nearEnd.map((item, index) => {
               return <Grid sx={{xs:2}} style={{margin:10}}>
-              <Card sx={{ width:210 }}>
+              <Card sx={{ width:210, height:280 }}>
                 <CardActionArea>
                   <CardMedia
                     component="img"
@@ -163,7 +173,37 @@ async function loadnearEnd() {
             })
           }
         </Grid>
-        <Grid container spacing={4}>
+        <Grid>
+          <Typography variant="subtitle1" gutterBottom component="h4">
+            Sản phẩm lượt ra giá cao nhất
+          </Typography>
+        </Grid>
+        <Grid container spacing={1}>
+        {
+            count.map((item, index) => {
+              return <Grid sx={{xs:2}} style={{margin:10}}>
+              <Card sx={{ width:210, height:280 }}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={item.anhdaidien}
+                  />
+                  <CardContent>
+                    <Link href="#" underline="none">
+                      {item.tensanpham}
+                    </Link>
+                    <Typography gutterBottom variant="h6" component="div">
+                      {item.giamuangay}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+            })
+          }
+        </Grid>
+        {/* <Grid container spacing={4}>
 
           <Grid item xs={8}>
             <Typography variant="subtitle1" gutterBottom component="div">
@@ -172,9 +212,6 @@ async function loadnearEnd() {
             <Typography variant="subtitle1" gutterBottom component="div">
               Product List::::::
             </Typography>
-            {/* <Item id="48" />
-            <Item id="51" />
-            <Item id="3" /> */}
             {
                 state.data.map((element, i) =>
                 <Item key={i} idi={element.masanpham} />
@@ -182,7 +219,7 @@ async function loadnearEnd() {
               }
             
 
-            {/* <Link href="detail">
+            <Link href="detail">
           <Button variant="contained">
             product 1
           </Button>
@@ -191,13 +228,13 @@ async function loadnearEnd() {
           <Button>
             product 2
           </Button>
-        </Link> */}
+        </Link>
 
             <Typography variant="subtitle1" gutterBottom component="div">
               Pagination
             </Typography>
           </Grid>
-        </Grid>
+        </Grid> */}
       </Container>
     </div>
   )
