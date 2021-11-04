@@ -23,6 +23,7 @@ import { Chip } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 import NumberFormat from 'react-number-format';
+import Product from '../components/product';
 
 // import { useForm } from 'react-hook-form';
 // import { useHistory } from 'react-router-dom';
@@ -121,32 +122,11 @@ async function loadcount() {
         <Grid container spacing={1}>
         {
             productMaxPrice.map((item, index) => {
-              return <Grid sx={{xs:2}} style={{margin:10}}>
-              <Card sx={{ width:210, height:280 }}>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={item.anhdaidien}
-                  />
-                  <CardContent>
-                    <Link href="#" underline="none">
-                      {item.tensanpham}
-                    </Link>
-                    <Typography gutterBottom variant="h6" component="div">
-                    <NumberFormat
-                    thousandsGroupStyle="thousand"
-                    value={item.giamuangay}
-                    decimalSeparator="."
-                    displayType="text"
-                    type="text"
-                    thousandSeparator={true}
-                    suffix=" VNĐ" />
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
+              return <Product 
+              tensanpham={item.tensanpham}
+              giamuangay={item.giamuangay}
+              anhdaidien={item.anhdaidien}
+              />
             })
           }
         </Grid>
@@ -158,32 +138,11 @@ async function loadcount() {
         <Grid container spacing={1}>
         {
             nearEnd.map((item, index) => {
-              return <Grid sx={{xs:2}} style={{margin:10}}>
-              <Card sx={{ width:210, height:280 }}>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={item.anhdaidien}
-                  />
-                  <CardContent>
-                    <Link href="#" underline="none">
-                      {item.tensanpham}
-                    </Link>
-                    <Typography gutterBottom variant="h6" component="div">
-                    <NumberFormat
-                    thousandsGroupStyle="thousand"
-                    value={item.giamuangay}
-                    decimalSeparator="."
-                    displayType="text"
-                    type="text"
-                    thousandSeparator={true}
-                    suffix=" VNĐ" />
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
+              return <Product 
+              tensanpham={item.tensanpham}
+              giamuangay={item.giamuangay}
+              anhdaidien={item.anhdaidien}
+              />
             })
           }
         </Grid>
@@ -195,32 +154,11 @@ async function loadcount() {
         <Grid container spacing={1}>
         {
             count.map((item, index) => {
-              return <Grid sx={{xs:2}} style={{margin:10}}>
-              <Card sx={{ width:210, height:280 }}>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={item.anhdaidien}
-                  />
-                  <CardContent>
-                    <Link href="#" underline="none">
-                      {item.tensanpham}
-                    </Link>
-                    <Typography gutterBottom variant="h6" component="div">
-                    <NumberFormat
-                    thousandsGroupStyle="thousand"
-                    value={item.giamuangay}
-                    decimalSeparator="."
-                    displayType="text"
-                    type="text"
-                    thousandSeparator={true}
-                    suffix=" VNĐ" />
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
+              return <Product 
+              tensanpham={item.tensanpham}
+              giamuangay={item.giamuangay}
+              anhdaidien={item.anhdaidien}
+              />
             })
           }
         </Grid>
