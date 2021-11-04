@@ -22,7 +22,7 @@ import Paper from '@mui/material/Paper';
 import { Chip } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
-
+import NumberFormat from 'react-number-format';
 
 // import { useForm } from 'react-hook-form';
 // import { useHistory } from 'react-router-dom';
@@ -134,7 +134,14 @@ async function loadcount() {
                       {item.tensanpham}
                     </Link>
                     <Typography gutterBottom variant="h6" component="div">
-                      {item.giamuangay}
+                    <NumberFormat
+                    thousandsGroupStyle="thousand"
+                    value={item.giamuangay}
+                    decimalSeparator="."
+                    displayType="text"
+                    type="text"
+                    thousandSeparator={true}
+                    suffix=" VNĐ" />
                     </Typography>
                   </CardContent>
                 </CardActionArea>
@@ -164,7 +171,14 @@ async function loadcount() {
                       {item.tensanpham}
                     </Link>
                     <Typography gutterBottom variant="h6" component="div">
-                      {item.giamuangay}
+                    <NumberFormat
+                    thousandsGroupStyle="thousand"
+                    value={item.giamuangay}
+                    decimalSeparator="."
+                    displayType="text"
+                    type="text"
+                    thousandSeparator={true}
+                    suffix=" VNĐ" />
                     </Typography>
                   </CardContent>
                 </CardActionArea>
@@ -194,7 +208,14 @@ async function loadcount() {
                       {item.tensanpham}
                     </Link>
                     <Typography gutterBottom variant="h6" component="div">
-                      {item.giamuangay}
+                    <NumberFormat
+                    thousandsGroupStyle="thousand"
+                    value={item.giamuangay}
+                    decimalSeparator="."
+                    displayType="text"
+                    type="text"
+                    thousandSeparator={true}
+                    suffix=" VNĐ" />
                     </Typography>
                   </CardContent>
                 </CardActionArea>
