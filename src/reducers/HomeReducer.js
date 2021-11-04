@@ -11,6 +11,11 @@ export default function DetailReducer(state, action) {
       ...state,
       login: action.payload.data
     }
+    case 'danhmuc':
+      return {
+        ...state,
+        danhmuc: action.payload.data
+      }
     default:
       return state;
   }

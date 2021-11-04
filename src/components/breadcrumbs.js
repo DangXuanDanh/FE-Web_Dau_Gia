@@ -5,13 +5,23 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 
 export default function BreadCrumb(props) {
 
-
     return (
 
 <Breadcrumbs my={2} aria-label="breadcrumb">
   <Link underline="hover" color="inherit" href="/">
     Home
   </Link>
+  {
+    props.tendanhmuccha ?   <Link
+    underline="hover"
+    color="inherit"
+    href={"/category?id="+props.madanhmuccha}
+  >
+    {
+      props.tendanhmuccha
+    }
+  </Link> : undefined
+  }
   <Link
     underline="hover"
     color="inherit"
@@ -21,7 +31,7 @@ export default function BreadCrumb(props) {
       props.tendanhmuc
     }
   </Link>
-  <Typography color="text.primary">{props.tensanpham}</Typography>
+{ props.tensanpham ? <Typography color="text.primary">{props.tensanpham}</Typography> : undefined}
 </Breadcrumbs>
 
 
