@@ -24,6 +24,7 @@ import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 import NumberFormat from 'react-number-format';
 import { useHistory } from "react-router-dom";
+import PersonIcon from '@mui/icons-material/Person';
 
 function Product({
   masanpham,
@@ -47,31 +48,32 @@ function Product({
   const history = useHistory();
 
   const onClickDetail = () => {
-    history.push(`/product/detail/${id}`);
+    history.push(`detail`);
   };
 
   return (
     <Grid sx={{xs:2}} style={{margin:10}}>
     <Card sx={{ width:210, height:280 }}>
-      <CardActionArea>
+      <CardActionArea onClick={onClickDetail}>
         <CardMedia
           component="img"
           height="140"
           image={anhdaidien}
         />
         <CardContent>
-          <Link href="#" underline="none">
+          <Typography variant="subtitle2" style={{textAlign:"center"}}>
             {tensanpham}
-          </Link>
-          <Typography gutterBottom variant="h6" component="div">
-          <NumberFormat
-          thousandsGroupStyle="thousand"
-          value={giamuangay}
-          decimalSeparator="."
-          displayType="text"
-          type="text"
-          thousandSeparator={true}
-          suffix=" VNĐ" />
+          </Typography>
+          <Typography gutterBottom variant="body2" component="div">
+              <PersonIcon />
+            <NumberFormat
+            thousandsGroupStyle="thousand"
+            value={giamuangay}
+            decimalSeparator="."
+            displayType="text"
+            type="text"
+            thousandSeparator={true}
+            suffix=" VNĐ" />
           </Typography>
         </CardContent>
       </CardActionArea>
