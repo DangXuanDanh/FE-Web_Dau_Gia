@@ -25,6 +25,7 @@ import { CardActionArea } from '@mui/material';
 import NumberFormat from 'react-number-format';
 import { useHistory } from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
+import { axiosInstance, parseJwt } from '../utils/axios';
 
 function Product({
   masanpham,
@@ -48,7 +49,7 @@ function Product({
   const history = useHistory();
 
   const onClickDetail = () => {
-    history.push(`detail`);
+    history.push(`detail/${masanpham}`);
   };
 
   return (
@@ -65,7 +66,7 @@ function Product({
             {tensanpham}
           </Typography>
           <Typography gutterBottom variant="body2" component="div">
-              <PersonIcon />
+              {/* <PersonIcon /> */}
             <NumberFormat
             thousandsGroupStyle="thousand"
             value={giamuangay}

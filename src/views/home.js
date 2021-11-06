@@ -66,7 +66,7 @@ export default function Home(props) {
       setData(a.data)
     });
   }
-// Lay 5 san pham cao gia nhat
+    // Lay 5 san pham cao gia nhat
 const [productMaxPrice, setproductMaxPrice] = React.useState([]);
 React.useEffect(() => {
   loadproductMaxPrice()
@@ -96,6 +96,7 @@ async function loadcount() {
     setcount(a.data)
   });
 }
+
   return (
     <div>
       <Container>
@@ -126,6 +127,7 @@ async function loadcount() {
               tensanpham={item.tensanpham}
               giamuangay={item.giamuangay}
               anhdaidien={item.anhdaidien}
+              masanpham={item.masanpham}
               />
             })
           }
@@ -142,6 +144,7 @@ async function loadcount() {
               tensanpham={item.tensanpham}
               giamuangay={item.giamuangay}
               anhdaidien={item.anhdaidien}
+              masanpham={item.masanpham}
               />
             })
           }
@@ -158,6 +161,7 @@ async function loadcount() {
               tensanpham={item.tensanpham}
               giamuangay={item.giamuangay}
               anhdaidien={item.anhdaidien}
+              masanpham={item.masanpham}
               />
             })
           }

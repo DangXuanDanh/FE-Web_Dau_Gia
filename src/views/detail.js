@@ -30,7 +30,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import { useParams } from "react-router-dom";
 
 import ReactQuill from "react-quill";
 
@@ -56,7 +56,7 @@ import { StaticTimePicker } from '@mui/lab';
 
 export default function Detail(props) {
   const queryParams = new URLSearchParams(window.location.search);
-  const idProduct = queryParams.get('id') || 1
+  const { idProduct } = useParams() || 1
   const idUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).mataikhoan : 13
 
   const [state, dispatch] = React.useReducer(reducer, { relatedProduct: [], data: { mota: '', taikhoan: {}, anhsanphams: [], giacuoc: 0, danhmuc: {} }, history: [], error: {}, popup: { open: false, type: 'success', mess: 'auct successfully' } });
