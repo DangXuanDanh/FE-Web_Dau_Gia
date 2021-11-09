@@ -10,6 +10,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import './Css/product.css';
 import { useState } from "react";
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
 function Product({
   masanpham,
@@ -73,8 +74,7 @@ function Product({
           </Typography>
           {evaluateStar({luot_ra_gia_hien_tai})} ({luot_ra_gia_hien_tai})
           <Typography gutterBottom variant="body2" component="div">
-            Giá mua ngay: 
-              {/* <PersonIcon /> */}
+            <MonetizationOnIcon fontSize="small" />Giá mua ngay: 
             <NumberFormat
             thousandsGroupStyle="thousand"
             value={giamuangay}
@@ -85,7 +85,7 @@ function Product({
             suffix=" VNĐ" />
           </Typography>
           <Typography gutterBottom variant="body2" component="div">
-            Giá hiện tại: 
+          <MonetizationOnIcon fontSize="small" /> Giá hiện tại: 
               {/* <PersonIcon /> */}
             <NumberFormat
             thousandsGroupStyle="thousand"
