@@ -57,15 +57,15 @@ export default function Home(props) {
     });
   }
 //Lay danh muc
-  const [data, setData] = React.useState([]);
-  React.useEffect(() => {
-    loadCategory()
-  }, [])
-  async function loadCategory() {
-    const res = await axiosInstance.get(`danhmuc`).then((a) => {
-      setData(a.data)
-    });
-  }
+  // const [data, setData] = React.useState([]);
+  // React.useEffect(() => {
+  //   loadCategory()
+  // }, [])
+  // async function loadCategory() {
+  //   const res = await axiosInstance.get(`danhmuc`).then((a) => {
+  //     setData(a.data)
+  //   });
+  // }
     // Lay 5 san pham cao gia nhat
 const [productMaxPrice, setproductMaxPrice] = React.useState([]);
 React.useEffect(() => {
@@ -100,7 +100,7 @@ async function loadcount() {
   return (
     <div>
       <Container>
-        <Grid container spacing={1}>
+        {/* <Grid container spacing={1}>
           <Grid sx={{ py: [4,4], mx:[0,3] }}>
             <Chip label="Home" onClick={handleClick} />
           </Grid>
@@ -114,13 +114,13 @@ async function loadcount() {
               </Grid>
             })
           }
-        </Grid>
+        </Grid> */}
         <Grid>
           <Typography variant="subtitle1" gutterBottom component="h4">
             San phẩm giá cao nhất
           </Typography>
         </Grid>
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
         {
             productMaxPrice.map((item, index) => {
               return <Product 
@@ -128,6 +128,8 @@ async function loadcount() {
               giamuangay={item.giamuangay}
               anhdaidien={item.anhdaidien}
               masanpham={item.masanpham}
+              luot_ra_gia_hien_tai={item.luot_ra_gia_hien_tai}
+              giakhoidiem={item.giakhoidiem}
               />
             })
           }
@@ -145,6 +147,7 @@ async function loadcount() {
               giamuangay={item.giamuangay}
               anhdaidien={item.anhdaidien}
               masanpham={item.masanpham}
+              luot_ra_gia_hien_tai={item.luot_ra_gia_hien_tai}
               />
             })
           }
@@ -162,6 +165,7 @@ async function loadcount() {
               giamuangay={item.giamuangay}
               anhdaidien={item.anhdaidien}
               masanpham={item.masanpham}
+              luot_ra_gia_hien_tai={item.luot_ra_gia_hien_tai}
               />
             })
           }

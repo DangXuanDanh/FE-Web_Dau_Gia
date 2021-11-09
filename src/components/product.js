@@ -1,31 +1,15 @@
-import StarIcon from '@mui/icons-material/StarBorder';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
-import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import GlobalStyles from '@mui/material/GlobalStyles';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import Toolbar from '@mui/material/Toolbar';
-import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
-import InputLabel from '@mui/material/InputLabel';
-import Input from '@mui/material/Input';
-import InputAdornment from '@mui/material/InputAdornment';
 import * as React from 'react';
-import Paper from '@mui/material/Paper';
-import { Chip } from '@mui/material';
-import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea } from '@mui/material';
+import { Card, CardContent, CardActions, CardMedia, Button } from '@mui/material';
 import NumberFormat from 'react-number-format';
 import { useHistory } from "react-router-dom";
-import PersonIcon from '@mui/icons-material/Person';
-import { axiosInstance, parseJwt } from '../utils/axios';
+import TouchAppRoundedIcon from '@mui/icons-material/TouchAppRounded';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarHalfIcon from '@mui/icons-material/StarHalf';
+import './Css/product.css';
+import { useState } from "react";
 
 function Product({
   masanpham,
@@ -43,29 +27,46 @@ function Product({
   ngayketthuc,
   is_delete,
   danhmucMadanhmuc,
-  taikhoanMataikhoan
+  taikhoanMataikhoan,
+  luot_ra_gia_hien_tai
 }) {
-
+  const [evaluatestar, setEvaluateStar] = useState([]);
   const history = useHistory();
-
+  const evaluateStar = (luot_ra_gia_hien_tai) => {
+    let setEvaluateStar=[];
+    let temp=luot_ra_gia_hien_tai;
+    for(;luot_ra_gia_hien_tai<100 && setEvaluateStar.length<6;){
+      setEvaluateStar.push(<StarIcon fontSize="small" />)
+      temp-=100
+    }
+    if(temp>50 && setEvaluateStar.length<6) {setEvaluateStar.push(<StarHalfIcon fontSize="small" />);}
+    else{
+      for(;setEvaluateStar.length<6;){
+        setEvaluateStar.push(<StarBorderIcon fontSize="small" />)
+      }
+    }
+    return setEvaluateStar
+  }
   const onClickDetail = () => {
     history.push(`detail/${masanpham}`);
   };
 
   return (
-    <Grid sx={{xs:2}} style={{margin:10}}>
-    <Card sx={{ width:210, height:280 }}>
-      <CardActionArea onClick={onClickDetail}>
+    <Grid  style={{margin:10}}>
+    <Card sx={ 4 } className="cardProduct">
         <CardMedia
           component="img"
           height="140"
           image={anhdaidien}
+          className="imageProduct"
         />
         <CardContent>
           <Typography variant="subtitle2" style={{textAlign:"center"}}>
             {tensanpham}
           </Typography>
+          {evaluateStar({luot_ra_gia_hien_tai})} ({luot_ra_gia_hien_tai})
           <Typography gutterBottom variant="body2" component="div">
+            Giá mua ngay: 
               {/* <PersonIcon /> */}
             <NumberFormat
             thousandsGroupStyle="thousand"
@@ -76,8 +77,24 @@ function Product({
             thousandSeparator={true}
             suffix=" VNĐ" />
           </Typography>
+          <Typography gutterBottom variant="body2" component="div">
+            Giá hiện tại: 
+              {/* <PersonIcon /> */}
+            <NumberFormat
+            thousandsGroupStyle="thousand"
+            value={giakhoidiem}
+            decimalSeparator="."
+            displayType="text"
+            type="text"
+            thousandSeparator={true}
+            suffix=" VNĐ" />
+          </Typography>
         </CardContent>
-      </CardActionArea>
+        <CardActions>
+          <Button className="detailProduct" variant="outlined" size="large" startIcon={<TouchAppRoundedIcon />} onClick={onClickDetail}>
+            Xem chi tiết
+          </Button>
+        </CardActions>
     </Card>
   </Grid>
   );

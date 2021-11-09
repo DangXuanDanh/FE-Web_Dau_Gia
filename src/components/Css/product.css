@@ -1,0 +1,13 @@
+.detailProduct {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+.imageProduct {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: auto !important;
+}
+.cardProduct {
+    width: 260px !important;
+    height: auto !important;
+}
