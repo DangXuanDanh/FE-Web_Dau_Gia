@@ -23,6 +23,7 @@ import { Chip } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 
+import Product from '../components/product';
 
 // import { useForm } from 'react-hook-form';
 // import { useHistory } from 'react-router-dom';
@@ -93,11 +94,21 @@ export default function Category(props) {
             {/* <Item id="48" />
             <Item id="51" />
             <Item id="3" /> */}
+      <Container>
+        <Grid container>
+
             {
               state.data.map((element, i) =>
-                <Item key={i} idi={element.masanpham} />
+              <Product key={i}
+              tensanpham={element.tensanpham}
+              giamuangay={element.giamuangay}
+              anhdaidien={element.anhdaidien}
+              masanpham={element.masanpham}
+              />
               )
             }
+        </Grid>
+        </Container>
 
 
             {/* <Link href="detail">

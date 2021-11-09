@@ -28,7 +28,8 @@ function Product({
   is_delete,
   danhmucMadanhmuc,
   taikhoanMataikhoan,
-  luot_ra_gia_hien_tai
+  luot_ra_gia_hien_tai,
+  stay
 }) {
   const [evaluatestar, setEvaluateStar] = useState([]);
   const history = useHistory();
@@ -48,7 +49,13 @@ function Product({
     return setEvaluateStar
   }
   const onClickDetail = () => {
-    history.push(`detail/${masanpham}`);
+    if (!stay)
+    {
+      history.push(`detail/${masanpham}`);
+    } else {
+      history.replace(`${masanpham}`);
+    }
+    window.location.reload()
   };
 
   return (

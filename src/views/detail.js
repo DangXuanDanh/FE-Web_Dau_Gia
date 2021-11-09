@@ -32,6 +32,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useParams } from "react-router-dom";
 
+import Product from '../components/product';
+
 import ReactQuill from "react-quill";
 
 import Item from '../components/item';
@@ -305,7 +307,7 @@ export default function Detail(props) {
               <Typography variant="subtitle1" gutterBottom component="div">
                 Giá khởi điểm:
                 {
-                  " "+new Intl.NumberFormat().format(state.data.giakhoidiem)
+                  " " + new Intl.NumberFormat().format(state.data.giakhoidiem)
                 } vnđ
               </Typography>
               {
@@ -313,7 +315,7 @@ export default function Detail(props) {
                 state.data.giamuangay ? <Typography variant="subtitle1" gutterBottom component="div">
                   Giá mua ngay:
                   {
-                    " "+new Intl.NumberFormat().format(state.data.giamuangay)
+                    " " + new Intl.NumberFormat().format(state.data.giamuangay)
                   } vnđ
                 </Typography> : undefined
 
@@ -321,13 +323,13 @@ export default function Detail(props) {
               <Typography variant="subtitle1" gutterBottom component="div">
                 Giá hiện tại:
                 {
-                  " "+ (state.history.length > 0 ? new Intl.NumberFormat().format(state.history[0].gia) : new Intl.NumberFormat().format(state.data.giakhoidiem))
+                  " " + (state.history.length > 0 ? new Intl.NumberFormat().format(state.history[0].gia) : new Intl.NumberFormat().format(state.data.giakhoidiem))
                 } vnđ
               </Typography>
               <Typography variant="subtitle1" gutterBottom component="div">
                 Bước giá:
                 {
-                  " "+ new Intl.NumberFormat().format(state.data.buocgia)
+                  " " + new Intl.NumberFormat().format(state.data.buocgia)
                 } vnđ
               </Typography>
 
@@ -366,7 +368,7 @@ export default function Detail(props) {
               {
                 state.history.map((element, i) =>
                   <div key={i}>
-                    <Divider/>
+                    <Divider />
                     <Typography variant="caption" gutterBottom component="div">
                       Thời điểm: {element.ngaydaugia}
                     </Typography>
@@ -387,9 +389,9 @@ export default function Detail(props) {
           <Typography variant="subtitle1" gutterBottom component="div">
             {"Mô tả "}
             {
-              idUser == state.data.manguoidang ?             <Button variant="outlined" onClick={undefined}>
-              Sửa mô tả
-            </Button> : undefined
+              idUser == state.data.manguoidang ? <Button variant="outlined" onClick={undefined}>
+                Sửa mô tả
+              </Button> : undefined
             }
 
           </Typography>
@@ -408,11 +410,23 @@ export default function Detail(props) {
           <br />
           <br />
           Sản phẩm tương tự:
-          {
-            state.relatedProduct.map((element, i) =>
-              <Item key={i} idi={element.masanpham} />
-            )
-          }
+          <Container>
+            <Grid container>
+
+              {
+                state.relatedProduct.map((element, i) =>
+                  <Product key={i}
+                    tensanpham={element.tensanpham}
+                    giamuangay={element.giamuangay}
+                    anhdaidien={element.anhdaidien}
+                    masanpham={element.masanpham}
+                    stay={true}
+                  />
+                )
+              }
+
+            </Grid>
+          </Container>
           {/* <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/HTML5_logo_resized.svg/300px-HTML5_logo_resized.svg.png"/> */}
 
 
@@ -437,28 +451,28 @@ export default function Detail(props) {
         </Snackbar>
 
         <div>
-      <Dialog
-        open={open}
-        onClose={handleDialogClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Xác nhận đấu giá?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Bạn đồng ý đấu giá sản phẩm <b>{state.data.tensanpham}</b> với mức giá <b>{new Intl.NumberFormat().format(state.data.giacuoc)} vnđ</b>?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose}>Khoan đã!</Button>
-          <Button onClick={TryToBid} autoFocus>
-            Đồng ý
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+          <Dialog
+            open={open}
+            onClose={handleDialogClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Xác nhận đấu giá?"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Bạn đồng ý đấu giá sản phẩm <b>{state.data.tensanpham}</b> với mức giá <b>{new Intl.NumberFormat().format(state.data.giacuoc)} vnđ</b>?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleDialogClose}>Khoan đã!</Button>
+              <Button onClick={TryToBid} autoFocus>
+                Đồng ý
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
 
       </Container >
 

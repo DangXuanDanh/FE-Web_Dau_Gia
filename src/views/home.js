@@ -38,9 +38,9 @@ import reducer from '../reducers/HomeReducer';
 
 export default function Home(props) {
 
-  const [state, dispatch] = React.useReducer(reducer, {data:[]});
+  const [state, dispatch] = React.useReducer(reducer, { data: [] });
   const handleClick = (event) => {
-    
+
   };
   React.useEffect(() => {
     LoadInfo()
@@ -56,61 +56,62 @@ export default function Home(props) {
       });
     });
   }
-//Lay danh muc
-  // const [data, setData] = React.useState([]);
-  // React.useEffect(() => {
-  //   loadCategory()
-  // }, [])
-  // async function loadCategory() {
-  //   const res = await axiosInstance.get(`danhmuc`).then((a) => {
-  //     setData(a.data)
-  //   });
-  // }
-    // Lay 5 san pham cao gia nhat
-const [productMaxPrice, setproductMaxPrice] = React.useState([]);
-React.useEffect(() => {
-  loadproductMaxPrice()
-}, [])
-async function loadproductMaxPrice() {
-  const res = await axiosInstance.get(`sanpham/get/MaxPrice`).then((a) => {
-    setproductMaxPrice(a.data)
-  });
-}
-// 5 san pham gan ket thuc
-const [nearEnd, setnearEnd] = React.useState([]);
-React.useEffect(() => {
-  loadnearEnd()
-}, [])
-async function loadnearEnd() {
-  const res = await axiosInstance.get(`sanpham/get/NearEnd`).then((a) => {
-    setnearEnd(a.data)
-  });
-}
-// 5 san pham luot ra gia cao nhat
-const [count, setcount] = React.useState([]);
-React.useEffect(() => {
-  loadcount()
-}, [])
-async function loadcount() {
-  const res = await axiosInstance.get(`sanpham/get/Count`).then((a) => {
-    setcount(a.data)
-  });
-}
+  //Lay danh muc
+  const [data, setData] = React.useState([]);
+  React.useEffect(() => {
+    loadCategory()
+  }, [])
+  async function loadCategory() {
+    const res = await axiosInstance.get(`danhmuc`).then((a) => {
+      setData(a.data)
+    });
+  }
+  // Lay 5 san pham cao gia nhat
+  const [productMaxPrice, setproductMaxPrice] = React.useState([]);
+  React.useEffect(() => {
+    loadproductMaxPrice()
+  }, [])
+  async function loadproductMaxPrice() {
+    const res = await axiosInstance.get(`sanpham/get/MaxPrice`).then((a) => {
+      setproductMaxPrice(a.data)
+    });
+  }
+  // 5 san pham gan ket thuc
+  const [nearEnd, setnearEnd] = React.useState([]);
+  React.useEffect(() => {
+    loadnearEnd()
+  }, [])
+  async function loadnearEnd() {
+    const res = await axiosInstance.get(`sanpham/get/NearEnd`).then((a) => {
+      setnearEnd(a.data)
+    });
+  }
+  // 5 san pham luot ra gia cao nhat
+  const [count, setcount] = React.useState([]);
+  React.useEffect(() => {
+    loadcount()
+  }, [])
+  async function loadcount() {
+    const res = await axiosInstance.get(`sanpham/get/Count`).then((a) => {
+      setcount(a.data)
+    });
+  }
 
   return (
     <div>
       <Container>
+        <br/>
         {/* <Grid container spacing={1}>
-          <Grid sx={{ py: [4,4], mx:[0,3] }}>
+          <Grid sx={{ py: [4, 4], mx: [0, 3] }}>
             <Chip label="Home" onClick={handleClick} />
           </Grid>
           {
             data.map((item, index) => {
-              return <Grid key={index} sx={{ py: 4, mx:[0,3] }}>
+              return <Grid key={index} sx={{ py: 4, mx: [0, 3] }}>
                 <Chip
-                value={item.madanhmuc}
-                label={item.tendanhmuc}
-                onClick={handleClick} />
+                  value={item.madanhmuc}
+                  label={item.tendanhmuc}
+                  onClick={handleClick} />
               </Grid>
             })
           }
@@ -120,16 +121,16 @@ async function loadcount() {
             San phẩm giá cao nhất
           </Typography>
         </Grid>
-        <Grid container spacing={2}>
-        {
+        <Grid container spacing={1}>
+          {
             productMaxPrice.map((item, index) => {
-              return <Product 
-              tensanpham={item.tensanpham}
-              giamuangay={item.giamuangay}
-              anhdaidien={item.anhdaidien}
-              masanpham={item.masanpham}
-              luot_ra_gia_hien_tai={item.luot_ra_gia_hien_tai}
-              giakhoidiem={item.giakhoidiem}
+              return <Product
+                tensanpham={item.tensanpham}
+                giamuangay={item.giamuangay}
+                anhdaidien={item.anhdaidien}
+                masanpham={item.masanpham}
+                luot_ra_gia_hien_tai={item.luot_ra_gia_hien_tai}
+                giakhoidiem={item.giakhoidiem}
               />
             })
           }
@@ -140,14 +141,15 @@ async function loadcount() {
           </Typography>
         </Grid>
         <Grid container spacing={1}>
-        {
+          {
             nearEnd.map((item, index) => {
-              return <Product 
-              tensanpham={item.tensanpham}
-              giamuangay={item.giamuangay}
-              anhdaidien={item.anhdaidien}
-              masanpham={item.masanpham}
-              luot_ra_gia_hien_tai={item.luot_ra_gia_hien_tai}
+              return <Product
+                tensanpham={item.tensanpham}
+                giamuangay={item.giamuangay}
+                anhdaidien={item.anhdaidien}
+                masanpham={item.masanpham}
+                luot_ra_gia_hien_tai={item.luot_ra_gia_hien_tai}
+                giakhoidiem={item.giakhoidiem}
               />
             })
           }
@@ -158,14 +160,15 @@ async function loadcount() {
           </Typography>
         </Grid>
         <Grid container spacing={1}>
-        {
+          {
             count.map((item, index) => {
-              return <Product 
-              tensanpham={item.tensanpham}
-              giamuangay={item.giamuangay}
-              anhdaidien={item.anhdaidien}
-              masanpham={item.masanpham}
-              luot_ra_gia_hien_tai={item.luot_ra_gia_hien_tai}
+              return <Product
+                tensanpham={item.tensanpham}
+                giamuangay={item.giamuangay}
+                anhdaidien={item.anhdaidien}
+                masanpham={item.masanpham}
+                luot_ra_gia_hien_tai={item.luot_ra_gia_hien_tai}
+                giakhoidiem={item.giakhoidiem}
               />
             })
           }
