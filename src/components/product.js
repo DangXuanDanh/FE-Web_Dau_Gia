@@ -43,13 +43,20 @@ function Product({
   ngayketthuc,
   is_delete,
   danhmucMadanhmuc,
-  taikhoanMataikhoan
+  taikhoanMataikhoan,
+  stay
 }) {
 
   const history = useHistory();
 
   const onClickDetail = () => {
-    history.push(`detail/${masanpham}`);
+    if (!stay)
+    {
+      history.push(`detail/${masanpham}`);
+    } else {
+      history.replace(`${masanpham}`);
+    }
+    window.location.reload()
   };
 
   return (
