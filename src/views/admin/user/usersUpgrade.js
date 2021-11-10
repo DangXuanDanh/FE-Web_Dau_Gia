@@ -12,18 +12,23 @@ function Users() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    //const [exp_seller, setexp_seller] = useState();
 
     const [errorMessage, setErrorMessage] = useState('');
     const [alertStatus, setAlertStatus] = useState(false);
     const [alertType, setAlertType] = useState('');
 
     async function UpgradeRole(id) {
+        var exp_seller = new Date();
+        exp_seller.setDate(exp_seller.getDate() + 7);
+        let item = {exp_seller};
         await fetch('http://localhost:3000/API/user/upgrade/' + id, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
+            body: JSON.stringify(item)
         }).then(function (response) {
             if (!response.ok) {
                 throw Error(response.statusText);
@@ -39,6 +44,7 @@ function Users() {
 
     useEffect(async () => {
         if (!loading) {
+            
             await fetch("http://localhost:3000/API/user/allactivate_upgrade", {
                 method: 'GET'
             }).then((response) => {

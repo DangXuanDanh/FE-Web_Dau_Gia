@@ -165,6 +165,40 @@ function Users() {
 
     }
 
+    async function AddCategory() {
+        const madanhmuccha = Id;
+        let item = {tendanhmuc ,madanhmuccha};
+        if (tendanhmuc == null) {
+            setErrorMessage("Tên Danh Mục không được để trống")
+            setAlertStatus(true)
+            setAlertType("error")
+        } else {
+            await fetch('http://localhost:3000/API/danhmuc/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(item)
+            }).then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw response;
+            }).then(async function (response) {
+                setErrorMessage("Thêm danh mục thành công")
+                setAlertStatus(true)
+                setAlertType("success")
+                hideAddCategoryModal();
+            }).catch(function (error) {
+                setErrorMessage("Thêm danh mục thất bại")
+                setAlertStatus(true)
+                setAlertType("error")
+            });
+        }
+
+    }
+
     async function EditCategoryRoot(id) {
         if (tendanhmuc == null) {
             setErrorMessage("Tên Danh Mục không được để trống")
@@ -223,39 +257,7 @@ function Users() {
         });
     }
 
-    async function AddCategory() {
-        const madanhmuccha = Id;
-        let item = {tendanhmuc ,madanhmuccha};
-        if (tendanhmuc == null) {
-            setErrorMessage("Tên Danh Mục không được để trống")
-            setAlertStatus(true)
-            setAlertType("error")
-        } else {
-            await fetch('http://localhost:3000/API/danhmuc/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(item)
-            }).then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw response;
-            }).then(async function (response) {
-                setErrorMessage("Thêm danh mục thành công")
-                setAlertStatus(true)
-                setAlertType("success")
-                hideAddCategoryModal();
-            }).catch(function (error) {
-                setErrorMessage("Thêm danh mục thất bại")
-                setAlertStatus(true)
-                setAlertType("error")
-            });
-        }
-
-    }
+    
 
     useEffect(async () => {
         if (data.length > 0) {
