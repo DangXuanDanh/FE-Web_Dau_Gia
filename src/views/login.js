@@ -116,7 +116,7 @@ export default function Login(props) {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Label className="float-right"><a href="/forgot_pass" className="forgot-pass">Quên Mật Khẩu?</a></Form.Label>
+                    <Form.Label className="float-right"><a href="/forgotPassword" className="forgotPassword">Quên Mật Khẩu?</a></Form.Label>
                 </Form.Group>
 
                 <br />
