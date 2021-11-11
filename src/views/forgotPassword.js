@@ -11,15 +11,15 @@ const ForgotPassword = () => {
     const [newPassword, setNewPassWord] = useState('');
     const [screen, setScreen] = useState(1);
     const history = useHistory();
-    const [alertError, setAlertError] = useState('');
-    const [alertSuccess, setAlertSuccess] = useState('');
-    const [isAlert, setIsAlert] = useState(false);
-    const [isAlertSuccess, setIsAlertSuccess] = useState(false);
+    
+
+    const [errorMessage, setErrorMessage] = useState('');
+    const [alertStatus, setAlertStatus] = useState(false);
+    const [alertType, setAlertType] = useState('');
 
     const request = (type) => {
-        setScreen(2);
-        /*let item = {email};
-        fetch('https://nhatrovn.herokuapp.com/api/password/recover-request', {
+        let item = {email};
+        fetch('http://localhost:3000/API/user/change-profile-password', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -27,23 +27,24 @@ const ForgotPassword = () => {
             },
             body: JSON.stringify(item)
         }).then(function (response) {
-            if (response.status === 204) {
-                setIsAlert(true);
-                setAlertError('Vượt quá số lượt cho phép trong ngày (3 lượt). Vui lòng quay lại sau!');
-            } else if (response.ok) {
+           if (response.ok) {
                 if(type === 2) {
-                    setIsAlertSuccess(true);
-                    setAlertSuccess('Yêu cầu tạo lại mã đã được gửi. Vui lòng kiểm tra Email!');
+                    setErrorMessage('Yêu cầu tạo lại mã đã được gửi. Vui lòng kiểm tra Email!');
+                    setAlertType("error")
+                    setAlertStatus(true)
                 }
                 setScreen(2);
                 return response;
             } else {
-                setIsAlert(true);
-                setAlertError('Tài khoản không tồn tại vui lòng kiểm tra lại');
+                setErrorMessage('Tài khoản không tồn tại vui lòng kiểm tra lại');
+                setAlertType("error")
+                setAlertStatus(true)
             }
         }).catch(function (error) {
-            setAlertError('Tài khoản không tồn tại vui lòng kiểm tra lại');
-        });*/
+            setErrorMessage('Tài khoản không tồn tại vui lòng kiểm tra lại');
+            setAlertType("error")
+            setAlertStatus(true)
+        });
     };
 
     const confirmCode = () => {
@@ -74,8 +75,13 @@ const ForgotPassword = () => {
 
     return (
         <div className="Login">
-            <Alert status={isAlert} setIsAlert={setIsAlert} type="error" title={alertError} />
-            <Alert status={isAlertSuccess} setIsAlert={setIsAlertSuccess} type="success" title={alertSuccess} />
+           <Alert
+                status={alertStatus}   // true or false
+                type={alertType}   // success, warning, error, info
+                title={errorMessage}   // title you want to display
+                setIsAlert={setAlertStatus}
+            />
+
             <Form className="mt-5">
                 {
                     screen === 1 ?
