@@ -69,8 +69,11 @@ export default function DetailReducer(state, action) {
                 }
             }
         case 'giamuangay':
-            if (action.payload.data == undefined || parseInt(action.payload.data) % 50 > 0 || parseInt(action.payload.data) < 50) {
-                err = 'Phải là bội của 50'
+            if (action.payload.data != undefined)
+            {
+                if (action.payload.data == undefined || parseInt(action.payload.data) % 50 > 0 || parseInt(action.payload.data) < 50) {
+                    err = 'Phải là bội của 50'
+                }
             }
             return {
                 ...state,
