@@ -6,19 +6,27 @@ import Alert from '../common/alert';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
-    const [keycode, setKeyCode] = useState('');
-    const [userId, setUserId] = useState(0);
-    const [newPassword, setNewPassWord] = useState('');
+    const [otd_code, setOtd_code] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [mataikhoan, setMaTaiKhoan] = useState(0);
     const [screen, setScreen] = useState(1);
     const history = useHistory();
-    
+
+
 
     const [errorMessage, setErrorMessage] = useState('');
     const [alertStatus, setAlertStatus] = useState(false);
     const [alertType, setAlertType] = useState('');
 
+    useEffect(() => {
+        if (localStorage.getItem('user')) {
+            history.push('/');
+        }
+
+    }, []);
+
     const request = (type) => {
-        let item = {email};
+        let item = { email };
         fetch('http://localhost:3000/API/user/change-profile-password', {
             method: 'POST',
             headers: {
@@ -27,10 +35,14 @@ const ForgotPassword = () => {
             },
             body: JSON.stringify(item)
         }).then(function (response) {
-           if (response.ok) {
-                if(type === 2) {
+            if (response.ok) {
+                if (type === 2) {
                     setErrorMessage('Yêu cầu tạo lại mã đã được gửi. Vui lòng kiểm tra Email!');
-                    setAlertType("error")
+                    setAlertType("success")
+                    setAlertStatus(true)
+                } else {
+                    setErrorMessage('Mã xác nhận đã được gửi trong Email. Vui lòng kiểm tra!');
+                    setAlertType("success")
                     setAlertStatus(true)
                 }
                 setScreen(2);
@@ -48,34 +60,67 @@ const ForgotPassword = () => {
     };
 
     const confirmCode = () => {
-        setScreen(3);
-        /*let item = {keycode};
-        fetch('https://nhatrovn.herokuapp.com/api/password/keycode-verify', {
-            method: 'POST',
+        let item = { email, otd_code };
+        fetch('http://localhost:3000/API/user/change-profile-password', {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
             body: JSON.stringify(item)
         }).then(function (response) {
-            if (response.ok) {
-                setScreen(3);
-                return response.json();
-            } else {
-                setAlertError('Sai mã xác nhận. Vui lòng kiểm tra lại Email!');
+            if (!response.ok) {
+                throw Error(response.statusText);
             }
-        }).then(function (response) {
-            if (typeof response) {
-                setUserId(response);
-            }
+            return response;
+        }).then(async function (response) {
+            const result = await response.json();
+            setScreen(3);
+            setMaTaiKhoan(result.mataikhoan)
+            setErrorMessage('Nhập mã xác nhận thành công!');
+            setAlertType("success")
+            setAlertStatus(true)
         }).catch(function (error) {
-            setAlertError('Sai mã xác nhận. Vui lòng kiểm tra lại Email!');
-        });*/
+            setErrorMessage('Sai mã xác nhận. Vui lòng kiểm tra lại Email!');
+            setAlertType("error")
+            setAlertStatus(true)
+        });
+    };
+
+    const changepassword = () => {
+        let item = { mataikhoan, newPassword };
+        console.log(mataikhoan + " + " + newPassword)
+        if (!newPassword) {
+            setErrorMessage("Vui lòng điền đầy đủ thông tin!")
+            setAlertStatus(true)
+            setAlertType("error")
+        } else {
+            fetch('http://localhost:3000/API/user/change-password', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(item)
+            }).then(function (response) {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response;
+            }).then(function (response) {
+                history.push('/login')
+            }).catch(function (error) {
+                setErrorMessage("Không thể thay đổi mật khẩu. Vui lòng thử lại!")
+                setAlertStatus(true)
+                setAlertType("error")
+            });
+
+        }
     };
 
     return (
         <div className="Login">
-           <Alert
+            <Alert
                 status={alertStatus}   // true or false
                 type={alertType}   // success, warning, error, info
                 title={errorMessage}   // title you want to display
@@ -87,7 +132,7 @@ const ForgotPassword = () => {
                     screen === 1 ?
                         <div>
                             <div className="form-title">
-                                <h2>Tạo Mới Mật Khẩu</h2>
+                                <h2>Xác Nhận Tài Khoản Email</h2>
                             </div>
                             <Form.Group className='mb-3' controlId='formBasicEmail'>
                                 <Form.Control required type="email" onChange={(e) => setEmail(e.target.value)}
@@ -106,7 +151,7 @@ const ForgotPassword = () => {
                                 <h2>Nhập Mã Xác Nhận</h2>
                             </div>
                             < Form.Group className='mb-3' controlId='formBasicEmail'>
-                                <Form.Control required type="number" onChange={(e) => setKeyCode(e.target.value)}
+                                <Form.Control required type="number" onChange={(e) => setOtd_code(e.target.value)}
                                     placeholder="Nhập mã xác nhận" />
                             </Form.Group>
                             <Button className="mt-3 btn btn-default text-white" onClick={confirmCode} variant="primary">
@@ -121,16 +166,16 @@ const ForgotPassword = () => {
                 {
                     screen === 3 ?
                         <div>
-                            <div className="form-title">
-                                <h2>Nhập mật khẩu mới</h2>
+                            <div className="form-title mb-5">
+                                <h3 className="bold">Thay Đổi Mật Khẩu</h3>
                             </div>
-                            < Form.Group className='mb-3' controlId='formBasicEmail'>
-                                <Form.Label className='float-left'>Mật Khẩu</Form.Label>
-                                <Form.Control required type="password" onChange={(e) => setNewPassWord(e.target.value)}
-                                    placeholder="Nhập mật khẩu" />
+                            <Form.Group className='mb-3' controlId='formBasicEmail'>
+                                <Form.Label className='float-left bold'>Mật Khẩu Mới</Form.Label>
+                                <Form.Control type="password" onChange={(e) => setNewPassword(e.target.value)}
+                                    placeholder="Nhập mật khẩu mới" />
                             </Form.Group>
-                            <Button className="mt-3 btn btn-default text-white"  variant="primary">
-                                Gửi yêu cầu
+                            <Button className="mt-3 btn btn-default text-white" onClick={changepassword} variant="primary">
+                                Xác Nhận
                             </Button>
                         </div> : ''
                 }
