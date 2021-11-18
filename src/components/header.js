@@ -1,34 +1,21 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import StarIcon from '@mui/icons-material/StarBorder';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Menu from '@mui/material/Menu';
-import MenuList from '@mui/material/MenuList';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
+import SearchIcon from '@mui/icons-material/Search';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
+import IconButton from '@mui/material/IconButton';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
 import Divider from '@mui/material/Divider';
 
 
@@ -60,9 +47,6 @@ export default function Header() {
     const [menuPosition, setMenuPosition] = React.useState(null);
 
 
-
-
-
     const [open2, setOpen2] = React.useState(false);
     const [open3, setOpen3] = React.useState(-1);
 
@@ -82,7 +66,19 @@ export default function Header() {
         history.push('/category?id=' + id)
         window.location.reload()
     }
-
+    function listProducts() {
+        var element = document.getElementById("standard-basic-search");
+        if(element.value!="")
+        {
+            history.push('/listProducts?name=' + element.value)
+            window.location.reload()
+        }
+    }
+    function handleKeyPress(target) {
+        if(target.charCode==13){
+          alert('Enter clicked!!!');    
+        } 
+      }
     const handleChange = (event) => {
         setAge(event.target.value);
     };
@@ -131,7 +127,6 @@ export default function Header() {
                     >
                         Danh mục
                     </Button>
-
                     <Menu
                         id="basic-menu"
                         anchorEl={anchorEl}
@@ -197,32 +192,12 @@ export default function Header() {
                                         : undefined
                                 })
                             }
-                            {/* <ListItemButton>
-                                <ListItemText primary="Sent mail" />
-                            </ListItemButton>
-                            <ListItemButton>
-                                <ListItemText primary="Drafts" />
-                            </ListItemButton> */}
-                            {/* <ListItemButton onClick={handleClick2}>
-                                <ListItemText primary="Inbox" />
-                                {open2 ? <ExpandLess /> : <ExpandMore />}
-                            </ListItemButton> */}
-                            {/* <Collapse in={open2} timeout="auto" unmountOnExit>
-                                <List component="div" disablePadding>
-                                    <ListItemButton sx={{ pl: 4 }}>
-                                        <ListItemIcon>
-                                            <StarBorder />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Starred" />
-                                    </ListItemButton>
-                                </List>
-                            </Collapse> */}
                         </List>
-
-
-
                     </Menu>
-                    <TextField sx={{ my: 1, mx: 1.5, verticalAlign: 'baseline' }} id="standard-basic" label="Search" variant="standard" />
+                    <TextField sx={{ my: 1, mx: 1.5, verticalAlign: 'baseline' }} id="standard-basic-search" label="Search" variant="standard" />
+                    <IconButton aria-label="search" onClick={listProducts} onKeyPress={handleKeyPress}>
+                        <SearchIcon />
+                    </IconButton>
                 </nav>
                 <nav>
                     {/* <Link

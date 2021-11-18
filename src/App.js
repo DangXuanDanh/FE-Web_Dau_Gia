@@ -18,6 +18,7 @@ import ChangePassword from './views/profile/changepassword';
 import AdminDB from './views/admin/admin';
 import Users from './views/admin/user/Users';
 import ForgotPassword from './views/forgotPassword';
+import ListProducts from './views/listProducts';
 import Category from './views/category';
 
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/admin" render={function () { return <AdminDB /> }} />
           <Route path="/admin/users" render={function () { return <Users /> }} />
           <Route path="/forgotPassword" render={function () { return <ForgotPassword /> }} />
+          <Route path="/listProducts" render={function () { return <ListProducts /> }} />
           <Route path="*">
             <Error />
           </Route>
