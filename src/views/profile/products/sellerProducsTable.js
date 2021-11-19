@@ -159,7 +159,7 @@ function UserTable({ userData }) {
                 accessor: 'tensanpham',
             },
             {
-                Header: 'Danh Mục',
+                Header: 'Mã Danh Mục',
                 accessor: 'madanhmuc',
             },
             {

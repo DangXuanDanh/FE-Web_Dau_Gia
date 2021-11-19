@@ -12,7 +12,7 @@ function Users() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const [tendanhmuc, setTenDanhMuc] = useState('');
+    //const [tendanhmuc, setTenDanhMuc] = useState('');
     
     const [errorMessage, setErrorMessage] = useState('');
     const [alertStatus, setAlertStatus] = useState(false);
@@ -20,7 +20,9 @@ function Users() {
 
     const saved = localStorage.getItem('user');
     const initial = JSON.parse(saved);
-   
+    
+    
+    
 
     useEffect(async () => {
         if (!loading) {
@@ -35,21 +37,12 @@ function Users() {
                 let listProducts = data.map((val) => {
                     var formatted_date1 = null;
                     var formatted_date2 = null;
-                    fetch("http://localhost:3000/API/danhmuc/" + val.madanhmuc, {
-                    method: 'GET'
-                    }).then(async function (response) {
-                        const result = await response.json();
-                        setTenDanhMuc(result.tendanhmuc)
-                        console.log(tendanhmuc)
-                    }).catch((error) => {
-                        return error;
-                    });
-                    console.log("---------------(" + tendanhmuc+ ")")
-
+                    
                     if (val.ngaydang != null || val.ngayketthuc != null) {
                         formatted_date1 = moment(val.ngaydang).format('DD-MM-YYYY h:mm:ss a');
                         formatted_date2 = moment(val.ngayketthuc).format('DD-MM-YYYY h:mm:ss a');
                     }
+
                     return {
                         "Id": val.masanpham,
                         "tensanpham": val.tensanpham,
