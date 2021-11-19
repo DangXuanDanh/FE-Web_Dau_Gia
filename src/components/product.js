@@ -60,8 +60,8 @@ function Product({
   };
 
   return (
-    <Grid  style={{margin:10}}>
-    <Card sx={ 4 } className="cardProduct">
+    <Grid item xs={ 3 } >
+    <Card  className="cardProduct">
         <CardMedia
           component="img"
           height="140"
