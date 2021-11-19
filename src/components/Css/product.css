@@ -8,6 +8,7 @@
     width: auto !important;
 }
 .cardProduct {
-    width: 250px !important;
-    height: auto !important;
+    /* width: 230px !important; */
+    width: 100% !important;
+    height: 400px !important;
 }

@@ -36,17 +36,37 @@ export default function ListProducts(propsListProducts) {
   const name = queryParams.get('name') || ""
   // Lay 5 san pham cao gia nhat
   const [resultByName, setData] = React.useState([]);
+  
+
+  async function searchByName() {
+    const res = await axiosInstance.get(`sanpham/get/Name/`+name)
+      setData(res.data)
+    }
+
+  const sortTangdan = () => {
+    const cloneArray = resultByName.map(item => item);
+    cloneArray.sort(function(a,b){
+      return a.giakhoidiem-b.giakhoidiem
+    })
+    setData(cloneArray);
+  };
+  const sortGiamdan = () => {
+    const cloneArray =  resultByName.map(item => item);
+    cloneArray.sort(function(a,b){
+      return b.giakhoidiem-a.giakhoidiem
+    })
+
+    setData(cloneArray);
+  };
+
+
   React.useEffect(() => {
     searchByName()
   }, [])
-    async function searchByName() {
-      const res = await axiosInstance.get(`sanpham/get/Name/`+name).then((a) => {
-        setData(a.data)
-    });
-    }
-    const handleClick = () => {
-      console.info('You clicked the Chip.');
-    };
+  
+  React.useEffect(() => {
+    sortTangdan()
+  }, [])
   return (
     <div>
       <Container>
@@ -55,13 +75,12 @@ export default function ListProducts(propsListProducts) {
           <br/>
           <Grid item xs={12}>
             <Stack direction="row" spacing={1}>
-              <Chip label="Giá tăng dần" variant="outlined" onClick={handleClick} />
-              <Chip label="Giá giảm dần" variant="outlined" onClick={handleClick} />
+              <Chip label="Giá tăng dần" variant="outlined" onClick={sortTangdan} />
+              <Chip label="Giá giảm dần" variant="outlined" onClick={sortGiamdan} />
             </Stack>
           </Grid>
-          <Grid columnSpacing={2} style={{display:"flex", flexWrap:'wrap', justifyContent:'center'}}>
-            {
-              resultByName.map((item, index) => {
+          {
+             resultByName?.length > 0 && resultByName.map((item, index) => {
                 return <Product
                   tensanpham={item.tensanpham}
                   giamuangay={item.giamuangay}
@@ -72,9 +91,7 @@ export default function ListProducts(propsListProducts) {
                 />
               })
             }
-          </Grid>
         </Grid>
-
       </Container>
     </div>
   )
