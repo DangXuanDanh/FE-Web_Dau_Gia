@@ -18,6 +18,8 @@ import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import * as React from 'react';
+import {useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 import Paper from '@mui/material/Paper';
 import { Chip } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
@@ -37,6 +39,19 @@ import reducer from '../reducers/HomeReducer';
 
 
 export default function Home(props) {
+  const history = useHistory();
+  const saved = localStorage.getItem('user');
+  const initial = JSON.parse(saved);
+  
+if(localStorage.getItem('user')){
+  useEffect(() => {
+    if (initial.role == 3) {
+        history.push('/admin');
+    }
+
+}, []);
+}
+  
 
   const [state, dispatch] = React.useReducer(reducer, { data: [] });
   const handleClick = (event) => {

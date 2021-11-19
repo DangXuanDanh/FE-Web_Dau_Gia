@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect } from 'react';
+import {useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -14,6 +15,16 @@ import { positions, Provider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 
 function TabPanel(props) {
+    const history = useHistory();
+    const saved = localStorage.getItem('user');
+  const initial = JSON.parse(saved);
+
+  useEffect(() => {
+    if (initial.role == 1 || initial.role == 2) {
+        history.push('/');
+    }
+
+}, []);
     const { children, value, index, ...other } = props;
 
     return (

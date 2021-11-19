@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Modal, Form } from 'react-bootstrap';
+import {Badge, Button, Modal, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from "../../common/alert"
 import './profile.css';
@@ -14,7 +14,7 @@ function Profile() {
 const [state, dispatch] = React.useReducer(reducer,{data:{},login:{}});
 
 
-    const saved = localStorage.getItem('user');;
+    const saved = localStorage.getItem('user');
 
     const history = useHistory();
 
@@ -254,7 +254,7 @@ const [state, dispatch] = React.useReducer(reducer,{data:{},login:{}});
                             <h6 className="mb-0 float-left">Role</h6>
                         </div>
                         <div className="col-sm-9 text-secondary">
-                            {role}
+                            {role ? <Badge bg="info">bidder</Badge> : (role == 2) ? <Badge bg="info">seller</Badge> :<Badge bg="info">admin</Badge>}
                         </div>
                     </div>
 
@@ -273,6 +273,15 @@ const [state, dispatch] = React.useReducer(reducer,{data:{},login:{}});
                         </div>
                         <div className="col-sm-9 text-secondary">
                             {danhgiaxau} Lượt
+                        </div>
+                    </div>
+
+                    <div className="row mb-3">
+                        <div className="col-sm-3 vertical-base">
+                            <h6 className="mb-0 float-left">Điểm</h6>
+                        </div>
+                        <div className="col-sm-9 text-secondary">
+                            {(danhgiatot / (danhgiatot + danhgiaxau)) * 100 } % 
                         </div>
                     </div>
                 </div>
