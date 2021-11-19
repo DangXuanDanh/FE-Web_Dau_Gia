@@ -13,7 +13,7 @@ import Register from './views/register';
 import Home from './views/home';
 import Error from './views/error';
 import Post from './views/post';
-import Profile from './views/profile/profile';
+import Profile from './views/profile/Control';
 import ChangePassword from './views/profile/changepassword';
 import AdminDB from './views/admin/admin';
 import Users from './views/admin/user/Users';

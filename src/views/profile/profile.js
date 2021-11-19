@@ -254,7 +254,7 @@ const [state, dispatch] = React.useReducer(reducer,{data:{},login:{}});
                             <h6 className="mb-0 float-left">Role</h6>
                         </div>
                         <div className="col-sm-9 text-secondary">
-                            {role ? <Badge bg="info">bidder</Badge> : (role == 2) ? <Badge bg="info">seller</Badge> :<Badge bg="info">admin</Badge>}
+                            {(role == 1) ? <Badge bg="info">bidder</Badge> : (role == 2) ? <Badge bg="info">seller</Badge> : (role == 2) ? <Badge bg="info">admin</Badge> : null}
                         </div>
                     </div>
 
