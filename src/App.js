@@ -20,6 +20,7 @@ import Users from './views/admin/user/Users';
 import ForgotPassword from './views/forgotPassword';
 import ListProducts from './views/listProducts';
 import Category from './views/category';
+import ActiveAccount from './views/activeAccount';
 
 
 import Header from './components/header';
@@ -43,6 +44,7 @@ function App() {
           <Route path="/admin/users" render={function () { return <Users /> }} />
           <Route path="/forgotPassword" render={function () { return <ForgotPassword /> }} />
           <Route path="/listProducts" render={function () { return <ListProducts /> }} />
+          <Route path="/activeAccount/:code" render={function (props) { return <ActiveAccount {...props}/> }} />
           <Route path="*">
             <Error />
           </Route>
