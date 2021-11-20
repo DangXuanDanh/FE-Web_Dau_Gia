@@ -8,6 +8,7 @@ import Alert from "../../../common/alert"
 const moment = require('moment');
 require('moment/locale/vi');
 
+import { axiosInstance, parseJwt } from '../../../utils/axios';
 
 
 function sellerProducsWon() {
@@ -22,9 +23,18 @@ function sellerProducsWon() {
 
     const saved = localStorage.getItem('user');
     const initial = JSON.parse(saved);
+
+  const idUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).mataikhoan : 13
     
-    
-    
+    async function DanhGia(mataikhoan,masanpham,danhgia)
+    {
+        const info = {
+            mataikhoan: mataikhoan,
+            masanpham:masanpham,
+            danhgia:danhgia
+        }
+        await axiosInstance.post(`lichsudanhgia/`,info)
+    }
 
     useEffect(async () => {
         if (!loading) {
@@ -35,7 +45,7 @@ function sellerProducsWon() {
                     return response.json();
                 }
                 throw response;
-            }).then( data => {
+            }).then(data => {
                 let listProducts = data.map((val) => {
                     var formatted_date1 = null;
                     var formatted_date2 = null;
@@ -45,7 +55,14 @@ function sellerProducsWon() {
                         formatted_date2 = moment(val.ngaydaugia).format('DD-MM-YYYY h:mm:ss a');
                     }
                     
-                    console.log(val.masanpham)
+                    // console.log(val.masanpham)
+                    // const res = await axiosInstance.get(`lichsudanhgia/find/${idUser}/${val.masanpham}`).data
+                    // let name = "btn btn-sm btn-primary"
+                    // if (res){
+                    //     name=""
+                    // } else {
+                    //     name="btn btn-sm btn-primary"
+                    // }
 
                     return {
                         "Id": val.masanpham,
@@ -54,7 +71,7 @@ function sellerProducsWon() {
                         "giadamua": val.gia,
                         "ngaydang": formatted_date1,
                         "ngaydaban": formatted_date2,
-                        "actions": <td><button className="btn btn-sm btn-primary"><ThumbUpIcon /></button> <button className="btn btn-sm btn-primary"><ThumbDownIcon/></button></td>
+                        "actions": <td><button onClick={()=>{DanhGia(idUser,val.masanpham,1)}} className="btn btn-sm btn-primary"><ThumbUpIcon /></button> <button onClick={()=>{DanhGia(idUser,val.masanpham,1)}} className="btn btn-sm btn-primary"><ThumbDownIcon/></button></td>
                     }
                 });
                 setData(listProducts);
