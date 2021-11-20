@@ -13,6 +13,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert from '@mui/material/Alert';
 import {DialogTitle,DialogContentText,DialogContent,DialogActions,Dialog,Divider }from '@mui/material';
 import { useParams } from "react-router-dom";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Product from '../components/product';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
@@ -42,7 +44,7 @@ export default function Detail(props) {
   const { idProduct } = useParams() || 1
   const idUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).mataikhoan : 13
 
-  const [state, dispatch] = React.useReducer(reducer, { relatedProduct: [], data: { mota: '', taikhoan: {}, anhsanphams: [], giacuoc: 0, danhmuc: {} }, history: [], error: {}, popup: { open: false, type: 'success', mess: 'auct successfully' } });
+  const [state, dispatch] = React.useReducer(reducer, { yeuthich: false, relatedProduct: [], data: { mota: '', taikhoan: {}, anhsanphams: [], giacuoc: 0, danhmuc: {} }, history: [], error: {}, popup: { open: false, type: 'success', mess: 'auct successfully' } });
 
   const [open, setOpen] = React.useState(false);
 
@@ -132,6 +134,20 @@ export default function Detail(props) {
     });
   }
 
+  async function YeuThich() {
+    if (state.yeuthich == false) {
+      await axiosInstance.post(`yeuthich`, {
+        masanpham: idProduct,
+        mataikhoan: idUser
+      })
+    } else {
+      await axiosInstance.delete(`yeuthich/find/${idUser}/${idProduct}`)
+    }
+    dispatch({
+      type: 'yeuthich',
+    });
+  }
+
   async function LoadDetail() {
     const res = await axiosInstance.get(`sanpham/${idProduct}`).then(async e => {
       e.data.giacuoc = 0
@@ -142,6 +158,17 @@ export default function Detail(props) {
           data: e.data,
         }
       });
+
+      const yeuthich = await axiosInstance.get(`yeuthich/find/${idUser}/${idProduct}`).then((res) => {
+        if (res.data) {
+          if (res.data.mayeuthich) {
+            dispatch({
+              type: 'yeuthich',
+            });
+          }
+        }
+      })
+
 
       await axiosInstance.get(`sanpham/get/New/${e.data.masanpham}/${e.data.madanhmuc}`).then(r => {
         dispatch({
@@ -334,6 +361,15 @@ export default function Detail(props) {
             </Grid>
           </Grid>
 
+          <br />
+
+          <Button onClick={() => YeuThich()}>
+            {state.yeuthich == true ? <FavoriteBorderIcon /> : ""}
+            {state.yeuthich == true ? " Bỏ yêu thích" : ""}
+
+            {state.yeuthich == false ? <FavoriteIcon /> : ""}
+            {state.yeuthich == false ? " Yêu thích" : ""}
+          </Button>
           <br />
 
           <Typography variant="subtitle1" gutterBottom component="div">
