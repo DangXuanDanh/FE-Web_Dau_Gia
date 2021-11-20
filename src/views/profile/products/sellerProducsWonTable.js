@@ -159,20 +159,24 @@ function UserTable({ userData }) {
                 accessor: 'tensanpham',
             },
             {
-                Header: 'Giá khởi điểm',
-                accessor: 'giakhoidiem',
+                Header: 'Người thắng',
+                accessor: 'idnguoithang',
             },
             {
-                Header: 'Giá mua ngay',
-                accessor: 'giamuangay',
+                Header: 'Giá được mua',
+                accessor: 'giadamua',
             },
             {
                 Header: 'Ngày đăng',
                 accessor: 'ngaydang',
             },
             {
-                Header: 'Ngày kết thúc',
-                accessor: 'ngayketthuc',
+                Header: 'Ngày đã mua',
+                accessor: 'ngaydaban',
+            },
+            {
+                Header: 'Thao tác',
+                accessor: 'actions',
             },
         ],
         []

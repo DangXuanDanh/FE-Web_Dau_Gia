@@ -276,6 +276,22 @@ export default function Detail(props) {
               state.data.tensanpham
             }
           </Typography>
+          <Typography variant="h8" gutterBottom component="div">
+            {
+              "Người bán: "+ state.data.taikhoan.hoten
+            }
+          </Typography>
+
+          <Typography variant="caption" gutterBottom component="div">
+            Điểm đánh giá:
+            {
+              " " + (state.data.taikhoan.danhgiatot || 0)
+            }
+            |
+            {
+              state.data.taikhoan.danhgiaxau || 0
+            }
+          </Typography>
           <Grid container spacing={4}>
             <Grid item xs={4}>
               <AliceCarousel autoPlay autoPlayInterval="3000">

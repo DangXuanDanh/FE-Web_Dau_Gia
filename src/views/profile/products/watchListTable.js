@@ -174,6 +174,10 @@ function UserTable({ userData }) {
                 Header: 'Ngày kết thúc',
                 accessor: 'ngayketthuc',
             },
+            {
+                Header: 'Thao tác',
+                accessor: 'actions',
+            },
         ],
         []
     )
