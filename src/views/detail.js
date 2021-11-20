@@ -1,38 +1,21 @@
-import StarIcon from '@mui/icons-material/StarBorder';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
 import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import GlobalStyles from '@mui/material/GlobalStyles';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import Toolbar from '@mui/material/Toolbar';
 import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
-import InputLabel from '@mui/material/InputLabel';
-import Input from '@mui/material/Input';
+
 import InputAdornment from '@mui/material/InputAdornment';
 import * as React from 'react';
-import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert from '@mui/material/Alert';
-import Divider from '@mui/material/Divider';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import {DialogTitle,DialogContentText,DialogContent,DialogActions,Dialog,Divider }from '@mui/material';
 import { useParams } from "react-router-dom";
-
 import Product from '../components/product';
+import AliceCarousel from 'react-alice-carousel';
+import 'react-alice-carousel/lib/alice-carousel.css';
 
 import ReactQuill from "react-quill";
 
@@ -50,11 +33,9 @@ import reactDom from 'react-dom';
 
 import BreadCrumb from "../components/breadcrumbs"
 
-// import { useForm } from 'react-hook-form';
-// import { useHistory } from 'react-router-dom';
-
 import { axiosInstance, parseJwt } from '../utils/axios';
 import { StaticTimePicker } from '@mui/lab';
+import { border } from '@mui/system';
 
 export default function Detail(props) {
   const queryParams = new URLSearchParams(window.location.search);
@@ -97,7 +78,6 @@ export default function Detail(props) {
     "image",
     "video"
   ];
-
   async function TryToBid() {
     setOpen(false);
 
@@ -126,7 +106,6 @@ export default function Detail(props) {
     }
 
     await axiosInstance.post(`lichsudaugia/`, data).then(res => {
-      // console.log(res.data)
       val = {
         open: true,
         type: res.data.status == true ? 'success' : 'error',
@@ -242,55 +221,32 @@ export default function Detail(props) {
       </IconButton>
     </React.Fragment>
   );
-
+  const user=localStorage.getItem('user');
   return (
     <div className="detail">
       <Container>
-
         <BreadCrumb tensanpham={state.data.tensanpham} madanhmuc={state.data.madanhmuc} tendanhmuc={state.data.danhmuc.tendanhmuc} />
-
-
         <div>
-
-          <Typography variant="subtitle1" gutterBottom component="div">
+          <Typography variant="h6" gutterBottom component="div">
             {
               state.data.tensanpham
             }
           </Typography>
-
-          <Typography variant="caption" gutterBottom component="div">
-            {
-              state.data.taikhoan.hoten
-            }
-          </Typography>
-
-          <Typography variant="caption" gutterBottom component="div">
-            Điểm đánh giá:
-            {
-              " " + (state.data.taikhoan.danhgiatot || 0)
-            }
-            |
-            {
-              state.data.taikhoan.danhgiaxau || 0
-            }
-          </Typography>
-
-          <Grid container spacing={1}>
+          <Grid container spacing={4}>
             <Grid item xs={4}>
-              <img src={state.data.anhdaidien} alt="Stickman" width="222" height="222"></img>
-
-              {
-                // console.log(state.data.anhsanphams)
-                state.data.anhsanphams.map((element, i) =>
-                  <div key={i}>
-                    <img src={element.url} alt="Stickman" width="222" height="222"></img>
-                  </div>
-                )
-              }
-
+              <AliceCarousel autoPlay autoPlayInterval="3000">
+                <img src={state.data.anhdaidien}/>
+                <img src={state.data.anhdaidien}/>
+                <img src={state.data.anhdaidien}/>
+                <img src={state.data.anhdaidien}/>
+                  {/* {state.data.anhsanphams.map((each, index) => (
+                      <Image
+                      className="sliderimg"
+                      centered
+                      src={each.url}/>))} */}
+              </AliceCarousel>
             </Grid>
             <Grid item xs={6}>
-
               <Typography variant="caption" gutterBottom component="div">
                 Ngày đăng sản phẩm:
                 {
@@ -303,7 +259,6 @@ export default function Detail(props) {
                   state.history.length > 0 ? (" " + state.history[0].taikhoan.hoten + " " + (state.history[0].taikhoan.danhgiatot || 0) + "|" + (state.history[0].taikhoan.danhgiaxau)) || 0 : undefined
                 }
               </Typography>
-
               <Typography variant="subtitle1" gutterBottom component="div">
                 Giá khởi điểm:
                 {
@@ -311,14 +266,12 @@ export default function Detail(props) {
                 } vnđ
               </Typography>
               {
-
                 state.data.giamuangay ? <Typography variant="subtitle1" gutterBottom component="div">
                   Giá mua ngay:
                   {
                     " " + new Intl.NumberFormat().format(state.data.giamuangay)
                   } vnđ
                 </Typography> : undefined
-
               }
               <Typography variant="subtitle1" gutterBottom component="div">
                 Giá hiện tại:
@@ -332,9 +285,6 @@ export default function Detail(props) {
                   " " + new Intl.NumberFormat().format(state.data.buocgia)
                 } vnđ
               </Typography>
-
-
-
               <FormControl sx={{ m: 1 }} variant="standard">
                 {/* <InputLabel htmlFor="standard-adornment-amount">Giá cược</InputLabel> */}
                 <TextField error={!!state.error.giacuoc} helperText={state.error.giacuoc}

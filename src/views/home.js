@@ -132,8 +132,8 @@ if(localStorage.getItem('user')){
           }
         </Grid> */}
         <Grid>
-          <Typography variant="subtitle1" gutterBottom component="h4">
-            San phẩm giá cao nhất
+          <Typography variant="h4" style={{textAlign:"center"}}>
+            Sản phẩm giá cao nhất
           </Typography>
         </Grid>
         <Grid container spacing={1}>
@@ -151,7 +151,7 @@ if(localStorage.getItem('user')){
           }
         </Grid>
         <Grid>
-          <Typography variant="subtitle1" gutterBottom component="h4">
+          <Typography variant="h4" gutterBottom component="h4" style={{textAlign:"center"}}>
             Sản phẩm gần kết thúc
           </Typography>
         </Grid>
@@ -170,7 +170,7 @@ if(localStorage.getItem('user')){
           }
         </Grid>
         <Grid>
-          <Typography variant="subtitle1" gutterBottom component="h4">
+          <Typography variant="h4" gutterBottom component="h4" style={{textAlign:"center"}}>
             Sản phẩm lượt ra giá cao nhất
           </Typography>
         </Grid>
