@@ -72,11 +72,22 @@ export default function DetailReducer(state, action) {
           thoigianconlai: GetTimeSpan(state.data.thoigian)
         }
       }
-      case 'sanphamtuongtu':
-        return {
-          ...state,
-          relatedProduct: action.payload.data
-        }
+    case 'sanphamtuongtu':
+      return {
+        ...state,
+        relatedProduct: action.payload.data
+      }
+    case 'yeuthich':
+      // if (state.yeuthich != undefined)
+      // {
+      //   state.yeuthich = !!state.yeuthich
+      // } else {
+      //   state.yeuthich = false
+      // }
+      return {
+        ...state,
+        yeuthich: !state.yeuthich
+      }
     default:
       return state;
   }

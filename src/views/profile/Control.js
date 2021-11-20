@@ -8,6 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import Profile from '../profile/profile';
 import SellerProducsTable from './products/sellerProducts';
+import WatchList from './products/watchList';
 import Products from '../admin/product/products';
 import Category from '../admin/category/categorys';
 import './../admin/admin.css';
@@ -88,8 +89,9 @@ export default function SimpleTabs() {
                 <AppBar position="static">
                     <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
                         <Tab label="Thông tin tài khoản" {...a11yProps(0)} />
+                        <Tab label="Sản phẩm yêu thích" {...a11yProps(1)}/>
                         {initial.role == 2 ? 
-                        <Tab label="Danh sách các sản phẩm còn bán" {...a11yProps(1)} />
+                        <Tab label="Danh sách các sản phẩm còn bán" {...a11yProps(2)} />
                         : ""}
                         
                     </Tabs>
@@ -98,9 +100,11 @@ export default function SimpleTabs() {
                     <Profile />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
+                    <WatchList/>
+                </TabPanel>
+                <TabPanel value={value} index={2}>
                     <SellerProducsTable />
                 </TabPanel>
-                
                 
                 
             </div>
