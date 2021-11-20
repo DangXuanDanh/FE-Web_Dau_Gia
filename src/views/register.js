@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Route, useHistory, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
+import Recaptcha from 'react-recaptcha';
 
 import Alert from "../common/alert"
 // import { useForm } from 'react-hook-form';
@@ -15,7 +16,9 @@ export default function Register(props) {
     const [hoten, setHoten] = useState('');
     const [diachi, setDiachi] = useState('');
     const [ngaysinh, setNgaysinh] = useState('');
+    const [verified, setVerified] = useState(false);
     const history = useHistory();
+
 
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -29,11 +32,25 @@ export default function Register(props) {
 
     }, []);
 
+    var callback = function () {
+        console.log('Done!!!!');
+      };
+
+      var verifyCallback = function (response) {
+        if(response){
+            setVerified(true);
+        }
+      };
+
     async function resister() {
         // var atposition = email.indexOf("@");
         //var dotposition = email.lastIndexOf(".");
         if (email == "" || password == "" || hoten == "" || ngaysinh == "" || diachi == "") {
             setErrorMessage("Vui lòng nhập điền đầy đủ thông tin")
+            setAlertStatus(true)
+            setAlertType("error")
+        }else if (verified == false) {
+            setErrorMessage("Vui lòng chọn captcha")
             setAlertStatus(true)
             setAlertType("error")
         } else {
@@ -95,6 +112,14 @@ export default function Register(props) {
                     <Form.Label className="float-left">Mật Khẩu</Form.Label>
                     <Form.Control type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Nhập mật khẩu" />
                 </Form.Group>
+
+                <Recaptcha
+                    sitekey="6LfR9kgdAAAAAEDHDColEwNzScWEUK8dpV9eHaS7"
+                    render="explicit"
+                    verifyCallback={verifyCallback}
+                    onloadCallback={callback}
+                />
+
                 <Button className="mt-3 btn btn-default text-white" onClick={resister} variant="primary">
                     Đăng kí
                 </Button>

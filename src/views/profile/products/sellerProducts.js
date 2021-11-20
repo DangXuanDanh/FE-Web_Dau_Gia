@@ -46,7 +46,6 @@ function Users() {
                     return {
                         "Id": val.masanpham,
                         "tensanpham": val.tensanpham,
-                        "madanhmuc": val.madanhmuc,
                         "giakhoidiem": val.giakhoidiem,
                         "giamuangay": val.giamuangay,
                         "ngaydang": formatted_date1,
