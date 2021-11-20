@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const axiosInstance = axios.create({
   // baseURL: `http://localhost:${process.env.PORT}/api/`,
-  baseURL: `http://localhost:3001/api/`,
+  baseURL: `http://14.161.28.224:4001/api/`,
   timeout: 25000,
   // headers: {
   //   'X-Access-Token': 'accessToken'
