@@ -1,65 +1,61 @@
-import StarIcon from '@mui/icons-material/StarBorder';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
 import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import GlobalStyles from '@mui/material/GlobalStyles';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import Toolbar from '@mui/material/Toolbar';
-import FormControl from '@mui/material/FormControl';
-import Typography from '@mui/material/Typography';
-import InputLabel from '@mui/material/InputLabel';
-import Input from '@mui/material/Input';
-import InputAdornment from '@mui/material/InputAdornment';
 import * as React from 'react';
-import Paper from '@mui/material/Paper';
 import { Chip } from '@mui/material';
-import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea, Stack } from '@mui/material';
-import NumberFormat from 'react-number-format';
 import Product from '../components/product';
-import { useParams } from "react-router-dom";;
-import Item from '../components/item';
-
 import { axiosInstance, parseJwt } from '../utils/axios';
-import reducer from '../reducers/HomeReducer';
-
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import './../components/Css/paging.css';
 
 export default function ListProducts(propsListProducts) {
   const queryParams = new URLSearchParams(window.location.search);
   const name = queryParams.get('name') || ""
+  const category= queryParams.get('category') || ""
   // Lay 5 san pham cao gia nhat
   const [resultByName, setData] = React.useState([]);
   
-
+  const currentPage=1
   async function searchByName() {
-    const res = await axiosInstance.get(`sanpham/get/Name/`+name)
-      setData(res.data)
+    console.log(category);
+      if(name!=""){
+        const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+currentPage)
+        setData(res.data)
+      }
+      else if(category!=""){
+        const res = await axiosInstance.get(`danhmuc/`+category)
+        setData(res.data)
+      }
     }
 
-  const sortTangdan = () => {
-    const cloneArray = resultByName.map(item => item);
-    cloneArray.sort(function(a,b){
-      return a.giakhoidiem-b.giakhoidiem
-    })
-    setData(cloneArray);
+  const sortTangdan =async () => {
+    const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+currentPage+'&orderType=giakhoidiem')
+    setData(res.data)
   };
-  const sortGiamdan = () => {
-    const cloneArray =  resultByName.map(item => item);
-    cloneArray.sort(function(a,b){
-      return b.giakhoidiem-a.giakhoidiem
-    })
-
-    setData(cloneArray);
+  const sortGiamdan =async () => {
+    const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+currentPage+'&orderType=giakhoidiem'+'&orderBy=desc')
+    setData(res.data)
   };
-
-
+  const sortNgayketthuc =async () => {
+    const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+currentPage+'&orderType=ngayketthuc'+'&orderBy=desc')
+    setData(res.data)
+  };
+  function pageNumber(){
+    if(resultByName.length>0){
+      let length=resultByName[0].sl;
+      if(length==0) return 1;
+      return Math.ceil(length/8)
+    }
+    else return 1;
+  }
+  async function pagingHandle(event, value){
+    const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+value)
+    currentPage=value;
+    setData(res.data)
+  }
   React.useEffect(() => {
     searchByName()
   }, [])
@@ -77,6 +73,7 @@ export default function ListProducts(propsListProducts) {
             <Stack direction="row" spacing={1}>
               <Chip label="Giá tăng dần" variant="outlined" onClick={sortTangdan} />
               <Chip label="Giá giảm dần" variant="outlined" onClick={sortGiamdan} />
+              <Chip label="Gần kết thúc" variant="outlined" onClick={sortNgayketthuc} />
             </Stack>
           </Grid>
           {
@@ -88,10 +85,27 @@ export default function ListProducts(propsListProducts) {
                   masanpham={item.masanpham}
                   luot_ra_gia_hien_tai={item.luot_ra_gia_hien_tai}
                   giakhoidiem={item.giakhoidiem}
+                  ngayketthuc={item.ngayketthuc}
                 />
               })
             }
+            <Grid item xs={12} >
+              <Stack spacing={2} className="paging-products">
+                <Pagination
+                  style={{alignSelf:"center"}}
+                  onChange={pagingHandle}           
+                  count={pageNumber()}
+                  renderItem={(item) => (
+                    <PaginationItem
+                      components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                      {...item}
+                    />
+                  )}
+                />
+              </Stack>
+            </Grid>
         </Grid>
+
       </Container>
     </div>
   )

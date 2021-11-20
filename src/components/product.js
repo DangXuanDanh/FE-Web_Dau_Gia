@@ -8,11 +8,14 @@ import TouchAppRoundedIcon from '@mui/icons-material/TouchAppRounded';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 import './Css/product.css';
 import { useState } from "react";
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import moment from "moment";
 
 function Product({
+  sl,
   masanpham,
   tensanpham,
   mota,
@@ -95,6 +98,9 @@ function Product({
             type="text"
             thousandSeparator={true}
             suffix=" VNĐ" />
+          </Typography>
+          <Typography gutterBottom variant="body2" component="div">
+          <DateRangeIcon fontSize="small" /> Ngày kết thúc:{moment(ngayketthuc).format("DD/MM/YYYY")}
           </Typography>
         </CardContent>
         <CardActions>

@@ -63,7 +63,7 @@ export default function Header() {
 
 
     function SelectCategory(id) {
-        history.push('/category?id=' + id)
+        history.push('/category?category=' + id)
         window.location.reload()
     }
     function listProducts() {
@@ -136,19 +136,6 @@ export default function Header() {
                             'aria-labelledby': 'basic-button',
                         }}
                     >
-                        {/* {
-                            data.map((item, index) => {
-                                return <MenuItem key={index}
-                                    value={item.madanhmuc}
-                                    onClick={(e) => SelectCategory(e.target.value)}
-                                >
-                                    {item.tendanhmuc}
-                                </MenuItem>
-                            })
-                        } */}
-
-
-
                         <List
                             sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
                             component="nav"
@@ -175,8 +162,6 @@ export default function Header() {
 
                                             <Collapse in={open2 && open3 == item.madanhmuc} timeout="auto" unmountOnExit>
                                                 <List component="div" disablePadding>
-
-
                                                 {
                                                     data.map((item2,index2) => {
                                                         return item2.madanhmuccha == item.madanhmuc ?
