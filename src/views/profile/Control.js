@@ -9,7 +9,7 @@ import Box from '@material-ui/core/Box';
 import Profile from '../profile/profile';
 import SellerProducsTable from './products/sellerProducts';
 import WatchList from './products/watchList';
-import Products from '../admin/product/products';
+import SellerProducsWon from '../profile/products/sellerProducsWon';
 import Category from '../admin/category/categorys';
 import './../admin/admin.css';
 import { positions, Provider } from "react-alert";
@@ -91,9 +91,11 @@ export default function SimpleTabs() {
                         <Tab label="Thông tin tài khoản" {...a11yProps(0)} />
                         <Tab label="Sản phẩm yêu thích" {...a11yProps(1)}/>
                         {initial.role == 2 ? 
-                        <Tab label="Danh sách các sản phẩm còn bán" {...a11yProps(2)} />
+                        <Tab label="Danh sách các sản phẩm còn bán" {...a11yProps(2)} />                        
                         : ""}
-                        
+                        {initial.role == 2 ? 
+                        <Tab label="Danh sách các sản phẩm đã bán thành công" {...a11yProps(3)} />
+                        : ""}
                     </Tabs>
                 </AppBar>
                 <TabPanel value={value} index={0}>
@@ -104,6 +106,9 @@ export default function SimpleTabs() {
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     <SellerProducsTable />
+                </TabPanel>
+                <TabPanel value={value} index={3}>
+                    <SellerProducsWon />
                 </TabPanel>
                 
                 
