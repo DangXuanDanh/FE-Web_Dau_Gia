@@ -11,13 +11,15 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert from '@mui/material/Alert';
-import {DialogTitle,DialogContentText,DialogContent,DialogActions,Dialog,Divider }from '@mui/material';
+import { DialogTitle, DialogContentText, DialogContent, DialogActions, Dialog, Divider } from '@mui/material';
 import { useParams } from "react-router-dom";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Product from '../components/product';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
+
+import BlockIcon from '@mui/icons-material/Block';
 
 import ReactQuill from "react-quill";
 
@@ -148,6 +150,12 @@ export default function Detail(props) {
     });
   }
 
+  async function Deny(){
+    await axiosInstance.get(`lichsudaugia/deny/${state.history[0].taikhoan.mataikhoan}/${idProduct}`)
+    LoadDetail()
+    LoadHistory()
+  }
+
   async function LoadDetail() {
     const res = await axiosInstance.get(`sanpham/${idProduct}`).then(async e => {
       e.data.giacuoc = 0
@@ -248,7 +256,7 @@ export default function Detail(props) {
       </IconButton>
     </React.Fragment>
   );
-  const user=localStorage.getItem('user');
+  const user = localStorage.getItem('user');
   return (
     <div className="detail">
       <Container>
@@ -262,11 +270,11 @@ export default function Detail(props) {
           <Grid container spacing={4}>
             <Grid item xs={4}>
               <AliceCarousel autoPlay autoPlayInterval="3000">
-                <img src={state.data.anhdaidien}/>
-                <img src={state.data.anhdaidien}/>
-                <img src={state.data.anhdaidien}/>
-                <img src={state.data.anhdaidien}/>
-                  {/* {state.data.anhsanphams.map((each, index) => (
+                <img src={state.data.anhdaidien} />
+                <img src={state.data.anhdaidien} />
+                <img src={state.data.anhdaidien} />
+                <img src={state.data.anhdaidien} />
+                {/* {state.data.anhsanphams.map((each, index) => (
                       <Image
                       className="sliderimg"
                       centered
@@ -285,7 +293,12 @@ export default function Detail(props) {
                 {
                   state.history.length > 0 ? (" " + state.history[0].taikhoan.hoten + " " + (state.history[0].taikhoan.danhgiatot || 0) + "|" + (state.history[0].taikhoan.danhgiaxau)) || 0 : undefined
                 }
+
+                {state.history.length && idUser == state.data.manguoidang ? <Button onClick={() => { Deny() }}>  <BlockIcon /> </Button> 
+                :""}
+
               </Typography>
+
               <Typography variant="subtitle1" gutterBottom component="div">
                 Giá khởi điểm:
                 {
