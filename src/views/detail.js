@@ -256,6 +256,15 @@ export default function Detail(props) {
       </IconButton>
     </React.Fragment>
   );
+  function renderImage(){
+    let array=[];
+    array.push(<img src={state.data.anhdaidien} style={{height:"100%",width:"100%"}} />)
+    state.data.anhsanphams.forEach((element, index) => { 
+      array.push(<img src={element.url} style={{height:"100%",width:"100%"}} />)
+     })
+     console.log(array);
+    return array
+  }
   const user = localStorage.getItem('user');
   return (
     <div className="detail">
@@ -270,15 +279,7 @@ export default function Detail(props) {
           <Grid container spacing={4}>
             <Grid item xs={4}>
               <AliceCarousel autoPlay autoPlayInterval="3000">
-                <img src={state.data.anhdaidien} />
-                <img src={state.data.anhdaidien} />
-                <img src={state.data.anhdaidien} />
-                <img src={state.data.anhdaidien} />
-                {/* {state.data.anhsanphams.map((each, index) => (
-                      <Image
-                      className="sliderimg"
-                      centered
-                      src={each.url}/>))} */}
+                {renderImage()}       
               </AliceCarousel>
             </Grid>
             <Grid item xs={6}>
