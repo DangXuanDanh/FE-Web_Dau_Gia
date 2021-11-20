@@ -146,6 +146,8 @@ if(localStorage.getItem('user')){
                 masanpham={item.masanpham}
                 luot_ra_gia_hien_tai={item.luot_ra_gia_hien_tai}
                 giakhoidiem={item.giakhoidiem}
+                ngaydang={item.ngaydang}
+                ngayketthuc={item.ngayketthuc}
               />
             })
           }
@@ -164,6 +166,8 @@ if(localStorage.getItem('user')){
                 anhdaidien={item.anhdaidien}
                 masanpham={item.masanpham}
                 luot_ra_gia_hien_tai={item.luot_ra_gia_hien_tai}
+                ngayketthuc={item.ngayketthuc}
+                ngaydang={item.ngaydang}
                 giakhoidiem={item.giakhoidiem}
               />
             })
@@ -183,6 +187,8 @@ if(localStorage.getItem('user')){
                 anhdaidien={item.anhdaidien}
                 masanpham={item.masanpham}
                 luot_ra_gia_hien_tai={item.luot_ra_gia_hien_tai}
+                ngayketthuc={item.ngayketthuc}
+                ngaydang={item.ngaydang}
                 giakhoidiem={item.giakhoidiem}
               />
             })
