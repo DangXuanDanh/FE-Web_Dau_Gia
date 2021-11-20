@@ -262,7 +262,6 @@ export default function Detail(props) {
     state.data.anhsanphams.forEach((element, index) => { 
       array.push(<img src={element.url} style={{height:"100%",width:"100%"}} />)
      })
-     console.log(array);
     return array
   }
   const user = localStorage.getItem('user');
