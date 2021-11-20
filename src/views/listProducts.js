@@ -20,28 +20,46 @@ export default function ListProducts(propsListProducts) {
   
   let currentPage=1
   async function searchByName() {
-      if(name!=""){
+      if (name){
         const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+currentPage)
         setData(res.data)
       }
-      else if(category!=""){
-        const res = await axiosInstance.get(`danhmuc/`+category)
+      else if(category){
+        const res = await axiosInstance.get(`sanpham/get/category?id=`+category+'&page='+currentPage)
         setData(res.data)
       }
     }
 
-  const sortTangdan =async () => {
-    const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+currentPage+'&orderType=giakhoidiem')
-    setData(res.data)
-  };
-  const sortGiamdan =async () => {
-    const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+currentPage+'&orderType=giakhoidiem'+'&orderBy=desc')
-    setData(res.data)
-  };
-  const sortNgayketthuc =async () => {
-    const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+currentPage+'&orderType=ngayketthuc'+'&orderBy=desc')
-    setData(res.data)
-  };
+    const sortTangdan =async () => {
+      if(name!=""){
+        const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+currentPage+'&orderType=giakhoidiem')
+        setData(res.data)
+      }
+      else{
+        const res = await axiosInstance.get(`sanpham/get/category?id=`+category+'&page='+currentPage+'&orderType=giakhoidiem')
+        setData(res.data)
+      }
+    };
+    const sortGiamdan =async () => {
+      if(name!=""){
+        const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+currentPage+'&orderType=giakhoidiem'+'&orderBy=desc')
+        setData(res.data)
+      }
+      else {
+        const res = await axiosInstance.get(`sanpham/get/category?id=`+category+'&page='+currentPage+'&orderType=giakhoidiem'+'&orderBy=desc')
+        setData(res.data)
+      }
+    };
+    const sortNgayketthuc =async () => {
+      if(name!=""){
+        const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+currentPage+'&orderType=ngayketthuc'+'&orderBy=desc')
+        setData(res.data)
+      }
+      else{
+        const res = await axiosInstance.get(`sanpham/get/category?id=`+category+'&page='+currentPage+'&orderType=ngayketthuc'+'&orderBy=desc')
+        setData(res.data)
+      }
+    };
   function pageNumber(){
     if(resultByName.length>0){
       let length=resultByName[0].sl;
@@ -51,7 +69,13 @@ export default function ListProducts(propsListProducts) {
     else return 1;
   }
   async function pagingHandle(event, value){
-    const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+value)
+    let res;
+    if(name!=""){
+      res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+value)
+    }
+    else{
+      res = await axiosInstance.get(`sanpham/get/category?id=`+category+'&page='+value)
+    }
     currentPage=value;
     setData(res.data)
   }

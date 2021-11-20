@@ -63,7 +63,7 @@ export default function Header() {
 
 
     function SelectCategory(id) {
-        history.push('/category?category=' + id)
+        history.push('/listProducts?category=' + id)
         window.location.reload()
     }
     function listProducts() {
