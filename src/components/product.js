@@ -13,6 +13,10 @@ import './Css/product.css';
 import { useState } from "react";
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import moment from "moment";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
+import { axiosInstance, parseJwt } from '../utils/axios';
 
 function Product({
   sl,
@@ -33,10 +37,15 @@ function Product({
   danhmucMadanhmuc,
   taikhoanMataikhoan,
   luot_ra_gia_hien_tai,
-  stay
+  stay,
 }) {
   const [evaluatestar, setEvaluateStar] = useState([]);
+  const [watch, setWatch] = useState(false);
   const history = useHistory();
+
+  const idUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).mataikhoan : 13
+
+
   const evaluateStar = (luot_ra_gia_hien_tai) => {
     let setEvaluateStar=[];
     let temp=luot_ra_gia_hien_tai;
@@ -46,8 +55,9 @@ function Product({
     }
     if(temp>50 && setEvaluateStar.length<6) {setEvaluateStar.push(<StarHalfIcon fontSize="small" />);}
     else{
-      for(;setEvaluateStar.length<6;){
-        setEvaluateStar.push(<StarBorderIcon fontSize="small" />)
+      for(let i=0;setEvaluateStar.length<6;){
+        i++
+        setEvaluateStar.push(<StarBorderIcon key={i} fontSize="small" />)
       }
     }
     return setEvaluateStar
@@ -61,6 +71,28 @@ function Product({
     }
     window.location.reload()
   };
+
+  async function YeuThich() {
+    if (watch == false) {
+      await axiosInstance.post(`yeuthich`, {
+        masanpham: masanpham,
+        mataikhoan: idUser
+      })
+    } else {
+      await axiosInstance.delete(`yeuthich/find/${idUser}/${masanpham}`)
+    }
+    setWatch(!watch)
+  }
+
+  React.useEffect(async () => {
+    const yeuthich = await axiosInstance.get(`yeuthich/find/${idUser}/${masanpham}`).then((res) => {
+      if (res.data) {
+        if (res.data.mayeuthich) {
+          setWatch(true)
+        }
+      }
+    })
+  }, [])
 
   return (
     <Grid item xs={ 3 } >
@@ -104,6 +136,9 @@ function Product({
           </Typography>
         </CardContent>
         <CardActions>
+        <Button className="detailProduct" variant="outlined" onClick={()=>{YeuThich()}}>
+            {!watch ? <FavoriteBorderIcon/> : <FavoriteIcon />}
+          </Button>
           <Button className="detailProduct" variant="outlined" size="large" startIcon={<TouchAppRoundedIcon />} onClick={onClickDetail}>
             Xem chi tiết
           </Button>

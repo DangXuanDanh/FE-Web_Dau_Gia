@@ -139,7 +139,7 @@ if(localStorage.getItem('user')){
         <Grid container spacing={1}>
           {
             productMaxPrice.map((item, index) => {
-              return <Product
+              return <Product key={index}
                 tensanpham={item.tensanpham}
                 giamuangay={item.giamuangay}
                 anhdaidien={item.anhdaidien}
@@ -158,7 +158,7 @@ if(localStorage.getItem('user')){
         <Grid container spacing={1}>
           {
             nearEnd.map((item, index) => {
-              return <Product
+              return <Product key={index}
                 tensanpham={item.tensanpham}
                 giamuangay={item.giamuangay}
                 anhdaidien={item.anhdaidien}
@@ -177,7 +177,7 @@ if(localStorage.getItem('user')){
         <Grid container spacing={1}>
           {
             count.map((item, index) => {
-              return <Product
+              return <Product key={index}
                 tensanpham={item.tensanpham}
                 giamuangay={item.giamuangay}
                 anhdaidien={item.anhdaidien}

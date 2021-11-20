@@ -364,10 +364,10 @@ export default function Detail(props) {
           <br />
 
           <Button onClick={() => YeuThich()}>
-            {state.yeuthich == true ? <FavoriteBorderIcon /> : ""}
+            {state.yeuthich == true ? <FavoriteIcon /> : ""}
             {state.yeuthich == true ? " Bỏ yêu thích" : ""}
 
-            {state.yeuthich == false ? <FavoriteIcon /> : ""}
+            {state.yeuthich == false ? <FavoriteBorderIcon /> : ""}
             {state.yeuthich == false ? " Yêu thích" : ""}
           </Button>
           <br />

@@ -6,8 +6,9 @@ import Alert from "../../../common/alert"
 const moment = require('moment');
 require('moment/locale/vi');
 import Link from '@mui/material/Link';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-
+import { axiosInstance, parseJwt } from '../../../utils/axios';
 
 function WatchList() {
     const [data, setData] = useState([]);
@@ -22,6 +23,18 @@ function WatchList() {
     const saved = localStorage.getItem('user');
     const initial = JSON.parse(saved);
 
+    async function removeItem(idProduct,state){
+        const idUser = saved ? initial.mataikhoan : 13
+        await axiosInstance.delete(`yeuthich/find/${idUser}/${idProduct}`).then((res=>{
+            const newList = data.filter(function(item) {
+                return item.masanpham != idProduct
+            })
+            // console.log(idProduct)
+            // console.log(newList)
+            setData(newList)
+            window.location.reload() // dùng tạm do state không get được array
+        }))
+    }
 
 
 
@@ -34,8 +47,8 @@ function WatchList() {
                     return response.json();
                 }
                 throw response;
-            }).then(data => {
-                let listProducts = data.map((val) => {
+            }).then(res => {
+                let listProducts = res.map((val) => {
                     var formatted_date1 = null;
                     var formatted_date2 = null;
 
@@ -59,9 +72,11 @@ function WatchList() {
                         "giamuangay": val.giamuangay,
                         "ngaydang": formatted_date1,
                         "ngayketthuc": formatted_date2,
+                        "actions": <button  onClick={() => removeItem(val.masanpham)} className="btn btn-sm"><DeleteIcon/></button>
                     }
                 });
                 setData(listProducts);
+                console.log(this.data)
                 setLoading(true);
             }).catch((error) => {
                 return error;
