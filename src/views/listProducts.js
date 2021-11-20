@@ -18,9 +18,8 @@ export default function ListProducts(propsListProducts) {
   // Lay 5 san pham cao gia nhat
   const [resultByName, setData] = React.useState([]);
   
-  const currentPage=1
+  let currentPage=1
   async function searchByName() {
-    console.log(category);
       if(name!=""){
         const res = await axiosInstance.get(`sanpham/get/Name?name=`+name+'&page='+currentPage)
         setData(res.data)
