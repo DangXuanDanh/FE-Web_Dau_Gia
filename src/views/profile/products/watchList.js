@@ -40,7 +40,7 @@ function WatchList() {
 
     useEffect(async () => {
         if (!loading) {
-            await fetch("http://localhost:3000/API/yeuthich/findAll/" + initial.mataikhoan, {
+            await fetch("http://14.161.28.224:4001/API/yeuthich/findAll/" + initial.mataikhoan, {
                 method: 'GET'
             }).then((response) => {
                 if (response.ok) {

@@ -66,7 +66,7 @@ function Users() {
 
     useEffect(async () => {
         if (!loading) {
-            await fetch("http://localhost:3000/API/danhmuc/danhmuccha/get", {
+            await fetch("http://14.161.28.224:4001/API/danhmuc/danhmuccha/get", {
                 method: 'GET'
             }).then((response) => {
                 if (response.ok) {
@@ -97,7 +97,7 @@ function Users() {
     async function GetCategorys(madanhmuc) {
         setId(madanhmuc)
         let item = { madanhmuc };
-        await fetch('http://localhost:3000/API/danhmuc/danhmuccon/' + madanhmuc, {
+        await fetch('http://14.161.28.224:4001/API/danhmuc/danhmuccon/' + madanhmuc, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ function Users() {
             setAlertStatus(true)
             setAlertType("error")
         } else {
-            await fetch('http://localhost:3000/API/danhmuc/', {
+            await fetch('http://14.161.28.224:4001/API/danhmuc/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -173,7 +173,7 @@ function Users() {
             setAlertStatus(true)
             setAlertType("error")
         } else {
-            await fetch('http://localhost:3000/API/danhmuc/', {
+            await fetch('http://14.161.28.224:4001/API/danhmuc/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -206,7 +206,7 @@ function Users() {
             setAlertType("error")
         } else {
         let item = {tendanhmuc};
-        await fetch('http://localhost:3000/API/danhmuc/' + id, {
+        await fetch('http://14.161.28.224:4001/API/danhmuc/' + id, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -234,7 +234,7 @@ function Users() {
     async function DeleteCategoryRoot(id) {
         const is_deleted = 1;
         let item = { is_deleted };
-        await fetch('http://localhost:3000/API/danhmuc/' + id, {
+        await fetch('http://14.161.28.224:4001/API/danhmuc/' + id, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

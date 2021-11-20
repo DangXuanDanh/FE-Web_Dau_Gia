@@ -38,7 +38,7 @@ function sellerProducsWon() {
 
     useEffect(async () => {
         if (!loading) {
-            await fetch("http://localhost:3000/api/sanpham/done/" + initial.mataikhoan, {
+            await fetch("http://14.161.28.224:4001/api/sanpham/done/" + initial.mataikhoan, {
                 method: 'GET'
             }).then((response) => {
                 if (response.ok) {

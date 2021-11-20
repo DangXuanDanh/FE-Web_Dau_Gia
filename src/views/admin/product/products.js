@@ -21,7 +21,7 @@ function Users() {
 
     useEffect(async () => {
         if (!loading) {
-            await fetch("http://localhost:3000/API/sanpham/", {
+            await fetch("http://14.161.28.224:4001/API/sanpham/", {
                 method: 'GET'
             }).then((response) => {
                 if (response.ok) {
@@ -59,7 +59,7 @@ function Users() {
         console.log("asdasdasd     "+masanpham)
         const is_delete = 1;
         let item = {masanpham, is_delete};
-        await fetch('http://localhost:3000/API/sanpham/', {
+        await fetch('http://14.161.28.224:4001/API/sanpham/', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
