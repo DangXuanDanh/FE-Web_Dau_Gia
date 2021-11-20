@@ -22,7 +22,7 @@ function Users() {
         var exp_seller = new Date();
         exp_seller.setDate(exp_seller.getDate() + 7);
         let item = {exp_seller};
-        await fetch('http://localhost:3000/API/user/upgrade/' + id, {
+        await fetch('http://14.161.28.224:4001/API/user/upgrade/' + id, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ function Users() {
     useEffect(async () => {
         if (!loading) {
             
-            await fetch("http://localhost:3000/API/user/allactivate_upgrade", {
+            await fetch("http://14.161.28.224:4001/API/user/allactivate_upgrade", {
                 method: 'GET'
             }).then((response) => {
                 if (response.ok) {

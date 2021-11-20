@@ -56,7 +56,7 @@ export default function Login(props) {
         } else {
 
             let item = { email, password };
-            await fetch('http://localhost:3000/API/user/login', {
+            await fetch('http://14.161.28.224:4001/API/user/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

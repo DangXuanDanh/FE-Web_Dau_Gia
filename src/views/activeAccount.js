@@ -8,7 +8,7 @@ const activeAccount = (props) => {
     const { code } = useParams() || 1
     useEffect(async () => {
         let item = { code };
-        await fetch("http://localhost:3000/API/user/activate-account", {
+        await fetch("http://14.161.28.224:4001/API/user/activate-account", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

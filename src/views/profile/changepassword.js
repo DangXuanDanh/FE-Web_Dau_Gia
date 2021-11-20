@@ -33,7 +33,7 @@ const ForgotPassword = () => {
             setAlertStatus(true)
             setAlertType("error")
         } else {
-            fetch('http://localhost:3000/API/user/change-profile-password', {
+            fetch('http://14.161.28.224:4001/API/user/change-profile-password', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

@@ -26,7 +26,7 @@ function Users() {
 
     useEffect(async () => {
         if (!loading) {
-            await fetch("http://localhost:3000/API/sanpham/detail/" + initial.mataikhoan, {
+            await fetch("http://14.161.28.224:4001/API/sanpham/detail/" + initial.mataikhoan, {
                 method: 'GET'
             }).then((response) => {
                 if (response.ok) {

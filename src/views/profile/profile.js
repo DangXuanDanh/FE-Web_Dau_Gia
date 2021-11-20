@@ -44,7 +44,7 @@ const [state, dispatch] = React.useReducer(reducer,{data:{},login:{}});
         else {
             const initial = JSON.parse(saved);
             setId(initial.mataikhoan);
-            await fetch('http://localhost:3000/API/user/profile/' + initial.mataikhoan, {
+            await fetch('http://14.161.28.224:4001/API/user/profile/' + initial.mataikhoan, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -135,7 +135,7 @@ const [state, dispatch] = React.useReducer(reducer,{data:{},login:{}});
         console.warn(mataikhoan, hoten, email, ngaysinh, diachi);
 
         let item = { mataikhoan, hoten, email, ngaysinh, diachi };
-        await fetch('http://localhost:3000/API/user/update', {
+        await fetch('http://14.161.28.224:4001/API/user/update', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ const [state, dispatch] = React.useReducer(reducer,{data:{},login:{}});
             setAlertType("error")
         });
 
-        await fetch('http://localhost:3000/API/user/profile/' + initial.mataikhoan, {
+        await fetch('http://14.161.28.224:4001/API/user/profile/' + initial.mataikhoan, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -187,7 +187,7 @@ const [state, dispatch] = React.useReducer(reducer,{data:{},login:{}});
         const initial = JSON.parse(saved);
         const activate_upgrade = 1;
         let item = { mataikhoan, activate_upgrade };
-        await fetch('http://localhost:3000/API/user/update', {
+        await fetch('http://14.161.28.224:4001/API/user/update', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

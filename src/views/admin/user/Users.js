@@ -48,7 +48,7 @@ function Users() {
 
     async function getthongtin(id) {
 
-        await fetch('http://localhost:3000/API/user/profileuser/' + id, {
+        await fetch('http://14.161.28.224:4001/API/user/profileuser/' + id, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ function Users() {
 
 
     async function DeleteUser(id) {
-        await fetch('http://localhost:3000/API/user/delete/' + id, {
+        await fetch('http://14.161.28.224:4001/API/user/delete/' + id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ function Users() {
     }
 
     async function DegradeRole(id) {
-        await fetch('http://localhost:3000/API/user/degrade/' + id, {
+        await fetch('http://14.161.28.224:4001/API/user/degrade/' + id, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ function Users() {
 
     useEffect(async () => {
         if (!loading) {
-            await fetch("http://localhost:3000/API/user/alluser", {
+            await fetch("http://14.161.28.224:4001/API/user/alluser", {
                 method: 'GET'
             }).then((response) => {
                 if (response.ok) {

@@ -27,7 +27,7 @@ const ForgotPassword = () => {
 
     const request = (type) => {
         let item = { email };
-        fetch('http://localhost:3000/API/user/change-profile-password', {
+        fetch('http://14.161.28.224:4001/API/user/change-profile-password', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const ForgotPassword = () => {
 
     const confirmCode = () => {
         let item = { email, otd_code };
-        fetch('http://localhost:3000/API/user/change-profile-password', {
+        fetch('http://14.161.28.224:4001/API/user/change-profile-password', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ const ForgotPassword = () => {
             setAlertStatus(true)
             setAlertType("error")
         } else {
-            fetch('http://localhost:3000/API/user/change-password', {
+            fetch('http://14.161.28.224:4001/API/user/change-password', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

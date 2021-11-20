@@ -56,7 +56,7 @@ export default function Register(props) {
         } else {
 
             let item = { email, password, hoten, diachi, ngaysinh };
-            await fetch('http://localhost:3000/API/user/register', {
+            await fetch('http://14.161.28.224:4001/API/user/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
